@@ -1,0 +1,75 @@
+<%# -*- coding: utf-8 -*- %>
+<!-- Header Section -->
+<header class="bg-dark py-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="text-center text-white">
+      <h1 class="display-4 fw-bolder"><%= @product.name %></h1>
+    </div>
+  </div>
+</header>
+<!-- Product Details Section -->
+<section class="py-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="row gx-4 gx-lg-5 align-items-center">
+      <!-- Product Image -->
+      <div class="col-md-6">
+        <% if @product.image.attached? %>
+          <%= image_tag url_for(@product.image.variant(resize_to_limit: [450, 300])), class: "card-img-top mb-5 mb-md-0", alt: @product.name %>
+        <% else %>
+          <p>No image available</p>
+        <% end %>
+      </div>
+      <!-- Product Information -->
+      <div class="col-md-6">
+        <div class="small mb-1">SKU: <%= @product.sku %></div>
+        <h1 class="display-5 fw-bolder"><%= @product.name %></h1>
+        <div class="fs-5 mb-5">
+          <% if @product.original_price.present? && @product.original_price > @product.price %>
+            <span class="text-decoration-line-through"><%= number_to_currency(@product.original_price, unit: "¥", precision: 0) %></span>
+          <% end %>
+          <span><%= number_to_currency(@product.price, unit: "¥", precision: 0) %></span>
+          <input class="form-control text-center me-3" id="inputQuantity" type="number" value="1" style="max-width: 3rem" />
+          <button class="btn btn-outline-dark flex-shrink-0" type="button">
+            <i class="bi-cart-fill me-1"></i>
+            カートに追加
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Related Products Section -->
+<section class="py-5 bg-light">
+  <div class="container px-4 px-lg-5 mt-5">
+    <h2 class="fw-bolder mb-4">関連商品</h2>
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+      <% @related_products.each do |related_product| %>
+        <div class="col mb-5">
+          <div class="card h-100">
+            <!-- Related Product Image -->
+            <%= link_to product_path(related_product) do %>
+              <% if related_product.image.attached? %>
+                <%= image_tag related_product.image.variant(resize_to_limit: [300, 200]), class: "card-img-top", alt: related_product.name %>
+              <% else %>
+                <p>No image available</p>
+              <% end %>
+            <% end %>
+            <!-- Related Product Details -->
+            <div class="card-body p-4">
+              <div class="text-center">
+                <h5 class="fw-bolder"><%= related_product.name %></h5>
+                <%= number_to_currency(related_product.price, unit: "¥", precision: 0) %>
+              </div>
+            </div>
+            <!-- Product Actions -->
+            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+              <div class="text-center">
+                <%= link_to 'View options', product_path(related_product), class: "btn btn-outline-dark mt-auto" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

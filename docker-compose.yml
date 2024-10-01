@@ -1,11 +1,15 @@
-version: '3'
 services:
   db:
     image: postgres:14-alpine
     volumes:
       - db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=password
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: myapp_development
+    networks:
+      - app-network
+
   web:
     build: .
     image: rails_template:latest
@@ -18,6 +22,16 @@ services:
       - "3000:3000"
     depends_on:
       - db
+    environment:
+      RAILS_MASTER_KEY: "90d4ba94af58c535f395ae29656329d1"
+      RAILS_ENV: development
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      S3_BUCKET_NAME: ${S3_BUCKET_NAME}
+    networks:
+      - app-network
+
   js:
     image: rails_template:latest
     command: yarn build --watch
@@ -26,6 +40,9 @@ services:
       - bundle:/usr/local/bundle
       - node_modules:/myapp/node_modules
     tty: true
+    networks:
+      - app-network
+
   css:
     image: rails_template:latest
     command: yarn build:css --watch
@@ -34,7 +51,14 @@ services:
       - bundle:/usr/local/bundle
       - node_modules:/myapp/node_modules
     tty: true
+    networks:
+      - app-network
+
 volumes:
   db:
   bundle:
   node_modules:
+
+networks:
+  app-network:
+    driver: bridge

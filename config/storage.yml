@@ -1,34 +1,41 @@
-test:
-  service: Disk
-  root: <%= Rails.root.join("tmp/storage") %>
+# Amazon S3 設定（環境別）
+amazon:
+  service: S3
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  region: <%= ENV['AWS_REGION'] %>
+  bucket: <%= ENV['S3_BUCKET_NAME'] %>
 
-local:
-  service: Disk
-  root: <%= Rails.root.join("storage") %>
+development:
+  service: S3
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  region: ap-southeast-2
+  bucket: <%= ENV['S3_BUCKET_NAME'] %>
 
-# Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
-# amazon:
-#   service: S3
-#   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
-#   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
-#   region: us-east-1
-#   bucket: your_own_bucket-<%= Rails.env %>
+production:
+  service: S3
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  region: ap-southeast-2
+  bucket: <%= ENV['S3_BUCKET_NAME'] %>
 
-# Remember not to checkin your GCS keyfile to a repository
+# 必要に応じてその他のストレージサービスの設定
+# Google Cloud Storage
 # google:
 #   service: GCS
 #   project: your_project
 #   credentials: <%= Rails.root.join("path/to/gcs.keyfile") %>
 #   bucket: your_own_bucket-<%= Rails.env %>
 
-# Use bin/rails credentials:edit to set the Azure Storage secret (as azure_storage:storage_access_key)
+# Azure Storage
 # microsoft:
 #   service: AzureStorage
 #   storage_account_name: your_account_name
 #   storage_access_key: <%= Rails.application.credentials.dig(:azure_storage, :storage_access_key) %>
 #   container: your_container_name-<%= Rails.env %>
 
-# mirror:
-#   service: Mirror
-#   primary: local
-#   mirrors: [ amazon, google, microsoft ]
+# ローカルストレージの設定
+# local:
+#   service: Disk
+#   root: <%= Rails.root.join("storage") %>
