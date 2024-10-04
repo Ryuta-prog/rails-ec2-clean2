@@ -18,6 +18,7 @@ services:
       - .:/myapp
       - bundle:/usr/local/bundle
       - node_modules:/myapp/node_modules
+      - ./app/assets/images:/app/assets/images
     ports:
       - "3000:3000"
     depends_on:

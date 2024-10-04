@@ -118,4 +118,6 @@ Rails.application.configure do
 
   config.log_level = :debug
 
+  config.active_storage.service_urls_expire_in = 5.minutes
+
 end
