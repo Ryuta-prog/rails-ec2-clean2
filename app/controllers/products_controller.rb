@@ -17,6 +17,6 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
 
     # 関連商品を表示
-    @related_products = Product.where(id: [1, 95, 96, 97]).limit(4)
+    @related_products = Product.where.not(id: [@product.id]).limit(4)
   end
 end

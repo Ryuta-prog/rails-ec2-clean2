@@ -26,10 +26,8 @@ services:
     environment:
       RAILS_MASTER_KEY: "90d4ba94af58c535f395ae29656329d1"
       RAILS_ENV: development
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      AWS_REGION: ${AWS_REGION}
-      S3_BUCKET_NAME: ${S3_BUCKET_NAME}
+    env_file:
+      - .env
     networks:
       - app-network
 

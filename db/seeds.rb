@@ -16,16 +16,27 @@ items = [
   { name: '台湾おにぎり', description: '本格的な台湾おにぎり', price: 400, image_url: 'https://rails-ec.s3.ap-southeast-2.amazonaws.com/food_taiwan_onigiri_fantuan.png' }
 ]
 
+# 既存データの削除
+Product.delete_all
+
 # データベースに保存
 items.each do |item|
   product = Product.create!(name: item[:name], description: item[:description], price: item[:price])
-  response = Faraday.get(item[:image_url])
 
+  # 画像を取得する
+  response = Faraday.get(item[:image_url])
   next unless response.success?
 
-  Tempfile.open(['product_image', '.png']) do |file|
+  # 一時ファイルを作成して画像を保存し、ActiveStorageに添付
+  Tempfile.create(['product_image', '.png']) do |file|
     file.binmode
     file.write(response.body)
-    product.image.attach(io: file, filename: "#{item[:name]}.png", content_type: response.headers['content-type'])
+    file.rewind # ファイルの読み取り位置を先頭に戻す
+
+    product.image.attach(
+      io: file,
+      filename: "product_#{product.id}.png",
+      content_type: response.headers['content-type']
+    )
   end
 end
