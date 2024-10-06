@@ -5,9 +5,6 @@ class ProductsController < ApplicationController
     # 全てのプロダクトを取得
     @products = Product.where(id: [123, 124, 125, 126, 127, 128, 129, 130]).order(:id)
 
-    # ページネーションを適用して、8つの新しいプロダクトをページごとに表示
-    @products = Product.limit(8)
-
     # 商品がなければ、フラッシュメッセージを表示
     flash.now[:notice] = t('products.no_products') if @products.empty?
   end
