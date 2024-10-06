@@ -7,8 +7,4 @@ class Product < ApplicationRecord
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   # validates :description, presence: true
   # validates :image, presence: true
-
-  def on_sale
-    sale_price.present? && sale_price < original_price
-  end
 end
