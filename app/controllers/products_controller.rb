@@ -3,7 +3,7 @@
 class ProductsController < ApplicationController
   def index
     # 全てのプロダクトを取得
-    @products = Product.all
+    @products = Product.where(id: [123, 124, 125, 126, 127, 128, 129, 130]).order(:id)
 
     # ページネーションを適用して、8つの新しいプロダクトをページごとに表示
     @products = Product.limit(8)
