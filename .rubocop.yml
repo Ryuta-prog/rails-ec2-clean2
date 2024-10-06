@@ -2,6 +2,8 @@ require:
   - rubocop-rails
   - rubocop-rspec
   - rubocop-hc
+  - rubocop-capybara
+  - rubocop-factory_bot
 Style/Documentation:
   Enabled: false
 Metrics/MethodLength:
@@ -23,3 +25,6 @@ Layout/LineLength:
 Hc/RailsSpecificActionName:
   Exclude:
     - app/controllers/users/omniauth_callbacks_controller.rb
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false

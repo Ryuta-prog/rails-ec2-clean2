@@ -39,13 +39,13 @@ Rails.application.configure do
   config.assets.digest = true
 
   # Add additional assets to precompile.
-  config.assets.precompile += %w( admin.js admin.css )
+  config.assets.precompile += %w[admin.js admin.css]
 
   # Add digests to asset URLs.
   config.assets.digest = true
 
   # Add additional assets to precompile.
-  config.assets.precompile += %w( admin.js admin.css )
+  config.assets.precompile += %w[admin.js admin.css]
 
   # Add digests to asset URLs.
   config.assets.digest = true
@@ -119,5 +119,4 @@ Rails.application.configure do
   config.log_level = :debug
 
   config.active_storage.service_urls_expire_in = 5.minutes
-
 end

@@ -1,0 +1,6 @@
+ja:
+  tasks:
+    notices:
+      created: "タスクが正常に作成されました。"
+      updated: "タスクが正常に更新されました。"
+      destroyed: "タスクが正常に削除されました。"
