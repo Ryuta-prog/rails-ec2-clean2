@@ -7,6 +7,7 @@
     </div>
   </div>
 </header>
+
 <!-- Product Details Section -->
 <section class="py-5">
   <div class="container px-4 px-lg-5 my-5">
@@ -19,15 +20,19 @@
           <p>No image available</p>
         <% end %>
       </div>
+
       <!-- Product Information -->
       <div class="col-md-6">
         <div class="small mb-1">SKU: <%= @product.sku %></div>
         <h1 class="display-5 fw-bolder"><%= @product.name %></h1>
         <div class="fs-5 mb-5">
-        <% if @product.original_price.present? && @product.original_price > @product.price %>
+          <% if @product.original_price.present? && @product.original_price > @product.price %>
             <span class="text-decoration-line-through"><%= number_to_currency(@product.original_price, unit: "¥", precision: 0) %></span>
           <% end %>
           <span><%= number_to_currency(@product.price, unit: "¥", precision: 0) %></span>
+        </div>
+        <div class="d-flex">
+          <label for="inputQuantity" class="me-3">数量</label>
           <input class="form-control text-center me-3" id="inputQuantity" type="number" value="1" style="max-width: 3rem" />
           <button class="btn btn-outline-dark flex-shrink-0" type="button">
             <i class="bi-cart-fill me-1"></i>
@@ -38,6 +43,7 @@
     </div>
   </div>
 </section>
+
 <!-- Related Products Section -->
 <section class="py-5 bg-light">
   <div class="container px-4 px-lg-5 mt-5">
@@ -51,7 +57,7 @@
               <% if related_product.image.attached? %>
                 <%= image_tag related_product.image.variant(resize_to_limit: [300, 200]), class: "card-img-top", alt: related_product.name %>
               <% else %>
-                <p>No image available</p>
+                <%= image_tag 'https://via.placeholder.com/300', alt: 'No Image Available', class: "card-img-top" %>
               <% end %>
             <% end %>
             <!-- Related Product Details -->

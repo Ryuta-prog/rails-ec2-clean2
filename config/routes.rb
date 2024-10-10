@@ -26,23 +26,14 @@ Rails.application.routes.draw do
   # カートに商品を追加するルート
   post 'add_to_cart/:id', to: 'carts#add_to_cart', as: 'add_to_cart'
 
-  Rails.application.routes.draw do
-    resources :users, only: %i[edit update] # editとupdateアクションだけを有効にする
-    # 他のルーティング...
+  # 静的ページの "About" へのルート
+  get 'about', to: 'static_pages#about', as: 'about'
 
-    resources :tasks, only: %i[index new]
+  # HomeController の index アクションへのルート
+  get 'home/index'
 
-    # 静的ページの "About" へのルート
-    get 'about', to: 'static_pages#about', as: 'about'
-
-    # HomeController の index アクションへのルート
-    get 'home/index'
-  end
-
-  # 管理者用
-  Rails.application.routes.draw do
-    namespace :admin do
-      resources :products
-    end
+  # 管理者用のルーティング
+  namespace :admin do
+    resources :products
   end
 end

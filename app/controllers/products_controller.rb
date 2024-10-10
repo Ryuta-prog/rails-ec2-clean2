@@ -2,8 +2,8 @@
 
 class ProductsController < ApplicationController
   def index
-    # 全てのプロダクトを取得
-    @products = Product.where(id: [123, 124, 125, 126, 127, 128, 129, 130]).order(:id)
+    # 商品を８件表示する
+    @products = Product.limit(8).order(:id)
 
     # 商品がなければ、フラッシュメッセージを表示
     flash.now[:notice] = t('products.no_products') if @products.empty?
@@ -13,7 +13,10 @@ class ProductsController < ApplicationController
     # 選択された商品の詳細を表示
     @product = Product.find(params[:id])
 
-    # 関連商品を表示
-    @related_products = Product.where(id: [131, 132, 133, 134]).order(:id)
+    # 商品一覧で表示した８つの商品のIDを取得して除外
+    displayed_product_ids = Product.limit(8).pluck(:id)
+
+    # 関連商品を4件表示する
+    @related_products = Product.where.not(id: displayed_product_ids).where.not(id: @product.id).limit(4).order(:id)
   end
 end
