@@ -16,14 +16,13 @@ Rails.application.configure do
 
   # Full error reports are disabled and caching is turned on.
   # 本来はfalseだがレビューのしやすさを考慮してtrueにしている
-
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
 
   config.action_controller.perform_caching = true
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
-  # config.require_master_key = true
+  config.require_master_key = true
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
@@ -34,18 +33,6 @@ Rails.application.configure do
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = true
-
-  # Add digests to asset URLs.
-  config.assets.digest = true
-
-  # Add additional assets to precompile.
-  config.assets.precompile += %w[admin.js admin.css]
-
-  # Add digests to asset URLs.
-  config.assets.digest = true
-
-  # Add additional assets to precompile.
-  config.assets.precompile += %w[admin.js admin.css]
 
   # Add digests to asset URLs.
   config.assets.digest = true
@@ -82,7 +69,7 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
-  # config.active_job.queue_adapter     = :resque
+  # config.active_job.queue_adapter = :resque
   # config.active_job.queue_name_prefix = "myapp_production"
 
   config.action_mailer.perform_caching = false
@@ -105,8 +92,6 @@ Rails.application.configure do
   # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
-  config.active_storage.service = :amazon
-
   if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new($stdout)
     logger.formatter = config.log_formatter
@@ -115,8 +100,6 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  config.log_level = :debug
 
   config.active_storage.service_urls_expire_in = 5.minutes
 end
