@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   db:
     image: postgres:14-alpine
@@ -18,13 +20,15 @@ services:
       - .:/myapp
       - bundle:/usr/local/bundle
       - node_modules:/myapp/node_modules
-      - ./app/assets/images:/app/assets/images
+      - ./app/assets/images:/myapp/app/assets/images
+      - ./config/master.key:/myapp/config/master.key:ro  # master.keyをマウント
+      - ./config/credentials.yml.enc:/myapp/config/credentials.yml.enc:ro  # credentials.yml.encをマウント
     ports:
       - "3000:3000"
     depends_on:
       - db
     environment:
-      RAILS_MASTER_KEY: "90d4ba94af58c535f395ae29656329d1"
+      RAILS_MASTER_KEY: cdd370372d2b8c12f47f63cd73821766
       RAILS_ENV: development
     env_file:
       - .env
