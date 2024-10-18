@@ -16,12 +16,7 @@ Rails.application.routes.draw do
   resources :tasks, only: %i[index new]
 
   # Products のルーティング (index, show のみ)
-  resources :products, only: %i[index show] do
-    collection do
-      get 'popular', to: 'products#popular', as: 'popular_products'
-      get 'new', to: 'products#new_arrivals', as: 'new_products'
-    end
-  end
+  resources :products, only: %i[index show]
 
   # カートに商品を追加するルート
   post 'add_to_cart/:id', to: 'carts#add_to_cart', as: 'add_to_cart'

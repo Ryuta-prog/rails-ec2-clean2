@@ -32,9 +32,6 @@ RUN bundle install
 COPY package.json yarn.lock ./
 RUN yarn install
 
-# libvipsのインストール（画像処理のため）
-RUN apt-get update && apt-get install -y libvips
-
 # アプリケーションの全ファイルをコピー
 COPY . /myapp
 
