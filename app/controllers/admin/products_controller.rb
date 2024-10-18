@@ -7,7 +7,8 @@ module Admin
 
     # 管理画面用の商品一覧
     def index
-      @products = Product.all
+      # 商品一覧と関連する画像情報を事前にロード
+      @products = Product.includes(image_attachment: :blob).all
     end
 
     # 商品の詳細ページ
