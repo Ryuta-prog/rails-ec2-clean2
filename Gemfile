@@ -56,6 +56,8 @@ gem 'bootsnap', require: false
 gem 'aws-sdk-s3', '~> 1.167.0'
 gem 'faraday'
 gem 'image_processing', '~> 1.2'
+gem 'rubocop-capybara', require: false
+gem 'rubocop-factory_bot', require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

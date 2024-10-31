@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   post 'add_to_cart/:id', to: 'carts#add_to_cart', as: 'add_to_cart'
   get 'about', to: 'static_pages#about', as: 'about'
   get 'home/index'
-  
+
   namespace :admin do
     resources :products
   end
