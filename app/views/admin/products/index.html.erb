@@ -1,12 +1,13 @@
-<h1>商品管理一覧</h1>
-<%= link_to '新しい商品を作成', new_admin_product_path, class: 'btn btn-primary' %>
-<table class="table-brotdered mt-4">
+<h1><%= t('admin.products.index') %></h1>
+<%= link_to t('admin.products.new'), new_admin_product_path, class: 'btn btn-primary' %>
+
+<table class="table table-bordered mt-4">
   <thead>
     <tr>
-      <th>商品名</th>
-      <th>価格</th>
-      <th>説明</th>
-      <th>アクション</th>
+      <th><%= t('admin.products.product_name') %></th>
+      <th><%= t('admin.products.price') %></th>
+      <th><%= t('admin.products.description') %></th>
+      <th><%= t('admin.products.action') %></th>
     </tr>
   </thead>
   <tbody>
@@ -16,8 +17,8 @@
         <td><%= product.price %>円</td>
         <td><%= product.description %></td>
         <td>
-          <%= link_to '編集', edit_admin_product_path(product), class: 'btn btn btn-warning' %>
-          <%= link_to '削除', admin_product_path(product), method: :delete, data: { confirm: '本当に削除しますか？'}, class: 'btn btn-danger' %>
+          <%= link_to t('admin.products.edit_button'), edit_admin_product_path(product), class: 'btn btn-warning' %>
+          <%= link_to t('admin.products.delete_button'), admin_product_path(product), method: :delete, data: { turbo: false, confirm: t('admin.products.confirm_delete') }, class: 'btn btn-danger' %>
         </td>
       </tr>
     <% end %>

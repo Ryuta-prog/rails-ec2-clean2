@@ -63,6 +63,7 @@ Rails.application.configure do
 
   Rails.application.routes.default_url_options[:host] = 'localhost:3000'
 
+  config.log_level = :debug
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 

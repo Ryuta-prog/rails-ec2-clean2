@@ -1,0 +1,25 @@
+<div class="col mb-5">
+  <div class="card h-100">
+    <!-- Related Product Image -->
+    <%= link_to product_path(related_product) do %>
+      <% if related_product.image.attached? %>
+        <%= image_tag related_product.image.variant(resize_to_limit: [300, 200]).processed, class: "card-img-top", alt: related_product.name %>
+      <% else %>
+        <p>No image available</p>
+      <% end %>
+    <% end %>
+    <!-- Related Product Details -->
+    <div class="card-body p-4">
+      <div class="text-center">
+        <h5 class="fw-bolder"><%= (related_product.name.presence || "No name available").to_s %></h5>
+        <%= number_to_currency(related_product.price, unit: "¥", precision: 0) %>
+      </div>
+    </div>
+    <!-- Product Actions -->
+    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+      <div class="text-center">
+        <%= link_to 'View options', product_path(related_product), class: "btn btn-outline-dark mt-auto" %>
+      </div>
+    </div>
+  </div>
+</div>

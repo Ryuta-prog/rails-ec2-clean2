@@ -32,6 +32,9 @@ RUN bundle install
 COPY package.json yarn.lock ./
 RUN yarn install
 
+# 必要なパッケージを更新し、libvipsをインストールする
+RUN apt-get update -qq && apt-get install -y build-essential libvips
+
 # アプリケーションの全ファイルをコピー
 COPY . /myapp
 

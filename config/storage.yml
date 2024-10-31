@@ -4,21 +4,21 @@ amazon:
   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   region: <%= ENV['AWS_REGION'] %>
-  bucket: <%= ENV['S3_BUCKET_NAME'] %>
+  bucket: <%= ENV['AWS_BUCKET'] %>
 
 development:
   service: S3
   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   region: ap-southeast-2
-  bucket: <%= ENV['S3_BUCKET_NAME'] %>
+  bucket: <%= ENV['AWS_BUCKET'] %>
 
 production:
   service: S3
   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   region: ap-southeast-2
-  bucket: <%= ENV['S3_BUCKET_NAME'] %>
+  bucket: <%= ENV['AWS_BUCKET'] %>
 
 # 必要に応じてその他のストレージサービスの設定
 # Google Cloud Storage
