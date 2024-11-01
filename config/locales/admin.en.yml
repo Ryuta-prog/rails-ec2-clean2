@@ -1,0 +1,16 @@
+en:
+  admin:
+    products:
+      index: "Product Management"
+      new: "Create New Product"
+      edit: "Edit Product"
+      created: "Product was successfully created."
+      updated: "Product was successfully updated."
+      destroyed: "Product was successfully deleted."
+      product_name: "Product Name"
+      price: "Price"
+      description: "Description"
+      action: "Action"
+      edit_button: "Edit"
+      delete_button: "Delete"
+      confirm_delete: "Are you sure you want to delete this?"

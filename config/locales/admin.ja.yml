@@ -1,0 +1,16 @@
+ja:
+  admin:
+    products:
+      index: "商品管理一覧"
+      new: "新しい商品を作成"
+      edit: "商品を編集"
+      created: "商品が正常に作成されました。"
+      updated: "商品が正常に更新されました。"
+      destroyed: "商品が正常に削除されました。"
+      product_name: "商品名"
+      price: "価格"
+      description: "説明"
+      action: "アクション"
+      edit_button: "編集"
+      delete_button: "削除"
+      confirm_delete: "本当に削除しますか？"

@@ -1,5 +1,5 @@
-# Amazon S3 設定（環境別）
-amazon:
+# Amazon S3 設定
+amazon: &default
   service: S3
   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
@@ -7,18 +7,10 @@ amazon:
   bucket: <%= ENV['S3_BUCKET_NAME'] %>
 
 development:
-  service: S3
-  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
-  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
-  region: ap-southeast-2
-  bucket: <%= ENV['S3_BUCKET_NAME'] %>
+  <<: *default
 
 production:
-  service: S3
-  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
-  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
-  region: ap-southeast-2
-  bucket: <%= ENV['S3_BUCKET_NAME'] %>
+  <<: *default
 
 # 必要に応じてその他のストレージサービスの設定
 # Google Cloud Storage

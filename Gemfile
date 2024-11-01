@@ -57,6 +57,8 @@ gem 'aws-sdk-s3', '~> 1.167.0'
 gem 'bootstrap', '~> 5.1.3'
 gem 'faraday'
 gem 'image_processing', '~> 1.2'
+gem 'rubocop-capybara', require: false
+gem 'rubocop-factory_bot', require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -75,10 +77,8 @@ group :development do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'web-console'
-
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
-
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
