@@ -3,6 +3,7 @@
 Rails.application.routes.draw do
   root 'products#index'
 
+
   direct :rails_blob do |blob|
     route_for(:rails_blob, blob)
   end

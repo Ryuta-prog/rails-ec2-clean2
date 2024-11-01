@@ -36,6 +36,7 @@ RUN yarn install
 RUN apt-get update -qq && apt-get install -y build-essential libvips
 
 # アプリケーションの全ファイルをコピー
+
 COPY . /myapp
 
 # エントリポイントスクリプトの追加

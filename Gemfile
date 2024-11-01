@@ -54,6 +54,7 @@ gem 'bootsnap', require: false
 # gem "image_processing", "~> 1.2"
 
 gem 'aws-sdk-s3', '~> 1.167.0'
+gem 'bootstrap', '~> 5.1.3'
 gem 'faraday'
 gem 'image_processing', '~> 1.2'
 gem 'rubocop-capybara', require: false
