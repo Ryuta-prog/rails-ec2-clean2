@@ -1,7 +1,20 @@
 <header class="bg-dark py-5">
   <div class="container px-4 px-lg-5 my-5">
     <div class="text-center text-white">
-      <h1 class="display-4 fw-bolder"><%= title %></h1>
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+          <h1 class="display-4 fw-bolder">おにぎりや</h1>
+          <%= link_to cart_path, class: 'navbar-nav ms-auto position-relative' do %>
+            <i class="bi bi-car3 text-white fs-4"></i>
+            <% if current_cart.total_items > 0 %>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <%= current_cart.total_items %>
+              </span>
+            <% end %>
+          <% end %>
+        </div>
+      </nav>
+      <p class="lead fw-normal text-white-50 mb-0">美味しい冷凍おにぎりを！</p>
     </div>
   </div>
 </header>

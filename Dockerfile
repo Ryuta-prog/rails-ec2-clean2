@@ -16,24 +16,20 @@ RUN apt-get update -qq && \
   apt-get install -y build-essential \
   libpq-dev \
   postgresql-client \
+  libvips \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
 # 作業ディレクトリの作成
-RUN mkdir /myapp
 WORKDIR /myapp
 
-# GemfileとGemfile.lockをコピーして依存関係をインストール
-COPY Gemfile /myapp/Gemfile
-COPY Gemfile.lock /myapp/Gemfile.lock
+# Gemfileをコピーして依存関係をインストール
+COPY Gemfile /myapp/
 RUN bundle install
 
-# package.jsonとyarn.lockをコピーして依存関係をインストール
-COPY package.json yarn.lock ./
+# package.jsonをコピー
+COPY package.json /myapp/
 RUN yarn install
-
-# 必要なパッケージを更新し、libvipsをインストールする
-RUN apt-get update -qq && apt-get install -y build-essential libvips
 
 # アプリケーションの全ファイルをコピー
 COPY . /myapp

@@ -1,4 +1,3 @@
-<%# -*- coding: utf-8 -*- %>
 <!-- Header Section -->
 <header class="bg-dark py-5">
   <div class="container px-4 px-lg-5 my-5">
@@ -15,28 +14,20 @@
       <div class="col-md-6">
         <% if @product.image.attached? %>
           <%= image_tag url_for(@product.image.variant(resize_to_limit: [450, 300])), class: "card-img-top mb-5 mb-md-0", alt: @product.name %>
-        <% else %>
-          <p>No image available</p>
         <% end %>
       </div>
       <!-- Product Information -->
       <div class="col-md-6">
-        <div class="small mb-1">SKU: <%= @product.sku %></div>
         <h1 class="display-5 fw-bolder"><%= @product.name %></h1>
+        <p><%= @product.description %></p>
         <div class="fs-5 mb-5">
-          <% if @product.original_price.present? && @product.original_price > @product.price %>
-            <span class="text-decoration-line-through"><%= number_to_currency(@product.original_price, unit: "¥", precision: 0) %></span>
-          <% end %>
-          <span><%= number_to_currency(@product.price, unit: "¥", precision: 0) %></span>
+          <span><%= format_price(@product.price) %></span>
         </div>
-        <div class="d-flex">
-          <label for="inputQuantity" class="me-3">数量</label>
-          <input class="form-control text-center me-3" id="inputQuantity" type="number" value="1" style="max-width: 3rem" />
-          <button class="btn btn-outline-dark flex-shrink-0" type="button">
-            <i class="bi-cart-fill me-1"></i>
-            カートに追加
-          </button>
-        </div>
+        <%= form_with(url: cart_cart_items_path, method: :post, local: true) do |f| %>
+          <%= f.number_field :quantity, value: 1, min: 1, class: "form-control text-center me-3", style: "max-width: 5rem" %>
+          <%= f.hidden_field :product_id, value: @product.id %>
+          <%= f.submit 'Add to cart', class: 'btn-outline-dark' %>
+        <% end %>
       </div>
     </div>
   </div>
@@ -49,25 +40,24 @@
       <% @related_products.each do |related_product| %>
         <div class="col mb-5">
           <div class="card h-100">
-            <!-- Related Product Image -->
             <%= link_to product_path(related_product) do %>
               <% if related_product.image.attached? %>
                 <%= image_tag related_product.image.variant(resize_to_limit: [300, 200]), class: "card-img-top", alt: related_product.name %>
-              <% else %>
-                <%= image_tag 'https://via.placeholder.com/300', alt: 'No Image Available', class: "card-img-top" %>
               <% end %>
             <% end %>
-            <!-- Related Product Details -->
             <div class="card-body p-4">
               <div class="text-center">
                 <h5 class="fw-bolder"><%= related_product.name %></h5>
-                <%= number_to_currency(related_product.price, unit: "¥", precision: 0) %>
+                <%= format_price(related_product.price) %>
               </div>
             </div>
-            <!-- Product Actions -->
             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
               <div class="text-center">
-                <%= link_to 'View options', product_path(related_product), class: "btn btn-outline-dark mt-auto" %>
+                <%= button_to cart_cart_items_path, params: {product_id: related_product.id, quantity: 1},
+                    method: :post,
+                    class: "btn btn-outline-dark mt-auto" do %>
+                  Add to cart
+                <% end %>
               </div>
             </div>
           </div>
