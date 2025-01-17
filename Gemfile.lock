@@ -376,10 +376,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  actionpack (~> 7.1.5)
-  actionview (~> 7.1.5)
   activerecord-session_store
-  activesupport (~> 7.1.5)
   aws-sdk-s3 (~> 1.167.0)
   bootsnap
   capybara
