@@ -378,7 +378,6 @@ PLATFORMS
 DEPENDENCIES
   actionpack (~> 7.1.5)
   actionview (~> 7.1.5)
-  activerecord (~> 7.1.4)
   activerecord-session_store
   activesupport (~> 7.1.5)
   aws-sdk-s3 (~> 1.167.0)
