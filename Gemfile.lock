@@ -367,6 +367,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   jbuilder (~> 2.11)
   jsbundling-rails
+  logger (~> 1.6.0)
   pg (~> 1.1)
   puma (~> 6.0)
   rack-cors
