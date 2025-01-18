@@ -7,7 +7,9 @@ ruby '3.2.6'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 
-gem 'rails', '7.1.4'
+gem 'rails', '7.0.8'
+
+gem 'activestorage', '7.0.8'
 
 gem 'logger', '~> 1.5.3'
 
