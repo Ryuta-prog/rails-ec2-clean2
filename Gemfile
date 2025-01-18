@@ -13,6 +13,8 @@ gem 'activesupport', '~> 7.0.8'
 
 gem 'logger', '~> 1.5.3'
 
+gem 'concurrent-ruby', '1.3.4'
+
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
 
