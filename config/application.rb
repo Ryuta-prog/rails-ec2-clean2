@@ -18,8 +18,8 @@ module Myapp
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
-    # Zeitwerkをクラシックモードに変更
-    config.autoloader = :classic
+    # Zeitwerkモード（デフォルト）
+    config.autoloader = :zeitwerk
 
     
     
