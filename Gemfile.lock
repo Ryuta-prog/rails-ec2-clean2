@@ -373,7 +373,7 @@ DEPENDENCIES
   pg (~> 1.1)
   puma (~> 6.0)
   rack-cors
-  rails (~> 7.0.7)
+  rails (~> 7.0.8)
   rails_best_practices
   rspec-rails
   rubocop
