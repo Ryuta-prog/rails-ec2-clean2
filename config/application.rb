@@ -31,7 +31,7 @@ module Myapp
 
     # Active Storageの設定
     config.active_storage.variant_processor = :mini_magick
-    config.active_storage.service = :local
+    config.active_storage.service = :amazon
 
     # タイムゾーンの設定
     config.time_zone = 'Tokyo'
