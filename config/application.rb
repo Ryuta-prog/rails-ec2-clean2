@@ -16,7 +16,7 @@ Bundler.require(*Rails.groups)
 module Myapp
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 7.1
 
     # Zeitwerkモード（デフォルト）
     config.autoloader = :zeitwerk
@@ -56,8 +56,9 @@ module Myapp
     end
 
     # Action Mailerの設定
-    config.action_mailer.default_url_options = { host: 'localhost:3000' }
-
+    # config.action_mailer.default_url_options = { host: 'localhost:3000' }
+    config.action_mailer.default_url_options = { host: 'https://rails-ec2-cb8bc27b7188.herokuapp.com' }
+    
     # エラーメッセージのフィールド囲みを削除
     config.action_view.field_error_proc = proc { |html_tag, _instance| html_tag }
 
