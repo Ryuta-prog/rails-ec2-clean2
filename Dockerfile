@@ -1,5 +1,5 @@
 # ベースイメージとしてRuby 3.2.1を使用
-FROM ruby:3.2.1
+FROM ruby:3.2.3
 
 # 必要なパッケージをインストール
 RUN apt-get update -qq && apt-get install -y \
