@@ -7,8 +7,9 @@ ruby '3.2.1'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 
-gem 'rails', '~> 7.1.4'
-gem 'activestorage', '~> 7.1.4'
+# Rails and its components
+gem 'rails', '~> 7.0.8'  # 7.1.4から7.0.8に変更
+gem 'activestorage', '~> 7.0.8'  # 7.1.4から7.0.8に変更
 
 gem 'logger', '~> 1.5.3'
 gem 'concurrent-ruby', '1.3.4'
