@@ -21,9 +21,6 @@ module Myapp
     # Zeitwerkモード（デフォルト）
     config.autoloader = :zeitwerk
 
-    
-    
-    
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
@@ -58,7 +55,7 @@ module Myapp
     # Action Mailerの設定
     # config.action_mailer.default_url_options = { host: 'localhost:3000' }
     config.action_mailer.default_url_options = { host: 'https://rails-ec2-cb8bc27b7188.herokuapp.com' }
-    
+
     # エラーメッセージのフィールド囲みを削除
     config.action_view.field_error_proc = proc { |html_tag, _instance| html_tag }
 
