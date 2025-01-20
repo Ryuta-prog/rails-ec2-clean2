@@ -3,13 +3,13 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.2.3'
+ruby '3.1.4'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 
 # Rails本体とコンポーネント
-gem 'rails', '~> 7.0.8.1'  # 7.0.8.7から7.0.8.1に変更
-gem 'activestorage', '~> 7.0.8.1'
+gem 'rails', '~> 6.1.7'  # Railsを6.1.7に変更
+gem 'activestorage', '~> 6.1.7'
 
 gem 'logger', '~> 1.5.3'
 gem 'concurrent-ruby', '1.3.4'
