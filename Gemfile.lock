@@ -396,7 +396,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-session_store
-  activestorage (= 7.1.4)
+  activestorage (~> 7.1.4)
   aws-sdk-s3 (~> 1.167.0)
   bootsnap
   capybara
@@ -415,7 +415,7 @@ DEPENDENCIES
   pg (~> 1.1)
   puma (~> 6.0)
   rack-cors
-  rails (= 7.1.4)
+  rails (~> 7.1.4)
   rails_best_practices
   rspec-rails
   rubocop
