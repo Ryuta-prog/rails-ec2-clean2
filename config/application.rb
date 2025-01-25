@@ -60,7 +60,5 @@ module Myapp
     config.action_view.field_error_proc = proc { |html_tag, _instance| html_tag }
 
     Rails.application.config.session_store :active_record_store, key: '_your_app_session'
-  #下記を加えた
-    Dotenv::Rails.load
   end
 end
