@@ -26,8 +26,8 @@ services:
       RAILS_ENV: development
       DATABASE_URL: postgres://postgres:password@db:5432/myapp_development
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_ACCESS_KEY_ID: <%= Rails.application.credentials.aws[:access_key_id] %>
+      AWS_SECRET_ACCESS_KEY: <%= Rails.application.credentials.aws[:secret_access_key] %>
       AWS_REGION: ap-southeast-2
       S3_BUCKET_NAME: rails-ec
     networks:
@@ -37,7 +37,7 @@ services:
 
   js:
     build: .
-    command: yarn build --watch
+    command: yarn build --watch=forever
     volumes:
       - .:/myapp
       - bundle:/usr/local/bundle
