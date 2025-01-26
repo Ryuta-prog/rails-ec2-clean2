@@ -22,3 +22,4 @@ production:
   password: p1a22399817ac044c7f55c80a2838b11a22d69e6c52d98936148edf513f1bb3cc
   host: db
   url: <%= ENV['DATABASE_URL'] %>
+
