@@ -32,10 +32,8 @@ gem 'cssbundling-rails'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
-
 # Middleware that will make Rack-based apps CORS compatible
 gem 'rack-cors', '~> 2.0', '>= 2.0.2'
-
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
@@ -58,14 +56,14 @@ gem 'bootsnap', require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
-gem 'aws-sdk-s3', '~> 1.167.0'
 gem 'activerecord-session_store', '~> 2.1'
+gem 'aws-sdk-s3', '~> 1.167.0'
 gem 'bootstrap', '~> 5.1.3'
+gem 'devise'
 gem 'faraday'
 gem 'image_processing', '~> 1.2'
 gem 'rubocop-capybara', require: false
 gem 'rubocop-factory_bot', require: false
-gem 'devise'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -96,4 +94,3 @@ group :test do
   gem 'selenium-webdriver'
   gem 'webdrivers'
 end
-
