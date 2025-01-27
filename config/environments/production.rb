@@ -15,7 +15,6 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  # 本来はfalseだがレビューのしやすさを考慮してtrueにしている
   config.consider_all_requests_local = false
 
   config.action_controller.perform_caching = true
@@ -32,7 +31,7 @@ Rails.application.configure do
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = true
+  config.assets.compile = false
 
   # Add digests to asset URLs.
   config.assets.digest = true
