@@ -16,10 +16,13 @@ class ApplicationController < ActionController::Base
   end
 
   def current_cart
-    Cart.find_or_create_by(id: session[:cart_id])
-  rescue ActiveRecord::RecordNotFound
-    cart = Cart.create
-    session[:cart_id] = cart_id
+    cart = Cart.find_or_create_by(id: session[:cart_id])
+    session[:cart_id] = cart.id
     cart
+  end
+
+  # CurrentCartモジュールからメソッドを移動
+  def set_cart
+    @cart = current_cart
   end
 end

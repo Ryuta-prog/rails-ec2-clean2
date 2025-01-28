@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class CartItemsController < ApplicationController
-  include CurrentCart
   before_action :set_cart
   before_action :find_cart_item, only: [:destroy]
 
