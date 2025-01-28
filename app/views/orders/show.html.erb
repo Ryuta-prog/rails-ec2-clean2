@@ -1,2 +1,15 @@
-<h1>Orders#show</h1>
-<p>Find me in app/views/orders/show.html.erb</p>
+<h1>購入明細詳細</h1>
+<div class='card'>
+    <div class='card-header'>
+        注文番号: <%= @order.id %>
+    </div>
+    <div class='card-body'>
+        <p><strong>合計金額:</strong> <%= number_to_currency(@order.total) %></p>
+        <p><strong>請求先住所:</strong> <%=@order.billing_address %></p>
+        <p><strong>クレジットカード番号:</strong> <%= order.credit_card_number %></p>
+        <p><strong>注文日時:</strong> <%= order.created_at.strftime('%Y-%m-%d %H:%M:%S') %></p>
+    </div>
+</div>
+<div class='mt-3'>
+    <%= link_to '戻る', order_path, class: 'btn btn-secondary' %>
+</div>

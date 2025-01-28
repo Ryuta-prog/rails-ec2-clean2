@@ -59,36 +59,26 @@
             </div>
             <div class="col-12">
               <label "form-label">建物名・部屋番号（任意）</label>
-              <%= form.text_filed :address2, class: "form-control" %>
+              <%= form.text_field :address2, class: "form-control" %>
             </div>
             <div class="col-md-5">
               <label class="form-label">国</label>
             </div>
-            <div clas="col-md-4">
+            <div class="col-md-4">
               <label class="form-label">都道府県</label>
-              <%= form.select :state,['東京都','大阪府','愛知県'],{ prompt:'選択してください'},{ class: "form-select",required:true }  %>
+              <%= form.collection_select :state,JpPrefecture::Prefecture.all,:name,
+              :name,
+              { prompt: '選択してください' },
+              { class: "form-select", required: true }
+              %>
             </div>
             <div class="col-md-3">
               <label class="form-label">郵便番号</label>
               <%= form.text_field :zip, class:"form-control", required:true %>
             </div>
           </div>
-          <hr class="my-4">
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="same-address">
-            <label class="form-check-label" for="same-address">Shipping address is the same as my billing address</label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="save-info">
-            <label class="form-check-label" for="save-info">Save this information for next time</label>
-          </div>
-          <hr class="my-4">
           <h4 class="mb-3">クレジットカード情報</h4>
           <div class="mb-3">
-            <div class="col-md-6">
-              <label class="form-label">カード名義</label>
-              <%= form.text_field :card_name,class:"form-control",required:true %>
-            </div>
             <div class="col-md-6">
               <label class="form-label">カード名義</label>
               <%= form.text_field :card_name,class:"form-control",required:true %>
@@ -99,11 +89,12 @@
             </div>
             <div class="col-md-3">
               <label class="form-label">有効期限</label>
-              <%= form.text_field :card_name,class:"form-control",
-              placeholder:"MM/YY," required:true %>
+              <%= form.text_field :card_name,class: "form-control",
+              placeholder: "MM/YY",
+              required: true %>
             <div class="col-md-3">
               <label class="form-label">セキュリティコード</label>
-              <%= form.text_filed:card_cvv,class:"form-control",required:true %>
+              <%= form.text_field :card_cvv, class:"form-control", required:true %>
             </div>
           </div>
           <hr class="my-4">

@@ -62,6 +62,7 @@ gem 'bootstrap', '~> 5.1.3'
 gem 'devise'
 gem 'faraday'
 gem 'image_processing', '~> 1.2'
+gem 'jp_prefecture'
 gem 'rubocop-capybara', require: false
 gem 'rubocop-factory_bot', require: false
 
