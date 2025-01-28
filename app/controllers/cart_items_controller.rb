@@ -7,14 +7,10 @@ class CartItemsController < ApplicationController
   def create
     product = Product.find(params[:product_id])
     quantity = params[:quantity].present? ? params[:quantity].to_i : 1
-
-    begin
-      @cart_item = @cart.add_product!(product, quantity)
-
-      redirect_to request.referer, notice: t('.success')
-    rescue ActiveRecord::RecordInvalid
-      redirect_to request.referer, alert: t('.failure')
-    end
+    @cart_item = @cart.add_product!(product, quantity)
+    redirect_to request.referer, notice: t('.success')
+  rescue ActiveRecord::RecordInvalid
+    redirect_to request.referer, alert: t('.failure')
   end
 
   def destroy
