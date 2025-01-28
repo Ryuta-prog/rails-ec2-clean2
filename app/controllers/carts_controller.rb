@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CartsController < ApplicationController
-  def show
-    @cart = current_cart # ApplicationControllerのメソッドを使用
-  end
+  before_action :set_cart
+
+  def show; end
 end
