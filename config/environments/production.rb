@@ -73,7 +73,7 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  cofig.action_mailer.smtp_settings = {
+  config.action_mailer.smtp_settings = {
     address: 'smtp.sendgrid.net',
     port: 587,
     domain: 'https://rails-ec2-0c3ad7f31a09.herokuapp.com',
