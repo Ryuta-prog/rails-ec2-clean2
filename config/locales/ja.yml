@@ -1,4 +1,5 @@
 ja:
+
   activerecord:
     models:
       product: 商品
@@ -27,3 +28,16 @@ ja:
               invalid: '価格は0以上の数値を入力してください'
             description:
               blank: '商品説明を入力してください'
+
+  tasks:
+    notices:
+      created: "タスクが正常に作成されました。"
+      updated: "タスクが正常に更新されました。"
+      destroyed: "タスクが正常に削除されました。"
+
+ja:
+  admin:
+    products:
+      created: "商品が作成されました。"
+      updated: "商品が更新されました。"
+      destroyed: "商品が削除されました。"

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resource :cart, only: [:show] do
     resources :cart_items, only: %i[create destroy]
+
   end
 
   root 'products#index'

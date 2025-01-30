@@ -59,7 +59,9 @@ gem 'bootsnap', require: false
 gem 'activerecord-session_store', '~> 2.1'
 gem 'aws-sdk-s3', '~> 1.167.0'
 gem 'bootstrap', '~> 5.1.3'
+
 gem 'devise'
+
 gem 'faraday'
 gem 'image_processing', '~> 1.2'
 gem 'rubocop-capybara', require: false
