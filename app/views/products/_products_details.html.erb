@@ -1,5 +1,5 @@
 <section class="py-5">
-  <div class="container px-4 px-lg-5 alighn-items-center">
+  <div class="container px-4 px-lg-5 align-items-center">
     <!-- Product Image -->
     <div class="col-mb-6">
       <% if product.image.attached? %>
@@ -9,7 +9,6 @@
       <% end %>
     </div>
     <!-- Product Information -->
-    <div class="col-md-6">SKU: <%= product.sku%></div>
     <h1 class="display-5 fw-bolder"><%= product.name %></h1>
     <div class="fs-5 mb-5">
       <% if product.original_price.present? && product.original_price > product.price %>

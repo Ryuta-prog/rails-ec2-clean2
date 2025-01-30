@@ -10,13 +10,17 @@ class ProductsController < ApplicationController
   end
 
   def show
-    # 選択された商品の詳細を表示
     @product = Product.find(params[:id])
 
-    # 商品一覧で表示した８つの商品のIDを取得して除外
-    displayed_product_ids = Product.limit(8).pluck(:id)
+    # 一覧画面と同じクエリで商品を取得
+    displayed_products = Product.includes(image_attachment: :blob)
+                                .limit(8)
+                                .order(:id)
 
-    # 関連商品を4件表示する
-    @related_products = Product.where.not(id: displayed_product_ids).where.not(id: @product.id).limit(4).order(:id)
+    @related_products = Product.includes(image_attachment: :blob)
+                               .where.not(id: displayed_products.pluck(:id))
+                               .where.not(id: @product.id)
+                               .limit(4)
+                               .order(:id)
   end
 end

@@ -1,41 +1,32 @@
-# ベースイメージとしてNode.jsとRubyを使用
-FROM node:20 as node
-FROM ruby:3.2.1
+# ベースイメージとしてRuby 3.2.1から3.1.４
+FROM ruby:3.1.4
 
-# Node.jsとYarnの関連ファイルをコピー
-COPY --from=node /opt/yarn-* /opt/yarn
-COPY --from=node /usr/local/bin/node /usr/local/bin/
-COPY --from=node /usr/local/lib/node_modules/ /usr/local/lib/node_modules/
-RUN ln -fs /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
-  && ln -fs /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npx \
-  && ln -fs /opt/yarn/bin/yarn /usr/local/bin/yarn \
-  && ln -fs /opt/yarn/bin/yarnpkg /usr/local/bin/yarnpkg
-
-# 必要なパッケージのインストール
-RUN apt-get update -qq && \
-  apt-get install -y build-essential \
+# 必要なパッケージをインストール
+RUN apt-get update -qq && apt-get install -y \
+  build-essential \
   libpq-dev \
   postgresql-client \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+  libvips \
+  curl && \
+  curl -sL https://deb.nodesource.com/setup_20.x | bash - && \
+  apt-get install -y nodejs && \
+  npm install --global yarn && \
+  apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 作業ディレクトリの作成
-RUN mkdir /myapp
+# 作業ディレクトリを作成
 WORKDIR /myapp
 
 # GemfileとGemfile.lockをコピーして依存関係をインストール
-COPY Gemfile /myapp/Gemfile
-COPY Gemfile.lock /myapp/Gemfile.lock
-RUN bundle install
+COPY Gemfile Gemfile.lock /myapp/
+RUN gem install bundler && bundle install
 
 # package.jsonとyarn.lockをコピーして依存関係をインストール
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock /myapp/
 RUN yarn install
+
 
 # 必要なパッケージを更新し、libvipsをインストールする
 RUN apt-get update -qq && apt-get install -y build-essential libvips
-
-# アプリケーションの全ファイルをコピー
 
 COPY . /myapp
 
@@ -47,5 +38,5 @@ ENTRYPOINT ["entrypoint.sh"]
 # ポート3000を公開
 EXPOSE 3000
 
-# メインプロセスの起動
+# サーバー起動コマンド
 CMD ["rails", "server", "-b", "0.0.0.0"]

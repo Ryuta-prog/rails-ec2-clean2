@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.2.1'
+ruby '3.1.4'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.0'
@@ -15,7 +15,7 @@ gem 'sprockets-rails'
 gem 'pg', '~> 1.1'
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem 'puma', '~> 5.0'
+gem 'puma', '~> 6.5.0'
 
 # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
 gem 'jsbundling-rails'
@@ -31,6 +31,9 @@ gem 'cssbundling-rails'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
+
+# Middleware that will make Rack-based apps CORS compatible
+gem 'rack-cors', '~> 2.0', '>= 2.0.2'
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
@@ -53,8 +56,12 @@ gem 'bootsnap', require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+gem 'activerecord-session_store', '~> 2.1'
 gem 'aws-sdk-s3', '~> 1.167.0'
 gem 'bootstrap', '~> 5.1.3'
+
+gem 'devise'
+
 gem 'faraday'
 gem 'image_processing', '~> 1.2'
 gem 'rubocop-capybara', require: false

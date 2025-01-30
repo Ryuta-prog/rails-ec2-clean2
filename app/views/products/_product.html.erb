@@ -1,0 +1,29 @@
+<div class="col mb-5">
+  <div class="card h-100">
+    <!-- Related Product Image -->
+    <% if product.image.attached? %>
+      <%= image_tag product.image.variant(resize_to_limit: [300, 200]).processed,
+            class: "card-img-top",
+            alt: related_product.name %>
+    <% else %>
+      <p>No image available</p>
+    <% end %>
+  <% end %>
+  <!-- Related Product Details -->
+  <div class="card-body p-4">
+    <div class="text-center">
+      <h5 class="fw-bolder"><%= (related_product.name.presence || "No name available").to_s %></h5>
+      <%= number_to_currency(related_product.price, unit: "¥", precision: 0) %>
+    </div>
+  </div>
+  <!-- カートに追加ボタン -->
+  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+    <div class="text-center">
+      <%= button_to add_item_cart_path(product_id: product.id),
+            class: "btn btn-outline-dark mt-auto" do %>
+        カートに追加
+      <% end %>
+    </div>
+  </div>
+</div>
+</div>
