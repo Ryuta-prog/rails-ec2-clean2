@@ -1,20 +1,16 @@
 # frozen_string_literal: true
 
 class CartItemsController < ApplicationController
-  include CurrentCart
   before_action :set_cart
   before_action :find_cart_item, only: [:destroy]
 
   def create
     product = Product.find(params[:product_id])
     quantity = params[:quantity].present? ? params[:quantity].to_i : 1
-    @cart_item = @cart.add_product(product, quantity)
-
-    if @cart_item.save
-      redirect_to request.referer, notice: t('.success')
-    else
-      redirect_to request.referer, alert: t('.failure')
-    end
+    @cart_item = @cart.add_product!(product, quantity)
+    redirect_to request.referer, notice: t('.success')
+  rescue ActiveRecord::RecordInvalid
+    redirect_to request.referer, alert: t('.failure')
   end
 
   def destroy
