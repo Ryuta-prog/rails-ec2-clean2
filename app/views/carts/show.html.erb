@@ -66,7 +66,7 @@
             </div>
             <div class="col-md-4">
               <label class="form-label">都道府県</label>
-              <%= form.collection_select :state,JpPrefecture::Prefecture.all,:name,
+              <%= form.collection_select :state,JpPrefecture::Prefecture.all,:code,
               :name,
               { prompt: '選択してください' },
               { class: "form-select", required: true }

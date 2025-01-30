@@ -9,6 +9,7 @@ require 'rails/all'
 require 'action_view/base'
 require 'action_view/view_paths'
 
+require 'jp_prefecture'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -59,6 +60,6 @@ module Myapp
     # エラーメッセージのフィールド囲みを削除
     config.action_view.field_error_proc = proc { |html_tag, _instance| html_tag }
 
-    Rails.application.config.session_store :active_record_store, key: '_your_app_session'
+    Rails.application.config.session_store :active_record_store, key: 'rails-ec2'
   end
 end
