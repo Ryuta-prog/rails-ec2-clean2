@@ -1,49 +1,33 @@
-# frozen_string_literal: true
+def create
+  @order = Order.new(order_params)
+  @order.user = current_user
+  @order.total = current_cart.total_price
 
-class OrdersController < ApplicationController
-  http_basic_authenticate_with name: "admin", password: "pw", only: [:index, :show]
-
-  def index
-    @orders = Order.all.order(created_at: :desc)
-  end
-
-  def create
-    @order = Order.new(order_params)
-    @order.user = current_user
-    @order.total = current_cart.total_price
-
-    if @order.save
-      # カートの中身を注文詳細として保存
-      current_cart.cart_items.each do |item|
-        OrderItem.create!(
-          order: @order,
-          product: item.product.name,
-          price: item.product.price,
-          quantity: item.quantity
-        )
-      end
-
-      # メールを送信する
-      OrderMailer.order_confirmation(@order).deliver_later
-
-      # カートを削除する
-      current_cart.destroy
-      session[:card_id] = nil
-
-      flash[:notice] = "購入ありがとうございます"
-      redirect_to root_path
-    else
-      render 'carts/show'
+  if @order.save
+    # カート内の商品を購入明細として保存
+    current_cart.cart_items.each do |item|
+      OrderItem.create!(
+        order: @order,
+        product_name: item.product.name,
+        price: item.product.price,
+        quantity: item.quantity
+      )
     end
-  end
 
-  private
+    # メール送信とエラー処理
+      OrderMailer.order_confirmation(@order).deliver_now
+    rescue => e
+      Rails.logger.error "Failed to send email: #{e.message}"
+    end
 
-  def order_params
-    params.require(:order).permit(
-      :billing_address, :state, :zip,
-      card_name, :credit_card_number,
-      :card_expiration, :card_cvv
-    )
+    # カートを削除
+    current_cart.destroy
+    session[:cart_id] = nil
+
+    flash[:notice] = "購入ありがとうございます"
+    redirect_to root_path
+  else
+    flash[:alert] = "購入処理に失敗しました"
+    render 'carts/show'
   end
 end

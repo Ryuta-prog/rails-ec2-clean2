@@ -73,15 +73,17 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: 'smtp.sendgrid.net',
+    address: 'email-smtp.ap-northeast-1.amazonaws.com',
     port: 587,
-    domain: 'https://rails-ec2-0c3ad7f31a09.herokuapp.com',
-    user_name: 'apikey',
-    password: ENV['SENDGRID_API_KEY'],
-    authentication: :plain,
-    enbabled_starttls_auto: true
+    user_name: ENV['AWS_SMTP_USERNAME'],
+    password: ENV['AWS_SMTP_PASSWORD'],
+    authentication: :login,
+    enable_starttls_auto: true
   }
+  config.action_mailer.default_url_options = { host: 'rails-ec2-0c3ad7f31a09.herokuapp.com' }
+  config.action_mailer.raise_delivery_errors = true
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

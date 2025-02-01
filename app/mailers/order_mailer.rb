@@ -4,7 +4,8 @@ class OrderMailer < ApplicationMailer
   def order_confirmation(order)
     @order = order
     mail(
-      to: @order.user.email, subject: '【おにぎりや】ご注文ありがとうございます'
+      to: @order.user.email,
+      subject: '【注文確認】ご注文ありがとうございます'
     )
   end
 end
