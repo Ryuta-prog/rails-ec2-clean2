@@ -4,17 +4,20 @@ class OrdersController < ApplicationController
   def create
     Rails.logger.debug { "Order params: #{order_params}" }
     @order = build_order
-
-    if @order.save
-      process_successful_order
-    else
-      handle_failed_order
-    end
+    process_order
   rescue StandardError => e
     handle_error(e)
   end
 
   private
+
+  def process_order
+    if @order.save
+      process_successful_order
+    else
+      handle_failed_order
+    end
+  end
 
   def order_params
     params.require(:order).permit(
@@ -45,13 +48,17 @@ class OrdersController < ApplicationController
 
   def create_order_items
     current_cart.cart_items.each do |item|
-      OrderItem.create!(
-        order: @order,
-        product_name: item.product.name,
-        price: item.product.price,
-        quantity: item.quantity
-      )
+      create_order_item(item)
     end
+  end
+
+  def create_order_item(item)
+    OrderItem.create!(
+      order: @order,
+      product_name: item.product.name,
+      price: item.product.price,
+      quantity: item.quantity
+    )
   end
 
   def clear_cart
@@ -65,6 +72,12 @@ class OrdersController < ApplicationController
   end
 
   def handle_failed_order
+    flash.now[:alert] = '購入処理に失敗しました'
+    render 'carts/show'
+  end
+
+  def handle_error(error)
+    Rails.logger.error "Failed to process order: #{error.message}"
     flash.now[:alert] = '購入処理に失敗しました'
     render 'carts/show'
   end
