@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'orders/create'
-  get 'orders/index'
-  get 'orders/show'
   resources :products, only: %i[index show]
 
   resource :cart, only: [:show] do
