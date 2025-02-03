@@ -2,6 +2,7 @@
 
 class OrdersController < ApplicationController
   def create
+    Rails.logger.debug { "Order params: #{order_params}" }
     @order = build_order
 
     if @order.save
@@ -9,11 +10,24 @@ class OrdersController < ApplicationController
     else
       handle_failed_order
     end
-  rescue => e
+  rescue StandardError => e
     handle_error(e)
   end
 
   private
+
+  def order_params
+    params.require(:order).permit(
+      :billing_address,
+      :state,
+      :zip,
+      :card_name,
+      :credit_card_number,
+      :card_expiration,
+      :card_cvv,
+      :total
+    )
+  end
 
   def build_order
     Order.new(order_params).tap do |order|
@@ -46,12 +60,12 @@ class OrdersController < ApplicationController
   end
 
   def set_success_message
-    flash[:notice] = "購入ありがとうございます"
+    flash[:notice] = '購入ありがとうございます'
     redirect_to root_path
   end
 
   def handle_failed_order
-    flash[:alert] = "購入処理に失敗しました"
+    flash.now[:alert] = '購入処理に失敗しました'
     render 'carts/show'
   end
 

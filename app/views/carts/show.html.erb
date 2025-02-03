@@ -36,6 +36,7 @@
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">請求先住所</h4>
         <%= form_with(model: @order, local: true, class: "needs-validation") do |form| %>
+          <%= form.hidden_field :total, value: current_cart.total_price %>
           <div class="row g-3">
             <div class="col-sm-6">
               <label class="form-label">姓</label>
@@ -92,17 +93,17 @@
               <%= form.text_field :card_name,class: "form-control",
               placeholder: "MM/YY",
               required: true %>
-            <div class="col-md-3">
-              <label class="form-label">セキュリティコード</label>
-              <%= form.text_field :card_cvv, class:"form-control", required:true %>
+              <div class="col-md-3">
+                <label class="form-label">セキュリティコード</label>
+                <%= form.text_field :card_cvv, class:"form-control", required:true %>
+              </div>
             </div>
-          </div>
-          <hr class="my-4">
-          <%= form.submit"購入する",class:"w-100 btn-primary btn-lg"%>
-        <% end %>
+            <hr class="my-4">
+            <%= form.submit"購入する",class:"w-100 btn-primary btn-lg"%>
+          <% end %>
+        </div>
+      </main>
     </div>
-  </main>
-</div>
-<script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="checkout.js"></script></body>
+    <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="checkout.js"></script></body>
 </html>

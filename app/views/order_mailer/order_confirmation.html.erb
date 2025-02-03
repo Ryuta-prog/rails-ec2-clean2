@@ -1,5 +1,4 @@
 <h1>ご注文ありがとうございます</h1>
-
 <h2>ご注文内容</h2>
 <table>
   <tr>
@@ -15,10 +14,8 @@
     </tr>
   <%= end %>
 </table>
-
 <p>合計金額: <%= number_to_currency(@order.total, unit: '¥') %>
-
-<h2>配送先情報</h2>
-<p>住所: <% @order.billing_address %></p>
-<p>都道府県: <%= @order.state_name %></p>
-<p>郵便番号: <%= @oreder.zip %></p>
+  <h2>配送先情報</h2>
+  <p>住所: <% @order.billing_address %></p>
+  <p>都道府県: <%= @order.state_name %></p>
+  <p>郵便番号: <%= @oreder.zip %></p>
