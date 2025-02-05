@@ -1,12 +1,9 @@
-import "@hotwired/turbo-rails"
-import "./controllers"
+import { Application } from "@hotwired/stimulus"
 
-document.addEventListener('turbo:load', function() {
-    const form = document.querySelector('form');
-    if (form) {
-      form.addEventListener('submit', function(e) {
-        const submitButton = this.querySelector('input[type="submit"]');
-        submitButton.disabled = true;
-      });
-    }
-});
+const application = Application.start()
+
+// Configure Stimulus development experience
+application.debug = false
+window.Stimulus   = application
+
+export { application }

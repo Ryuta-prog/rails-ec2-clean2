@@ -2,10 +2,14 @@
 
 class OrdersController < ApplicationController
   def create
-    Rails.logger.debug { "Order params: #{order_params}" }
     @order = build_order
-    process_order
-  rescue StandardError => e
+
+    if @order.save
+      process_successful_order
+    else
+      handle_failed_order
+    end
+  rescue => e
     handle_error(e)
   end
 
@@ -21,7 +25,11 @@ class OrdersController < ApplicationController
 
   def order_params
     params.require(:order).permit(
+      :last_name,
+      :first_name,
+      :email,
       :billing_address,
+      :address2,
       :state,
       :zip,
       :card_name,

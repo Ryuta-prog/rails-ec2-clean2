@@ -35,7 +35,7 @@
       </div>
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">請求先住所</h4>
-        <%= form_with(model: @order, url:order_path, local: true) do |form| %>
+        <%= form_with(model: @order, scope:  :order, url: orders_path, local: true) do |form| %>
           <%= form.hidden_field :total, value: current_cart.total_price %>
           <div class="row g-3">
             <div class="col-sm-6">
@@ -48,11 +48,7 @@
             </div>
             <div class="col-12">
               <label class="form-label">メールアドレス</label>
-              <%= form.text_field :first_name,class:"form-control",required:true %>
-            </div>
-            <div class="col-12">
-              <label class="form-label">メールアドレス</label>
-              <%= form.email_field :email, class: "form-control", placeholder:"you@examle.com" %>
+              <%= form.email_field :email, class: "form-control", placeholder:"you@examle.com", required:true %>
             </div>
             <div class="col-12">
               <label class="form-label">住所</label>
@@ -86,11 +82,11 @@
             </div>
             <div class="col-md-6">
               <label class="form-label">カード番号</label>
-              <%= form.text_field :card_name,class:"form-control",required:true %>
+              <%= form.text_field :credit_card_number,class:"form-control",required:true %>
             </div>
             <div class="col-md-3">
               <label class="form-label">有効期限</label>
-              <%= form.text_field :card_name,class: "form-control",
+              <%= form.text_field :card_expiration, class: "form-control",
               placeholder: "MM/YY",
               required: true %>
               <div class="col-md-3">
@@ -104,6 +100,5 @@
         </div>
       </main>
     </div>
-    <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="checkout.js"></script></body>
+</body>
 </html>
