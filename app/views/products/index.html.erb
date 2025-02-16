@@ -14,7 +14,7 @@
           <div class="card h-100">
             <%= link_to product_path(product.id) do %>
               <% if product.image.attached? %>
-                <%= image_tag url_for(product.image), class: "card-img-top" %>
+                <%= image_tag rails_blob_path(product.image, disposition: 'attachment'), class: "card-img-top", alt: product.name %>
               <% end %>
             <% end %>
             <div class="card-body p-4">

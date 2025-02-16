@@ -1,9 +1,15 @@
-import { Application } from "@hotwired/stimulus"
+import "@hotwired/turbo-rails"
+import "@rails/activestorage"  // 追加
+import "@rails/ujs"  // 追加
+import "@rails/actioncable"  // 追加
+import "./controllers"
 
-const application = Application.start()
-
-// Configure Stimulus development experience
-application.debug = false
-window.Stimulus   = application
-
-export { application }
+document.addEventListener('turbo:load', function() {
+    const form = document.querySelector('form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        const submitButton = this.querySelector('input[type="submit"]');
+        submitButton.disabled = true;
+      });
+    }
+  });

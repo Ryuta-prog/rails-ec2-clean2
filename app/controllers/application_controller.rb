@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include Devise::Controllers::Helpers
   protect_from_forgery with: :exception
   before_action :set_cart
   helper_method :current_cart
+  before_action :basic_auth
 
   private
 
@@ -15,5 +17,11 @@ class ApplicationController < ActionController::Base
 
   def set_cart
     @cart = current_cart
+  end
+
+  def basic_auth
+    authenticate_or_request_with_http_basic do |username, password|
+      username == 'admin' && password == 'pw'
+    end
   end
 end

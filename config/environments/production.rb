@@ -71,19 +71,15 @@ Rails.application.configure do
   # config.active_job.queue_adapter = :resque
   # config.active_job.queue_name_prefix = "myapp_production"
 
-  config.action_mailer.perform_caching = false
-
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address: 'email-smtp.ap-northeast-1.amazonaws.com',
-    port: 587,
-    user_name: ENV.fetch('AWS_SMTP_USERNAME', nil),
-    password: ENV.fetch('AWS_SMTP_PASSWORD', nil),
-    authentication: :login,
-    enable_starttls_auto: true
-  }
+  config.action_mailer.delivery_method = :aws_sdk
   config.action_mailer.default_url_options = { host: 'rails-ec2-0c3ad7f31a09.herokuapp.com' }
-  config.action_mailer.raise_delivery_errors = true
+
+  credentials = Aws::Credentials.new(ENV.fetch('AWS_ACCESS_KEY_ID', nil), ENV.fetch('AWS_SECRET_ACCESS_KEY', nil))
+  AWS::Rails.add_action_mailer_deliver_method(
+    :ses,
+    credentials: credentials,
+    region: 'ap-northeast-1'
+  )
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

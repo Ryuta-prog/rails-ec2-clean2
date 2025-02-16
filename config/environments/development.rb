@@ -40,6 +40,11 @@ Rails.application.configure do
   config.active_storage.variant_processor = :mini_magick
   config.active_storage.service_urls_expire_in = 1.hour
 
+  # アセットパイプラインの設定を追加
+  config.assets.debug = true
+  config.assets.compile = true
+
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.perform_caching = false

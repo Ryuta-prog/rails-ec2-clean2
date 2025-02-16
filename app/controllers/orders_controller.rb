@@ -1,27 +1,45 @@
 # frozen_string_literal: true
 
 class OrdersController < ApplicationController
+  include Devise::Controllers::Helpers
+  before_action :authenticate_user!, only: [:create]
+  before_action :basic_auth, only: [:index, :show]
+
+  def index
+    @orders = Order.all
+  end
+
+  def show
+    @order = Order.find(params[:id])
+  end
+
   def create
     @order = build_order
 
     if @order.save
-      process_successful_order
+      # 注文明細の保存
+      current_cart.cart_items.each do |cart_item|
+        @order.order_items.create!(
+          product_name: cart_item.product.name,
+          price: cart_item.product.price,
+          quantity: cart_item.quantity
+        )
+      end
+
+      # メールの送信
+      OrderMailer.with(order: @order).confirmation_email.deliver_later
+
+      # カートの削除
+      current_cart.destroy
+      session[:cart_id] = nil
+
+      redirect_to root_path, notice: '購入ありがとうございます'
     else
-      handle_failed_order
+      render 'carts/show', status: :unprocessable_entity
     end
-  rescue => e
-    handle_error(e)
   end
 
   private
-
-  def process_order
-    if @order.save
-      process_successful_order
-    else
-      handle_failed_order
-    end
-  end
 
   def order_params
     params.require(:order).permit(
@@ -45,52 +63,5 @@ class OrdersController < ApplicationController
       order.user = current_user
       order.total = current_cart.total_price
     end
-  end
-
-  def process_successful_order
-    create_order_items
-    send_order_confirmation
-    clear_cart
-    set_success_message
-  end
-
-  def create_order_items
-    current_cart.cart_items.each do |item|
-      create_order_item(item)
-    end
-  end
-
-  def create_order_item(item)
-    OrderItem.create!(
-      order: @order,
-      product_name: item.product.name,
-      price: item.product.price,
-      quantity: item.quantity
-    )
-  end
-
-  def clear_cart
-    current_cart.destroy
-    session[:cart_id] = nil
-  end
-
-  def set_success_message
-    flash[:notice] = '購入ありがとうございます'
-    redirect_to root_path
-  end
-
-  def handle_failed_order
-    flash.now[:alert] = '購入処理に失敗しました'
-    render 'carts/show'
-  end
-
-  def handle_error(error)
-    Rails.logger.error "Failed to process order: #{error.message}"
-    flash.now[:alert] = '購入処理に失敗しました'
-    render 'carts/show'
-  end
-
-  def send_order_confirmation
-    OrderMailer.order_confirmation(@order).deliver_now
   end
 end

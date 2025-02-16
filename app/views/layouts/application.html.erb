@@ -49,9 +49,9 @@
         </div>
       </div>
     </nav>
-    <% if notice %>
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <% notice %>
+    <% flash.each do |name, msg| %>
+      <div class="alert <%= name == 'notice' ? 'alert-success' : 'alert-danger' %>" role="alert">
+        <%= msg %>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     <% end %>
