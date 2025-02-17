@@ -1,6 +1,4 @@
 import "@hotwired/turbo-rails"
-import "@rails/activestorage"  // 追加
-import "@rails/ujs"  // 追加
 import "@rails/actioncable"  // 追加
 import "./controllers"
 
