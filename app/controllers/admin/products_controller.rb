@@ -2,23 +2,22 @@
 
 module Admin
   class ProductsController < ApplicationController
-    before_action :set_product, only: [:show, :edit, :update, :destroy]
+    before_action :set_product, only: %i[show edit update destroy]
     def index
-      @products = Product.all.order(created_at: :desc)
+      @products = Product.order(created_at: :desc)
     end
 
     def show
-      if @product.nil?
-        redirect_to admin_products_path, alert: '商品が見つかりません'
-      end
+      return unless @product.nil?
+
+      redirect_to admin_products_path, alert: '商品が見つかりません'
     end
 
     def new
       @product = Product.new
     end
 
-    def edit
-    end
+    def edit; end
 
     def create
       @product = Product.new(product_params)

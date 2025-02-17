@@ -3,7 +3,7 @@
 class OrdersController < ApplicationController
   include Devise::Controllers::Helpers
   before_action :authenticate_user!, only: [:create]
-  before_action :basic_auth, only: [:index, :show]
+  before_action :basic_auth, only: %i[index show]
 
   def index
     @orders = Order.all

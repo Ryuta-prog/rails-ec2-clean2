@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class Admin::BaseController < ApplicationController
+module Admin
+  class BaseController < ApplicationController
     before_action :authenticate
 
     private
@@ -10,4 +11,5 @@ class Admin::BaseController < ApplicationController
         username == 'admin' && password == 'pw'
       end
     end
+  end
 end
