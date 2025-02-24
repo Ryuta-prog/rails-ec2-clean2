@@ -64,6 +64,7 @@ gem 'devise'
 gem 'faraday'
 gem 'image_processing', '~> 1.2'
 gem 'jp_prefecture'
+gem 'open-uri'
 gem 'rubocop-capybara', require: false
 gem 'rubocop-factory_bot', require: false
 
