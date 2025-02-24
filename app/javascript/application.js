@@ -11,7 +11,7 @@ document.addEventListener('turbo:load', function() {
         submitButton.disabled = true;
         submitButton.value = "処理中...";
       }
-      return true;  // フォームの送信を許可
+      return true;
     });
   }
 });

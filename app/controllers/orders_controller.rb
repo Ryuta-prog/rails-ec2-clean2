@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class OrdersController < ApplicationController
-  before_action :basic_auth, only: %i[index show]
 
   def index
     @orders = Order.all
@@ -25,15 +24,16 @@ class OrdersController < ApplicationController
         )
       end
 
-      # メールの送信
-      OrderMailer.confirmation_email(@order).deliver_later
-
       # カートの削除
       current_cart.destroy
       session[:cart_id] = nil
+
       redirect_to root_path, notice: '購入ありがとうございます'
     else
-      flash.now[:alert] = '入力内容に誤りがあります'
+      # エラーメッセージをログに出力
+      Rails.logger.error("Order creation failed: #{@order.errors.full_messages.join(', ')}")
+
+      flash.now[:alert] = '入力内容に誤りがあります。再度確認してください。'
       render 'carts/show', status: :unprocessable_entity
     end
   end
