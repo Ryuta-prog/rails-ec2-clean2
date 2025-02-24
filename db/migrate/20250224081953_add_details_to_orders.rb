@@ -7,8 +7,6 @@ class AddDetailsToOrders < ActiveRecord::Migration[7.0]
       t.string :first_name
       t.string :email
       t.string :address2
-      t.string :state
-      t.string :zip
       t.string :card_name
     end
   end
