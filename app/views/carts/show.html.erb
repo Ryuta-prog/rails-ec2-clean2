@@ -89,7 +89,14 @@
             </div>
           </div>
           <hr class="my-4">
-          <%= form.submit "購入する", class: "w-100 btn btn-primary btn-lg", data: { disable_with: "処理中..." } %>
+          <%= form.submit "購入する", 
+          class: "w-100 btn btn-primary btn-lg", 
+          id: "purchase-button",
+          data: { 
+            disable_with: "処理中...",
+            turbo: false 
+  } 
+%>
         <% end %>
       </div>
     </div>

@@ -1,13 +1,15 @@
 import "@hotwired/turbo-rails"
-import "@rails/actioncable"  // 追加
+import "@rails/actioncable"
 import "./controllers"
 
 document.addEventListener('turbo:load', function() {
-    const form = document.querySelector('form');
-    if (form) {
-      form.addEventListener('submit', function(e) {
-        const submitButton = this.querySelector('input[type="submit"]');
-        submitButton.disabled = true;
-      });
-    }
-  });
+  // 購入ボタンのイベントハンドラ
+  const purchaseButton = document.querySelector('#purchase-button');
+  if (purchaseButton) {
+    purchaseButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      // フォームを直接送信
+      this.closest('form').submit();
+    });
+  }
+});
