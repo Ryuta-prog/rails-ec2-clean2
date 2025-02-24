@@ -31,9 +31,9 @@ class OrdersController < ApplicationController
       # カートの削除
       current_cart.destroy
       session[:cart_id] = nil
-
       redirect_to root_path, notice: '購入ありがとうございます'
     else
+      flash.now[:alert] = '入力内容に誤りがあります'
       render 'carts/show', status: :unprocessable_entity
     end
   end
