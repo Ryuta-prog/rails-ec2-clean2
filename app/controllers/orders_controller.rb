@@ -32,7 +32,7 @@ class OrdersController < ApplicationController
       current_cart.destroy
       session[:cart_id] = nil
 
-      redirect_to completion_orders_path, notice: '購入ありがとうございます'
+      redirect_to root_path, notice: '購入ありがとうございます'
     else
       render 'carts/show', status: :unprocessable_entity
     end
