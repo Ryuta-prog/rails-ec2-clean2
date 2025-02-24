@@ -2,7 +2,7 @@
 
 class OrdersController < ApplicationController
   include Devise::Controllers::Helpers
-  before_action :authenticate_user!, only: [:create]
+  before_action :authenticate_user!
   before_action :basic_auth, only: %i[index show]
 
   def index
@@ -14,7 +14,8 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = build_order
+    @order = Order.new(order_params)
+    @order.total = current_cart.total_price
 
     if @order.save
       # 注文明細の保存
@@ -27,13 +28,13 @@ class OrdersController < ApplicationController
       end
 
       # メールの送信
-      OrderMailer.with(order: @order).confirmation_email.deliver_later
+      OrderMailer.confirmation_email(@order).deliver_later
 
       # カートの削除
       current_cart.destroy
       session[:cart_id] = nil
 
-      redirect_to root_path, notice: '購入ありがとうございます'
+      redirect_to completion_orders_path, notice: '購入ありがとうございます'
     else
       render 'carts/show', status: :unprocessable_entity
     end
@@ -56,12 +57,5 @@ class OrdersController < ApplicationController
       :card_cvv,
       :total
     )
-  end
-
-  def build_order
-    Order.new(order_params).tap do |order|
-      order.user = current_user
-      order.total = current_cart.total_price
-    end
   end
 end
