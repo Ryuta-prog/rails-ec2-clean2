@@ -8,6 +8,9 @@ class AddDetailsToOrders < ActiveRecord::Migration[7.0]
       t.string :email
       t.string :address2
       t.string :card_name
+      t.string :credit_card_number
+      t.string :card_expiration
+      t.string :card_cvv
     end
   end
 end
