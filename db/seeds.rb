@@ -5,44 +5,44 @@ require 'open-uri'
 # 商品グループ1
 def onigiri_items_group1
   [
-    { name: '高菜おにぎり', description: '高菜をふんだんに使ったおにぎり', price: 200,
+    { name: '高菜おにぎり', description: '高菜をふんだんに使ったおにぎり', price: 2000,
       image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/onigiri_takana.png' },
-    { name: '鮭おにぎり', description: '新鮮な鮭を使ったおにぎり', price: 300,
+    { name: '鮭おにぎり', description: '新鮮な鮭を使ったおにぎり', price: 3000,
       image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/onigiri_sake.png' },
-    { name: 'たらこおにぎり', description: '風味豊かなタラコを使ったおにぎり', price: 300, image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/onigiri_tarako.png' }
+    { name: 'たらこおにぎり', description: '風味豊かなタラコを使ったおにぎり', price: 3000, image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/onigiri_tarako.png' }
   ]
 end
 
 # 商品グループ2
 def onigiri_items_group2
   [
-    { name: '梅おにぎり', description: 'さっぱりとした梅の酸味が楽しめるおにぎり', price: 200,
+    { name: '梅おにぎり', description: 'さっぱりとした梅の酸味が楽しめるおにぎり', price: 2000,
       image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/onigiri_ume.png' },
-    { name: '天むすおにぎり', description: '海老の天ぷらが入ったおにぎり', price: 500,
+    { name: '天むすおにぎり', description: '海老の天ぷらが入ったおにぎり', price: 5000,
       image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/onigiri_tenmusu.png' },
-    { name: '焼きおにぎり', description: '香ばしい焼きおにぎり', price: 200, image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/onigiri_yakionigiri.png' }
+    { name: '焼きおにぎり', description: '香ばしい焼きおにぎり', price: 2000, image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/onigiri_yakionigiri.png' }
   ]
 end
 
 # 商品グループ3
 def onigiri_items_group3
   [
-    { name: 'ゆかりおにぎり', description: 'ゆかりをまぶしたおにぎり', price: 200,
+    { name: 'ゆかりおにぎり', description: 'ゆかりをまぶしたおにぎり', price: 2000,
       image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/onigiri_yukari.png' },
-    { name: '赤飯おにぎり', description: 'もち米を使用した赤飯おにぎり', price: 250,
+    { name: '赤飯おにぎり', description: 'もち米を使用した赤飯おにぎり', price: 2500,
       image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/onigiri_sekihan.png' },
-    { name: 'シーチキンおにぎり', description: 'シーチキンを使用したおにぎり', price: 300, image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/onigiri_seachicken.png' }
+    { name: 'シーチキンおにぎり', description: 'シーチキンを使用したおにぎり', price: 3000, image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/onigiri_seachicken.png' }
   ]
 end
 
 # 商品グループ4
 def onigiri_items_group4
   [
-    { name: 'わかめおにぎり', description: 'わかめを使用したおにぎり', price: 200,
+    { name: 'わかめおにぎり', description: 'わかめを使用したおにぎり', price: 2000,
       image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/onigiri_wakame.png' },
-    { name: 'スパムおにぎり', description: 'スパムを使用したおにぎり', price: 400,
+    { name: 'スパムおにぎり', description: 'スパムを使用したおにぎり', price: 4000,
       image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/supamusubi.png' },
-    { name: '台湾おにぎり', description: '本格的な台湾おにぎり', price: 400, image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/food_taiwan_onigiri_fantuan.png' }
+    { name: '台湾おにぎり', description: '本格的な台湾おにぎり', price: 4000, image_url: 'https://rails-ec.s3.ap-northeast-1.amazonaws.com/food_taiwan_onigiri_fantuan.png' }
   ]
 end
 

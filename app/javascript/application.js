@@ -3,13 +3,15 @@ import "@rails/actioncable"
 import "./controllers"
 
 document.addEventListener('turbo:load', function() {
-  // 購入ボタンのイベントハンドラ
-  const purchaseButton = document.querySelector('#purchase-button');
-  if (purchaseButton) {
-    purchaseButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      // フォームを直接送信
-      this.closest('form').submit();
+  const purchaseForm = document.querySelector('form');
+  if (purchaseForm) {
+    purchaseForm.addEventListener('submit', function(e) {
+      const submitButton = this.querySelector('input[type="submit"]');
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.value = "処理中...";
+      }
+      return true;  // フォームの送信を許可
     });
   }
 });
