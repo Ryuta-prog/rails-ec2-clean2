@@ -18,22 +18,22 @@ class OrdersController < ApplicationController
       handle_failed_order
     end
   end
-  
+
   private
-  
+
   def build_order
     Order.new(order_params).tap do |order|
       order.total = current_cart.total_price
     end
   end
-  
+
   def process_successful_order
     create_order_items
     send_confirmation_email
     clear_cart
     redirect_to root_path, notice: '購入ありがとうございます'
   end
-  
+
   def create_order_items
     current_cart.cart_items.each do |cart_item|
       @order.order_items.create!(

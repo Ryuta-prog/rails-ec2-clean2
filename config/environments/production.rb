@@ -71,15 +71,19 @@ Rails.application.configure do
   # config.active_job.queue_adapter = :resque
   # config.active_job.queue_name_prefix = "myapp_production"
 
+  config.action_mailer.default_url_options = { host: '<https://rails-ec2-0c3ad7f31a09.herokuapp.com/>' }
   config.action_mailer.raise_delivery_errors = true
-  ActionMailer::Base.delivery_method = :smtp
-  ActionMailer::Base.smtp_settings = {
-    port: ENV.fetch('MAILGUN_SMTP_PORT', nil),
-    address: ENV.fetch('MAILGUN_SMTP_SERVER', nil),
-    user_name: ENV.fetch('MAILGUN_SMTP_LOGIN', nil),
-    password: ENV.fetch('MAILGUN_SMTP_PASSWORD', nil),
-    domain: 'rails-ec2.heroku.com',
-    authentication: :plain
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default charset: 'utf-8'
+  config.action_mailer.smtp_settings = {
+    address: '<sv16291.xserver.jp>',
+    port: 587,
+    user_name: "<onigiriya@xs279744.xsrv.jp
+>",
+    password: '<TFNX2%Upzt4eb3e>',
+    authentication: :plain,
+    enable_starttls_auto: true
   }
 
   # Ignore bad email addresses and do not raise email delivery errors.
