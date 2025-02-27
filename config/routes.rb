@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   resources :orders, only: %i[create index show]
 
-  resources :messages, only: [:index, :new, :create] do
+  resources :messages, only: %i[index new create] do
     collection do
       post 'confirm'
     end
