@@ -20,9 +20,9 @@ jobs:
       - name: Install Docker Compose
         run: |
           sudo apt-get update
-          sudo apt-get install -y docker-compose
+          sudo apt-get install -y docker-compose-plugin
 
-      - name: Run htmlbeautifier on Docker Compose
+      - name: Run htmlbeautifier on docker compose
         run: |
           docker compose build
           docker compose run --rm web bin/setup
