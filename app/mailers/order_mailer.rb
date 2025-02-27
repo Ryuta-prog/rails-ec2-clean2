@@ -5,7 +5,7 @@ class OrderMailer < ApplicationMailer
     @order = order
     mail(
       to: @order.email,
-      subject: '【おにぎりや】ご注文ありがとうございます'
+      subject: t('mailers.order.confirmation')
     )
   end
 end

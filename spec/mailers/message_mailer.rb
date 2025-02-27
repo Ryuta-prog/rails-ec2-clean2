@@ -5,7 +5,7 @@ class MessageMailer < ApplicationMailer
 
   def received_email(message)
     @message = message
-    mail(subject: 'おにぎりやよりメッセージが届きました') do |format|
+    mail(to: 'longtaishangcun@gmail.com', subject: t('mailers.message.new_message')) do |format|
       format.text
     end
   end

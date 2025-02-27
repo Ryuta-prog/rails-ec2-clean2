@@ -31,7 +31,7 @@ class OrdersController < ApplicationController
     create_order_items
     send_confirmation_email
     clear_cart
-    redirect_to root_path, notice: '購入ありがとうございます'
+    redirect_to root_path, notice: t('orders.purchase_complete')
   end
 
   def create_order_items
@@ -55,7 +55,7 @@ class OrdersController < ApplicationController
 
   def handle_failed_order
     Rails.logger.error("Order creation failed: #{@order.errors.full_messages.join(', ')}")
-    flash.now[:alert] = '入力内容に誤りがあります。再度確認してください。'
+    flash.now[:alert] = t('orders.input_error')
     render 'carts/show', status: :unprocessable_entity
   end
 

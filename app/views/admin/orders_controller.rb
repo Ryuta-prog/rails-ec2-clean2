@@ -22,7 +22,7 @@ module Admin
     end
 
     def not_found
-      redirect_to admin_orders_path, alert: '注文が見つかりませんでした'
+      redirect_to admin_orders_path, alert: t('admin.orders.not_found')
     end
   end
 end

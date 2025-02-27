@@ -2,15 +2,15 @@ ja:
   activerecord:
     models:
       product: 商品
-      order: 注文  # 追加
+      order: 注文
     attributes:
       product:
         name: 商品名
         price: 価格
         description: 商品説明
-      order:  # 追加
+      order:
         user: ユーザー
-    errors:  # errorsセクションを統合
+    errors:
       models:
         product:
           attributes:
@@ -21,7 +21,7 @@ ja:
               invalid: '価格は0以上の数値を入力してください'
             description:
               blank: '商品説明を入力してください'
-        order:  # orderのエラーメッセージを追加
+        order:
           attributes:
             user:
               required: "が必要です"
@@ -32,10 +32,26 @@ ja:
     create:
       success: '商品をカートに追加しました'
       failure: '商品の追加に失敗しました'
-      destroy:
-        item_removed: '商品をカートから削除しました'
+    destroy:
+      item_removed: '商品をカートから削除しました'
   time:
     formats:
       default: "%Y年%m月%d日 %H:%M:%S"
       short: "%m/%d %H:%M"
       long: "%Y年%m月%d日(%a) %H時%M分"
+  admin:
+    orders:
+      not_found: '注文が見つかりませんでした'
+    products:
+      not_found: '商品が見つかりません'
+      created: '商品を登録しました'
+      updated: '商品を更新しました'
+  orders:
+    thanks: '購入ありがとうございます'
+    purchase_complete: '購入ありがとうございます' # 統一のため残します
+    input_error: '入力内容に誤りがあります。再度確認してください。'
+  mailers:
+    message:
+      new_message: 'New Message'
+    order:
+      confirmation: '【おにぎりや】ご注文ありがとうございます'

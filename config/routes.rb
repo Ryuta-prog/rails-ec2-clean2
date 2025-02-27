@@ -10,13 +10,6 @@ Rails.application.routes.draw do
 
   resources :orders, only: %i[create index show]
 
-  resources :messages, only: %i[index new create] do
-    collection do
-      post 'confirm'
-    end
-  end
-  get 'messages/done', to: 'messages#done', as: 'done_messages'
-
   root 'products#index'
 
   namespace :admin do

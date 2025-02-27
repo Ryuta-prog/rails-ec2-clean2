@@ -10,7 +10,7 @@ module Admin
     def show
       return unless @product.nil?
 
-      redirect_to admin_products_path, alert: '商品が見つかりません'
+      redirect_to admin_products_path, alert: t('admin.products.not_found')
     end
 
     def new
@@ -22,7 +22,7 @@ module Admin
     def create
       @product = Product.new(product_params)
       if @product.save
-        redirect_to admin_products_path, notice: '商品を登録しました'
+        redirect_to admin_products_path, notice: t('admin.products.created')
       else
         render :new, status: :unprocessable_entity
       end
@@ -30,7 +30,7 @@ module Admin
 
     def update
       if @product.update(product_params)
-        redirect_to admin_products_path, notice: '商品を更新しました'
+        redirect_to admin_products_path, notice: t('admin.products.updated')
       else
         render :edit, status: :unprocessable_entity
       end
@@ -46,7 +46,7 @@ module Admin
 
     def set_product
       @product = Product.find_by(id: params[:id])
-      redirect_to admin_products_path, alert: '商品が見つかりません' if @product.nil?
+      redirect_to admin_products_path, alert: t('admin.products.not_found') if @product.nil?
     end
 
     def product_params
