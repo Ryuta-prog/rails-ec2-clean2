@@ -1,0 +1,13 @@
+<h1>新規メッセージ</h1>
+<%= form_with(model: @message, local: true, url: confirm_messages_path) do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  
+  <%= f.label :email %>
+  <%= f.email_field :email %>
+  
+  <%= f.label :content %>
+  <%= f.text_area :content %>
+  
+  <%= f.submit '確認' %>
+<% end %>

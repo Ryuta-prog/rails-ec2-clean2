@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'mailers/message_mailer'
-
 class MessagesController < ApplicationController
   def index
     @message = Message.new
@@ -9,20 +7,18 @@ class MessagesController < ApplicationController
 
   def confirm
     @message = Message.new(message_params)
-    if @message.valid?
-      render action: 'confirm'
-    else
-      render action: 'index'
-    end
+    render :index unless @message.valid?
   end
 
-  def done
+  def create
     @message = Message.new(message_params)
     if params[:back]
-      render action: 'index'
-    else
+      render :new
+    elsif @message.save
       MessageMailer.received_email(@message).deliver_now
-      render action: 'done'
+      redirect_to messages_path, notice: 'メッセージが正常に送信されました。'
+    else
+      render :new
     end
   end
 
