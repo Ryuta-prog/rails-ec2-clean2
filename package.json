@@ -8,6 +8,7 @@
     "sass": "^1.80.6"
   },
   "scripts": {
+
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets",
     "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
   },
@@ -16,4 +17,5 @@
   "repository": "https://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@github.com/Ryuta-prog/rails-ec2.git",
   "author": "Ryuta-prog <longtaishangcun@gmail.com>",
   "license": "MIT"
+
 }
