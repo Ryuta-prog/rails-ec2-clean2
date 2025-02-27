@@ -79,7 +79,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: ENV.fetch('SMTP_SERVER', nil),
     port: ENV.fetch('SMTP_PORT', nil),
-    user_name: ENV.fetch('SMTP_USERNAME', nil),
+    user_name: ENV.fetch('SMTP_USERNAME', '').strip,
     password: ENV.fetch('SMTP_PASSWORD', nil),
     authentication: :plain,
     enable_starttls_auto: true
