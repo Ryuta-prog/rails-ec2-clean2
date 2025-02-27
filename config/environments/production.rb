@@ -77,10 +77,10 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default charset: 'utf-8'
   config.action_mailer.smtp_settings = {
-    address: ENV.fetch('SMTP_SERVER', nil),
-    port: ENV.fetch('SMTP_PORT', nil),
-    user_name: ENV.fetch('SMTP_USERNAME', '').strip,
-    password: ENV.fetch('SMTP_PASSWORD', nil),
+    address: ENV['SMTP_SERVER'],
+    port: ENV['SMTP_PORT'],
+    user_name: ENV['SMTP_USERNAME'].to_s.strip,
+    password: ENV['SMTP_PASSWORD'],
     authentication: :plain,
     enable_starttls_auto: true
   }
