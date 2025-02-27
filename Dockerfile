@@ -24,7 +24,10 @@ RUN gem install bundler && bundle install
 COPY package.json yarn.lock /myapp/
 RUN yarn install
 
-# アプリケーションコードをコピー
+
+# 必要なパッケージを更新し、libvipsをインストールする
+RUN apt-get update -qq && apt-get install -y build-essential libvips
+
 COPY . /myapp
 
 # エントリポイントスクリプトの追加
