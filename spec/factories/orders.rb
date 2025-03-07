@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :order do
     user { nil }
-    total { 1 }
+    total_price { 1 }
     billing_address { 'MyString' }
     credit_card_number { 'MyString' }
   end

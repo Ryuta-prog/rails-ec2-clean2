@@ -54,19 +54,24 @@ gem 'bootsnap', require: false
 # gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+gem 'image_processing', '~> 1.2'
 
 gem 'activerecord-session_store', '~> 2.1'
 gem 'aws-sdk-rails'
 gem 'aws-sdk-s3', '~> 1.167.0'
-gem 'bootstrap', '~> 5.1.3'
+# Bootstrapを最新バージョンに更新
+gem 'bootstrap', '~> 5.3.0'
+gem 'concurrent-ruby', '1.3.4'
 
-gem 'devise'
+# Deviseにバージョン指定を追加してRails 7との互換性を確保
+gem 'devise', '~> 4.9.0'
 
 gem 'faraday'
-gem 'image_processing', '~> 1.2'
+gem 'foreman'
 gem 'jp_prefecture'
-gem 'open-uri'
+gem 'logger', '~> 1.6.6'
+# open-uriはRubyに標準で含まれているため削除
+# gem 'open-uri'
 gem 'rubocop-capybara', require: false
 gem 'rubocop-factory_bot', require: false
 
@@ -86,6 +91,7 @@ group :development do
   gem 'rubocop-hc', require: false, github: 'ihatov08/rubocop-hc'
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'squasher'
   gem 'web-console'
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"

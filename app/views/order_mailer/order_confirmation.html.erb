@@ -14,7 +14,7 @@
     </tr>
   <%= end %>
 </table>
-<p>合計金額: <%= number_to_currency(@order.total, unit: '¥') %>
+<p>合計金額: <%= number_to_currency(@order.total_price, unit: '¥') %>
   <h2>配送先情報</h2>
   <p>住所: <% @order.billing_address %></p>
   <p>都道府県: <%= @order.state_name %></p>

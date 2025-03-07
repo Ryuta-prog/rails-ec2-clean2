@@ -17,7 +17,7 @@
         <li><%= item.product_name %> - <%= item.quantity %>個 - <%= number_to_currency(item.price, unit: '¥') %></li>
       <% end %>
     </ul>
-    <p>合計金額: <%= number_to_currency(@order.total, unit: '¥') %></p>
+    <p>合計金額: <%= number_to_currency(@order.total_price, unit: '¥') %></p>
     <p>商品の準備が整い次第、発送いたします。</p>
     <p>ご不明な点がございましたら、お気軽にお問い合わせください。</p>
     <p>今後ともおにぎりやをよろしくお願いいたします。</p>

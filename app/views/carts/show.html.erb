@@ -36,7 +36,7 @@
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">請求先住所</h4>
         <%= form_with(model: @order, scope: :order, url: orders_path, local: true, data: { turbo: false }) do |form| %>
-          <%= form.hidden_field :total, value: current_cart.total_price %>
+          <%= form.hidden_field :total_price, value: current_cart.total_price %>
           <div class="row g-3">
             <div class="col-sm-6 form-group">
               <%= form.label :last_name, "姓", class: "form-label" %>

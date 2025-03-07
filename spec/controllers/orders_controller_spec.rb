@@ -3,10 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe OrdersController, type: :controller do
-  describe 'GET #create' do
+  let(:order) { Order.create(email: "test@example.com") }
+
+  describe 'POST #create' do
     it 'returns http success' do
-      get :create
-      expect(response).to have_http_status(:success)
+      post :create, params: { order: { email: "test@example.com" } }
+      expect(response).to have_http_status(:redirect)
     end
   end
 
@@ -19,7 +21,7 @@ RSpec.describe OrdersController, type: :controller do
 
   describe 'GET #show' do
     it 'returns http success' do
-      get :show
+      get :show, params: { id: order.id }
       expect(response).to have_http_status(:success)
     end
   end

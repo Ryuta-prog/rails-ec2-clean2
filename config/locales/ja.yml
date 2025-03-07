@@ -31,7 +31,7 @@ ja:
     not_found: "商品が見つかりませんでした。"
   cart_items:
     create:
-      success: '商品をカートに追加しました'
+      success: "カートに商品が追加されました"
       failure: '商品の追加に失敗しました'
     destroy:
       item_removed: '商品をカートから削除しました'

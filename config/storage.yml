@@ -3,8 +3,8 @@ amazon: &default
   service: S3
   access_key_id: <%= Rails.application.credentials.aws[:access_key_id] %>
   secret_access_key: <%= Rails.application.credentials.aws[:secret_access_key] %>
-  region: <%= Rails.application.credentials.aws[:region] %>
-  bucket: <%= Rails.application.credentials.aws[:bucket] %>
+  region: ap-northeast-1
+  bucket: rails-ec
 
 development:
   <<: *default
@@ -28,6 +28,6 @@ production:
 #   container: your_container_name-<%= Rails.env %>
 
 # ローカルストレージの設定
-# local:
-#   service: Disk
-#   root: <%= Rails.root.join("storage") %>
+local:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>

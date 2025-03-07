@@ -14,7 +14,7 @@
       <tr>
         <td><%= order.id %></td>
         <td><%= "#{order.last_name} #{order.first_name}" %></td>
-        <td><%= number_to_currency(order.total, unit: '¥', precision: 0) %></td>
+        <td><%= number_to_currency(order.total_price, unit: '¥', precision: 0) %></td>
         <td><%= l order.created_at %></td>
         <td><%= link_to '詳細',admin_order_path(order.id) %></td>
       </tr>

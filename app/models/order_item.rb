@@ -2,7 +2,5 @@
 
 class OrderItem < ApplicationRecord
   belongs_to :order
-  validates :product_name, presence: true
-  validates :price, presence: true
-  validates :quantity, presence: true
+  validates :product_name, :price, :quantity, presence: true
 end
