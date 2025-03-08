@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe OrdersController, type: :controller do
-  let(:order) { Order.create(email: "test@example.com") }
+  let(:order) { Order.create(email: 'test@example.com') }
 
   describe 'POST #create' do
     it 'returns http success' do
-      post :create, params: { order: { email: "test@example.com" } }
+      post :create, params: { order: { email: 'test@example.com' } }
       expect(response).to have_http_status(:redirect)
     end
   end

@@ -47,6 +47,8 @@ ja:
       not_found: '商品が見つかりません'
       created: '商品を登録しました'
       updated: '商品を更新しました'
+      destroyed: "商品が正常に削除されました"
+      destroy_failed: "商品の削除に失敗しました"
   orders:
     thanks: '購入ありがとうございます'
     purchase_complete: '購入ありがとうございます' # 統一のため残します

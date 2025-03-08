@@ -2,6 +2,7 @@
 
 class Product < ApplicationRecord
   has_one_attached :image
+  has_many :cart_items, dependent: :destroy
 
   validates :name, presence: { message: I18n.t('activerecord.errors.models.product.attributes.name.blank') }
   validates :price, presence: { message: I18n.t('activerecord.errors.models.product.attributes.price.blank') },

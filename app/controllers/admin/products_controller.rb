@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class ProductsController < ApplicationController
+  class ProductsController < BaseController
     before_action :set_product, only: %i[show edit update destroy]
     def index
       @products = Product.order(created_at: :desc)
@@ -38,8 +38,13 @@ module Admin
 
     def destroy
       @product = Product.find(params[:id])
-      @product.destroy
+      ActiveRecord::Base.transaction do
+        CartItem.where(product_id: @product.id).destroy_all
+        @product.destroy!
+      end
       redirect_to admin_products_path, status: :see_other, notice: t('admin.products.destroyed')
+    rescue ActiveRecord::RecordNotDestroyed
+      redirect_to admin_products_path, alert: t('admin.products.destroy_failed')
     end
 
     private
