@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class ProductsController < BaseController
+  class ProductsController < Admin::BaseController
     before_action :set_product, only: %i[show edit update destroy]
     def index
       @products = Product.order(created_at: :desc)
