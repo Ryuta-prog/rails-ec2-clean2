@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class OrdersController < BaseController
+  class OrdersController < Admin::BaseController
     rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
     def index
