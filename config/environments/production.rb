@@ -66,6 +66,12 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  config.action_mailer.default_options = {
+    from: ENV.fetch('DEFAULT_FROM_EMAIL', 'longtaishangcun@gmail.com')
+  }
+
+  config.action_mailer.default_url_options = { host: ENV.fetch('APP_HOST', 'rails-ec2-0c3ad7f31a09.herokuapp.com') }
+
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: ENV.fetch('SMTP_SERVER', nil),
