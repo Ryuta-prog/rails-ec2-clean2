@@ -28,3 +28,4 @@ Hc/RailsSpecificActionName:
 AllCops:
   NewCops: enable
   SuggestExtensions: false
+  Metrics/ClassLength:

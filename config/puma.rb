@@ -34,3 +34,9 @@ plugin :tmp_restart
 # Specify the PID file. Defaults to tmp/pids/server.pid in development.
 # In other environments, only set the PID file if requested.
 pidfile ENV['PIDFILE'] if ENV['PIDFILE']
+
+environment ENV.fetch('RAILS_ENV', 'development')
+
+before_fork do
+  ENV['RAILS_MASTER_KEY'] = ENV['RAILS_MASTER_KEY'] || `cat #{Rails.root.join('config/master.key')}`.strip
+end

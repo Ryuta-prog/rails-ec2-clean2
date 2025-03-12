@@ -1,0 +1,40 @@
+<h1>注文詳細 #<%= @order.id %></h1>
+<div class='card'>
+  <div class='md-4'>
+    <div class="class-header">
+      <h4>注文情報</h4>
+    </div>
+    <div class='card-body'>
+      <p>購入日時: <%= 1 @order.created_at %></p>
+      <p>配送先: <%= @order.billing_address %></p>
+      <p>都道府県: <%= @order.state_name %></p>
+      <p>郵便番号: <%= @order.zip %></p>
+    </div>
+  </div>
+  <div class='card'>
+    <div class="card-header">
+      <h4>注文内容</h4>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thread>
+          <tr>
+            <th>商品名</th>
+            <th>単価</th>
+            <th>数量</th>
+            <th>小計</th>
+          </tr>
+        </thread>
+        <tbody>
+          <% @order.order_items.each do |item| %>
+            <tr>
+              <td><%= item.product_name %></td>
+              <td><%= number_to_currency(item.price, unit: '¥') %></td>
+              <td><%= item.quantity %></td>
+              <td><%= number_to_currency(item.price * item.quantity, unit: '¥') %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>

@@ -12,14 +12,13 @@ class ProductsController < ApplicationController
   def show
     @product = Product.find(params[:id])
 
-    # 一覧画面と同じクエリで商品を取得
-    displayed_products = Product.includes(image_attachment: :blob)
-                                .limit(8)
-                                .order(:id)
+    # 関連商品として表示したい商品のIDを取得
+    # 例えば、IDの大きい順に4つの商品を取得する
+    related_product_ids = Product.order(id: :desc).limit(4).pluck(:id)
 
     @related_products = Product.includes(image_attachment: :blob)
-                               .where.not(id: displayed_products.pluck(:id))
-                               .where.not(id: @product.id)
+                               .where(id: related_product_ids)
+                               .where.not(id: @product.id) # 現在表示中の商品は除外
                                .limit(4)
                                .order(:id)
   end

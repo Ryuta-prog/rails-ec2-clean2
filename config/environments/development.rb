@@ -8,7 +8,7 @@ Rails.application.configure do
   # In the development environment your application's code is reloaded any time
   # it changes. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
-  config.enable_reloading = true
+  config.cache_classes = false
 
   # Do not eager load code on boot.
   config.eager_load = false
@@ -31,32 +31,17 @@ Rails.application.configure do
     }
   else
     config.action_controller.perform_caching = false
+
     config.cache_store = :null_store
   end
 
-  # Active Storageの設定
+  # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :amazon
-  config.active_storage.resolve_model_to_route = :rails_storage_proxy
-  config.active_storage.variant_processor = :mini_magick
-  config.active_storage.service_urls_expire_in = 1.hour
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
+
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-
-  # デフォルトのホスト設定
-  config.action_controller.default_url_options = { host: 'localhost', port: 3000 }
-
-  # CORS設定
-  config.middleware.insert_before 0, Rack::Cors do
-    allow do
-      origins '*'
-      resource '*',
-               headers: :any,
-               methods: %i[get post delete put patch options head]
-    end
-  end
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -73,9 +58,6 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
-  # Highlight code that enqueued background job in logs.
-  config.active_job.verbose_enqueue_logs = true
-
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
@@ -83,11 +65,8 @@ Rails.application.configure do
   # config.i18n.raise_on_missing_translations = true
 
   # Annotate rendered view with file names.
-  config.action_view.annotate_rendered_view_with_filenames = true
+  # config.action_view.annotate_rendered_view_with_filenames = true
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
-
-  # Raise error when a before_action's only/except options reference missing actions.
-  # config.action_controller.raise_on_missing_callback_actions = true
 end

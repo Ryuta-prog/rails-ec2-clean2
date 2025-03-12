@@ -3,20 +3,14 @@ ja:
   activerecord:
     models:
       product: 商品
+      order: 注文
     attributes:
       product:
         name: 商品名
         price: 価格
         description: 商品説明
-  products:
-    no_products: "商品がありません。"
-    not_found: "商品が見つかりませんでした。"
-  cart_items:
-    create:
-      success: '商品をカートに追加しました'
-      failure: '商品の追加に失敗しました'
-      destroy:
-        item_removed: '商品をカートから削除しました'
+      order:
+        user: ユーザー
     errors:
       models:
         product:
@@ -28,16 +22,39 @@ ja:
               invalid: '価格は0以上の数値を入力してください'
             description:
               blank: '商品説明を入力してください'
-
-  tasks:
-    notices:
-      created: "タスクが正常に作成されました。"
-      updated: "タスクが正常に更新されました。"
-      destroyed: "タスクが正常に削除されました。"
-
-ja:
+        order:
+          attributes:
+            user:
+              required: "が必要です"
+  products:
+    no_products: "商品がありません。"
+    not_found: "商品が見つかりませんでした。"
+  cart_items:
+    create:
+      success: "カートに商品が追加されました"
+      failure: '商品の追加に失敗しました'
+    destroy:
+      item_removed: '商品をカートから削除しました'
+  time:
+    formats:
+      default: "%Y年%m月%d日 %H:%M:%S"
+      short: "%m/%d %H:%M"
+      long: "%Y年%m月%d日(%a) %H時%M分"
   admin:
+    orders:
+      not_found: '注文が見つかりませんでした'
     products:
-      created: "商品が作成されました。"
-      updated: "商品が更新されました。"
-      destroyed: "商品が削除されました。"
+      not_found: '商品が見つかりません'
+      created: '商品を登録しました'
+      updated: '商品を更新しました'
+      destroyed: "商品が正常に削除されました"
+      destroy_failed: "商品の削除に失敗しました"
+  orders:
+    thanks: '購入ありがとうございます'
+    purchase_complete: '購入ありがとうございます' # 統一のため残します
+    input_error: '入力内容に誤りがあります。再度確認してください。'
+  mailers:
+    message:
+      new_message: 'New Message'
+    order:
+      confirmation: '【おにぎりや】ご注文ありがとうございます'

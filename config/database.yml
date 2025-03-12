@@ -2,24 +2,27 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: username
+  username: uemuraryuuta
   password: password
-  host: db
+  host: localhost
 
 development:
   <<: *default
-  database: myapp_development
+  database: rails_ec2_development
 
 test:
   <<: *default
-  database: myapp_test
-
-production:
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: uemuraryuuta
+  password: password
+  host: localhost
+  database: rails_ec2_test
+
+production:
+  <<: *default
+  database: rails_ec2_production
   username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
-  host: db
-  url: <%= ENV['DATABASE_URL'] %>
-
+  host: <%= ENV['DATABASE_HOST'] %>

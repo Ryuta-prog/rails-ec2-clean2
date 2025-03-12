@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>ご注文ありがとうございます</h1>
+    <p><%= @order.last_name %> <%= @order.first_name %> 様</p>
+    <p>おにぎりやをご利用いただき、誠にありがとうございます。</p>
+    <p>以下の内容でご注文を承りました：</p>
+    <h2>注文詳細</h2>
+    <p>注文番号: <%= @order.id %></p>
+    <p>注文日時: <%= @order.created_at.strftime('%Y年%m月%d日 %H:%M') %></p>
+    <h3>ご注文商品</h3>
+    <ul>
+      <% @order.order_items.each do |item| %>
+        <li><%= item.product_name %> - <%= item.quantity %>個 - <%= number_to_currency(item.price, unit: '¥') %></li>
+      <% end %>
+    </ul>
+    <p>合計金額: <%= number_to_currency(@order.total_price, unit: '¥') %></p>
+    <p>商品の準備が整い次第、発送いたします。</p>
+    <p>ご不明な点がございましたら、お気軽にお問い合わせください。</p>
+    <p>今後ともおにぎりやをよろしくお願いいたします。</p>
+    <p>おにぎりや カスタマーサポート</p>
+  </body>
+</html>

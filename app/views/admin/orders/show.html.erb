@@ -1,0 +1,18 @@
+<div class="container mt-4">
+  <h1>注文詳細 #<%= @order.id %></h1>
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2>注文情報</h2>
+    </div>
+    <div class="card-body">
+      <p><strong>注文番号:</strong> <%= @order.id %></p>
+      <p><strong>購入者:</strong> <%= "#{@order.last_name} #{@order.first_name}" %></p>
+      <p><strong>メール:</strong> <%= @order.email %></p>
+      <p><strong>住所:</strong> 〒<%= @order.zip %> <%= @order.billing_address %> </p>
+      <p><strong>購入日時:</strong> <%= l @order.created_at %></p>
+    </div>
+  </div>
+  <div class="mt-4">
+    <%= link_to "一覧に戻る", admin_orders_path, class: "btn btn-secondary" %>
+  </div>
+</div>

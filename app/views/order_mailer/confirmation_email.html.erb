@@ -1,0 +1,12 @@
+<h2>ご注文内容</h2>
+<p>注文番号: <%= @order.id %></p>
+<p>お名前: <%= @order.last_name %> <%= @order.first_name %></p>
+<h3>購入商品</h3>
+<% @order.order_items.each do |item| %>
+  <div>
+    <p>商品名: <%= item.product_name %></p>
+    <p>数量: <%= item.quantity %></p>
+    <p>価格: <%= number_to_currency(item.price, unit: "¥", precision: 0)%></p>
+  </div>
+<% end %>
+<p>合計金額: <%= number_to_currency(@order.total_price, unit: "¥", precision: 0)%></p>

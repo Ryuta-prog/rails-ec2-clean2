@@ -1,0 +1,21 @@
+<h1>ご注文ありがとうございます</h1>
+<h2>ご注文内容</h2>
+<table>
+  <tr>
+    <th>商品名</th>
+    <th>数量</th>
+    <th>価格</th>
+  </tr>
+  <% @order.order_items.each do |item| %>
+    <tr>
+      <td><%= item.product_name %></td>
+      <td><%= item.quantity %></td>
+      <td><%= number_to_currency(item.price, unit: '¥') %></td>
+    </tr>
+  <%= end %>
+</table>
+<p>合計金額: <%= number_to_currency(@order.total_price, unit: '¥') %>
+  <h2>配送先情報</h2>
+  <p>住所: <% @order.billing_address %></p>
+  <p>都道府県: <%= @order.state_name %></p>
+  <p>郵便番号: <%= @order.zip %></p>

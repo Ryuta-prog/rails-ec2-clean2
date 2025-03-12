@@ -41,7 +41,7 @@
               <%= link_to cart_path, class: "nav-link" do %>
                 <i class="bi bi-cart-fill me-1"></i> カート
                 <span class="badge bg-dark text-white ms-1 rounded-pill">
-                  <%= current_cart.total_items rescue 0 %>
+                  <%= current_cart.cart_items.sum(:quantity) rescue 0 %>
                 </span>
               <% end %>
             </li>
@@ -49,9 +49,9 @@
         </div>
       </div>
     </nav>
-    <% if notice %>
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <% notice %>
+    <% flash.each do |name, msg| %>
+      <div class="alert <%= name == 'notice' ? 'alert-success' : 'alert-danger' %>" role="alert">
+        <%= msg %>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     <% end %>
