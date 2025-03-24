@@ -30,9 +30,18 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
   tasks:
     notices:
       created: "Task was successfully created."
       updated: "Task was successfully updated."
       destroyed: "Task was successfully destroyed."
+  promotion_code:
+    tasks:
+      generate:
+        desc: "Generate 10 promotion codes"
+        header: "Generated Promotion Codes"
+        row_format: "%{code}: ¥%{discount}"
+  promotion_service:
+    errors:
+    invalid_code: "Invalid promotion code"
+    system_error: "System error occurred"

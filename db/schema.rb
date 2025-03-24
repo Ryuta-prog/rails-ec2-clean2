@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_05_101107) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_20_113612) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,7 +47,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_05_101107) do
   create_table "cart_items", force: :cascade do |t|
     t.bigint "cart_id", null: false
     t.bigint "product_id", null: false
-    t.integer "quantity", default: 1
+    t.integer "quantity", default: 1, null:false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
@@ -86,6 +84,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_05_101107) do
     t.string "card_cvv"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "promotion_code_id"
+    t.index ["promotion_code_id"], name: "index_orders_on_promotion_code_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -96,6 +98,16 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_05_101107) do
     t.decimal "original_price", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "promotion_codes", force: :cascade do |t|
+    t.string "code", limit: 7, null: false, comment: "7桁英数字プロモーションコード"
+    t.integer "discount_amount", null: false, comment: "割引金額(100~1000円)"
+    t.boolean "used", default: false, null: false, comment: "使用済みフラグ"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_promotion_codes_on_code", unique: true
+    t.index ["used"], name: "index_promotion_codes_on_used"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -120,4 +132,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_05_101107) do
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
   add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "promotion_codes"
+  add_foreign_key "orders", "users"
 end

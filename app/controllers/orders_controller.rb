@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class OrdersController < ApplicationController
+  before_action :authenticate_user!
+  before_action :initialize_order, only: [:create]
+
   def index
     @orders = Order.all
   end
@@ -10,7 +13,8 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = build_order
+    apply_promotion_code if params[:promotion_code].present?
+
     if @order.save
       process_successful_order
     else
@@ -20,17 +24,26 @@ class OrdersController < ApplicationController
 
   private
 
-  def build_order
-    Order.new(order_params).tap do |order|
-      order.total_price = current_cart.total_price
-    end
+  def initialize_order
+    @order = current_user.orders.build(order_params)
+    promotion_code = PromotionCode.find_by(id: session[:promotion_code_id])
+    @order.total_price = current_cart.total_price(promotion_code)
+  end
+
+  def apply_promotion_code
+    service = PromotionService.new(@order, params[:promotion_code])
+    result = service.apply
+
+    return unless result[:success]
+
+    flash.now[:notice] = t('.promotion_applied', discount: number_to_currency(result[:discount]))
   end
 
   def process_successful_order
     create_order_items
-    OrderMailer.confirmation_email(@order).deliver_later
+    send_confirmation_email
     clear_cart
-    redirect_to root_path, notice: t('orders.purchase_complete')
+    redirect_to root_path, notice: t('.purchase_success')
   end
 
   def create_order_items
@@ -43,15 +56,23 @@ class OrdersController < ApplicationController
     end
   end
 
+  def send_confirmation_email
+    OrderMailer.confirmation_email(@order).deliver_later
+  end
+
   def clear_cart
     current_cart.destroy
     session[:cart_id] = nil
   end
 
   def handle_failed_order
-    Rails.logger.error("Order creation failed: #{@order.errors.full_messages.join(', ')}")
-    flash.now[:alert] = t('orders.input_error')
+    log_order_error
     render 'carts/show', status: :unprocessable_entity
+  end
+
+  def log_order_error
+    Rails.logger.error("Order creation failed: #{@order.errors.full_messages.join(', ')}")
+    flash.now[:alert] = t('input_error')
   end
 
   def order_params

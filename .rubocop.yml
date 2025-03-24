@@ -26,6 +26,7 @@ Hc/RailsSpecificActionName:
   Exclude:
     - app/controllers/users/omniauth_callbacks_controller.rb
 AllCops:
+  TargetRubyVersion: 3.1
   NewCops: enable
   SuggestExtensions: false
   Metrics/ClassLength:

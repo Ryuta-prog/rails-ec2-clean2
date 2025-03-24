@@ -8,36 +8,41 @@
 </header>
 <section class="py-5">
   <div class="container px-4 px-lg-5 mt-5">
-    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-      <% @products.each do |product| %>
-        <div class="col mb-5">
-          <div class="card h-100">
-            <%= link_to product_path(product.id) do %>
+    <% if @products.any? %>
+      <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        <% @products.each do |product| %>
+          <div class="col mb-5">
+            <div class="card h-100">
               <% if product.image.attached? %>
-                <%= image_tag rails_blob_path(product.image, disposition: 'attachment'), class: "card-img-top", alt: product.name %>
+                <%= link_to product_path(product.id) do %>
+                  <%= image_tag product.image.variant(resize_to_limit: [300, 300]), class: "card-img-top", alt: product.name %>
+                <% end %>
               <% end %>
-            <% end %>
-            <div class="card-body p-4">
-              <div class="text-center">
-                <h5 class="fw-bolder"><%= product.name %></h5>
-                <% if product.original_price.present? && product.original_price > product.price %>
-                  <span class="text-decoration-line-through">
-                    <%= format_price(product.price, unit: "¥", precision: 0) %>
-                  </span>
-                <% end %>
-                <%= format_price(product.price) %>
+              <div class="card-body p-4">
+                <div class="text-center">
+                  <h5 class="fw-bolder"><%= product.name %></h5>
+                  <% if product.original_price.present? && product.original_price > product.price %>
+                    <span class="text-decoration-line-through">
+                      ¥<%= number_with_delimiter(product.original_price.to_i, delimiter: ',') %>
+                    </span>
+                  <% end %>
+                  ¥<%= number_with_delimiter(product.price.to_i, delimiter: ',') %>
+                </div>
               </div>
-            </div>
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-              <div class="text-center">
-                <%= button_to cart_cart_items_path, params: { product_id: product.id, quantity:1 }, method: :post, class: "btn btn-outline-dark mt-auto" do %>
-                  Add to cart
-                <% end %>
+              <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                <div class="text-center">
+                  <%= button_to "カートに追加", cart_items_path(cart_item: { product_id: product.id, quantity: 1 }),
+                      method: :post,
+                      remote: true,
+                      class: "btn btn-outline-dark mt-auto" %>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      <% end %>
-    </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-center">現在、商品がありません。</p>
+    <% end %>
   </div>
 </section>

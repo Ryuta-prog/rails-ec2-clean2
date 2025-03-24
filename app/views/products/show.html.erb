@@ -3,30 +3,37 @@
   <div class="container px-4 px-lg-5 my-5">
     <div class="text-center text-white">
       <h1 class="display-4 fw-bolder"><%= @product.name %></h1>
+      <p class="lead fw-normal text-white-50 mb-0"><%= @product.description %></p>
     </div>
   </div>
 </header>
 <!-- Product Details Section -->
 <section class="py-5">
-  <div class="container px-4 px-lg-5 my-5">
+  <div class="container px-4 px-lg-5 mt-5">
     <div class="row gx-4 gx-lg-5 align-items-center">
       <!-- Product Image -->
       <div class="col-md-6">
         <% if @product.image.attached? %>
-          <%= image_tag url_for(@product.image.variant(resize_to_limit: [450, 300])), class: "card-img-top mb-5 mb-md-0", alt: @product.name %>
+          <%= image_tag @product.image.variant(resize_to_limit: [450, 300]), class: "card-img-top mb-5 mb-md-0", alt: @product.name %>
         <% end %>
       </div>
       <!-- Product Information -->
       <div class="col-md-6">
-        <h1 class="display-5 fw-bolder"><%= @product.name %></h1>
-        <p><%= @product.description %></p>
-        <div class="fs-5 mb-5">
-          <span><%= format_price(@product.price) %></span>
+        <div class="fs-5 mb-3">
+          <% if @product.original_price.present? && @product.original_price > @product.price %>
+            <span class="text-decoration-line-through">¥<%= number_with_delimiter(@product.original_price.to_i, delimiter: ',') %></span><br />
+          <% end %>
+          ¥<%= number_with_delimiter(@product.price.to_i, delimiter: ',') %>
         </div>
-        <%= form_with(url: cart_cart_items_path, method: :post, local: true) do |f| %>
-          <%= f.number_field :quantity, value: 1, min: 1, class: "form-control text-center me-3", style: "max-width: 5rem" %>
-          <%= f.hidden_field :product_id, value: @product.id %>
-          <%= f.submit 'Add to cart', class: 'btn-outline-dark' %>
+        <p><%= @product.description %></p>
+        <!-- 数量指定フォーム -->
+        <%= form_with url: cart_items_path, method: :post do |f| %>
+          <%= f.hidden_field 'cart_item[product_id]', value: @product.id %>
+          <div class="form-group mb-3">
+            <%= f.label 'cart_item[quantity]', t('.quantity', default: "数量"), class: "form-label" %>
+            <%= f.number_field 'cart_item[quantity]', value: 1, min: 1, step: 1, class: "form-control w-auto" %>
+          </div>
+          <%= f.submit t('.add_to_cart', default: "カートに追加"), class: "btn btn-primary mt-auto" %>
         <% end %>
       </div>
     </div>
@@ -36,33 +43,38 @@
 <section class="py-5 bg-light">
   <div class="container px-4 px-lg-5 mt-5">
     <h2 class="fw-bolder mb-4">関連商品</h2>
-    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-      <% @related_products.each do |related_product| %>
-        <div class="col mb-5">
-          <div class="card h-100">
-            <%= link_to product_path(related_product) do %>
-              <% if related_product.image.attached? %>
-                <%= image_tag related_product.image.variant(resize_to_limit: [300, 200]), class: "card-img-top", alt: related_product.name %>
-              <% end %>
-            <% end %>
-            <div class="card-body p-4">
-              <div class="text-center">
-                <h5 class="fw-bolder"><%= related_product.name %></h5>
-                <%= format_price(related_product.price) %>
-              </div>
-            </div>
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-              <div class="text-center">
-                <%= button_to cart_cart_items_path, params: {product_id: related_product.id, quantity: 1},
-                    method: :post,
-                    class: "btn btn-outline-dark mt-auto" do %>
-                  Add to cart
+    <% if @related_products.any? %>
+      <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        <% @related_products.each do |related_product| %>
+          <div class="col mb-5">
+            <div class="card h-100">
+              <%= link_to product_path(related_product) do %>
+                <% if related_product.image.attached? %>
+                  <%= image_tag related_product.image.variant(resize_to_limit: [300, 200]), class: "card-img-top", alt: related_product.name %>
                 <% end %>
+              <% end %>
+              <div class="card-body p-4">
+                <div class="text-center">
+                  <h5 class="fw-bolder"><%= related_product.name %></h5>
+                  <% if related_product.original_price.present? && related_product.original_price > related_product.price %>
+                    <span class="text-decoration-line-through">¥<%= number_with_delimiter(related_product.original_price.to_i, delimiter: ',') %></span><br />
+                  <% end %>
+                  ¥<%= number_with_delimiter(related_product.price.to_i, delimiter: ',') %>
+                </div>
+              </div>
+              <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                <div class="text-center">
+                  <%= button_to cart_items_path, params: { cart_item: { product_id: related_product.id, quantity: 1 } }, method: :post, class: "btn btn-outline-dark mt-auto" do %>
+                    カートに追加
+                  <% end %>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      <% end %>
-    </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-center text-muted">関連商品はありません</p>
+    <% end %>
   </div>
 </section>

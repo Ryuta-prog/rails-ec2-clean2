@@ -28,15 +28,34 @@
             </li>
           <% end %>
           <li class="list-group-item d-flex justify-content-between">
-            <span>合計</span>
+            <span>小計</span>
             <strong><%= number_to_currency(@cart.cart_items.sum { |item| item.product.price * item.quantity }, unit: "¥", precision: 0) %></strong>
+          </li>
+          <li class="list-group-item">
+            <%= form_with url: cart_path, method: :patch, class: "d-flex" do |form| %>
+              <div class="flex-grow-1 me-2">
+                <%= form.text_field :promotion_code,
+                  placeholder: "プロモーションコード",
+                  class: "form-control",
+                  aria: { label: "プロモーションコード" } %>
+              </div>
+              <%= form.submit "適用", class: "btn btn-secondary" %>
+            <% end %>
+          </li>
+          <% promotion_code = PromotionCode.find_by(id: session[:promotion_code_id]) if session[:promotion_code_id] %>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>合計</span>
+            <strong><%= number_to_currency(@cart.total_price(promotion_code), unit: "¥", precision: 0) %></strong>
           </li>
         </ul>
       </div>
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">請求先住所</h4>
         <%= form_with(model: @order, scope: :order, url: orders_path, local: true, data: { turbo: false }) do |form| %>
-          <%= form.hidden_field :total_price, value: current_cart.total_price %>
+          <%= form.hidden_field :total_price, value: @cart.total_price(promotion_code) %>
+          <% if @order.errors.any? %>
+            <%= render 'shared/error_messages', object: @order %>
+          <% end %>
           <div class="row g-3">
             <div class="col-sm-6 form-group">
               <%= form.label :last_name, "姓", class: "form-label" %>
@@ -90,17 +109,15 @@
           </div>
           <hr class="my-4">
           <%= form.submit "購入する", 
-          class: "w-100 btn btn-primary btn-lg", 
-          id: "purchase-button",
-          data: { 
-            disable_with: "処理中...",
-            turbo: false 
-  } 
-%>
+            class: "w-100 btn btn-primary btn-lg", 
+            id: "purchase-button",
+            data: { 
+              disable_with: "処理中...",
+              turbo: false 
+            } 
+          %>
         <% end %>
       </div>
     </div>
   </main>
 </div>
-</body>
-</html>
