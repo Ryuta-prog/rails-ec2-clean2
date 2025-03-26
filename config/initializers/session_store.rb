@@ -2,5 +2,4 @@
 
 Rails.application.config.session_store :active_record_store,
                                        key: '_myapp_session',
-                                       secure: Rails.env.production?,
-                                       expire_after: 1.week
+                                       secure: Rails.env.production?
