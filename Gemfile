@@ -58,7 +58,7 @@ gem 'image_processing', '~> 1.2'
 
 gem 'activerecord-session_store', '~> 2.1'
 gem 'aws-sdk-rails'
-gem 'aws-sdk-s3', '~> 1.167.0'
+gem 'aws-sdk-s3', '~> 1.167.0', require: false
 # Bootstrapを最新バージョンに更新
 gem 'bootstrap', '~> 5.3.0'
 gem 'concurrent-ruby', '1.3.4'
