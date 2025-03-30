@@ -21,7 +21,7 @@
               <div class="card-body p-4">
                 <div class="text-center">
                   <h5 class="fw-bolder"><%= product.name %></h5>
-                  <% if product.original_price.present? && product.original_price > product.price %>
+                  <% if product.respond_to?(:original_price) && product.original_price.present? && product.original_price > product.price %>
                     <span class="text-decoration-line-through">
                       ¥<%= number_with_delimiter(product.original_price.to_i, delimiter: ',') %>
                     </span>
