@@ -58,7 +58,7 @@ gem 'image_processing', '~> 1.2'
 
 gem 'activerecord-session_store', '~> 2.1'
 gem 'aws-sdk-rails'
-gem 'aws-sdk-s3', '~> 1.167.0', require: false
+gem 'aws-sdk-s3', '~> 1.167', require: false
 # Bootstrapを最新バージョンに更新
 gem 'bootstrap', '~> 5.3.0'
 gem 'concurrent-ruby', '1.3.4'
@@ -74,6 +74,8 @@ gem 'logger', '~> 1.6.6'
 # gem 'open-uri'
 gem 'rubocop-capybara', require: false
 gem 'rubocop-factory_bot', require: false
+
+gem 'ruby-vips', '~> 2.1.0'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -104,4 +106,8 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'webdrivers'
+end
+
+group :production do
+  gem 'mini_magick', '~> 4.12'
 end
