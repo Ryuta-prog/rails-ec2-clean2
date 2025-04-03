@@ -2,6 +2,13 @@
 
 require 'net/http'
 
+namespace :products do
+  desc 'Re-upload product images from S3 URLs'
+  task reupload_images: :environment do
+    ProductImageReuploader.new.execute
+  end
+end
+
 class ProductImageReuploader
   def execute
     clean_inconsistent_blobs
@@ -10,6 +17,26 @@ class ProductImageReuploader
   end
 
   private
+
+  def clean_inconsistent_blobs
+    puts '既存の不整合なBlobを削除中...'
+    ActiveStorage::Blob.find_each do |blob|
+      unless blob.service.exist?(blob.key)
+        puts "  削除: #{blob.key} (#{blob.filename})"
+        blob.purge
+      end
+    end
+  end
+
+  def reupload_all_product_images
+    puts '商品画像を再アップロード中...'
+    Product.find_each do |product|
+      image_url = image_mapping[product.name]
+      next unless image_url
+
+      reupload_single_product_image(product, image_url)
+    end
+  end
 
   def reupload_single_product_image(product, image_url)
     product.image.purge if product.image.attached?
