@@ -1,9 +1,10 @@
-require:
+plugins:
   - rubocop-rails
   - rubocop-rspec
-  - rubocop-hc
-  - rubocop-capybara
   - rubocop-factory_bot
+  - rubocop-capybara
+require:
+  - rubocop-hc
 Style/Documentation:
   Enabled: false
 Metrics/MethodLength:
@@ -29,4 +30,8 @@ AllCops:
   TargetRubyVersion: 3.1
   NewCops: enable
   SuggestExtensions: false
-  Metrics/ClassLength:
+Metrics/ClassLength:
+  Max: 100
+  Exclude:
+    - 'db/migrate/**/*'
+    - 'config/initializers/**/*'
