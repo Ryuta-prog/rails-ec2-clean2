@@ -20,11 +20,17 @@ class ProductImageReuploader
 
   def clean_inconsistent_blobs
     puts '既存の不整合なBlobを削除中...'
-    ActiveStorage::Blob.find_each do |blob|
-      unless blob.service.exist?(blob.key)
-        puts "  削除: #{blob.key} (#{blob.filename})"
-        blob.purge
+    begin
+      ActiveStorage::Blob.find_each do |blob|
+        unless blob.service.exist?(blob.key)
+          puts "  削除: #{blob.key} (#{blob.filename})"
+          # 完全なpurgeを避け、単純に削除する
+          blob.delete
+        end
       end
+    rescue ActiveRecord::StatementInvalid => e
+      puts "注意: #{e.message}"
+      puts 'Blobのクリーンアップをスキップします'
     end
   end
 
