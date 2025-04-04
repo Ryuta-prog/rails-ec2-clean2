@@ -79,7 +79,7 @@ class OrdersController < ApplicationController
     params.require(:order).permit(
       :last_name, :first_name, :email, :billing_address, :address2,
       :state, :zip, :card_name, :credit_card_number, :card_expiration,
-      :card_cvv, :total_price
+      :card_cvv
     )
   end
 end
