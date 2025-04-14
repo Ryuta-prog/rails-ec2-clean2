@@ -82,9 +82,10 @@ def attach_product_image(product, image_url)
 
   begin
     file = URI.parse(image_url).open
+    filename = File.basename(URI.parse(image_url).path)
     product.image.attach(
       io: file,
-      filename: "#{product.name.parameterize}.png",
+      filename: filename,
       content_type: 'image/png'
     )
     Rails.logger.info("Image attached successfully for #{product.name}")
