@@ -13,7 +13,14 @@ class Order < ApplicationRecord
     promotion_code = PromotionCode.find_by(code: code, used: false)
     return false unless promotion_code
 
-    update!(promotion_code: promotion_code)
-    promotion_code.update!(used: true)
+    ActiveRecord::Base.transaction do
+      update!(promotion_code: promotion_code)
+      promotion_code.update!(used: true)
+    end
+
+    true
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error("Failed to apply promotion code: #{e.message}")
+    false
   end
 end

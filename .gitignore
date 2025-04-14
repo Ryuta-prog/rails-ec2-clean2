@@ -45,3 +45,15 @@ yarn-error.log
 
 *.dump
 *.dump.*
+
+/log/*.log
+/tmp/*
+/node_modules/
+/console_debug.log
+/credentials_backup.txt
+/latest.dump*
+/backup_before_squash.sql
+/.github/
+/.reviewdog.yml
+/.rubocop.yml
+/.rspec

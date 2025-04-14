@@ -1,14 +1,25 @@
 services:
   db:
     image: postgres:14-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: myapp_development
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: rails-ec2_development
+      LANG: en_US.UTF-8
+      LC_ALL: en_US.UTF-8
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/pg_hba.conf:/etc/postgresql/pg_hba.conf
+    command: postgres -c hba_file=/etc/postgresql/pg_hba.conf
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    build:
+      context: ./docker/postgres
 
   web:
     build: .
@@ -20,43 +31,50 @@ services:
       - storage:/myapp/storage
     ports:
       - "3000:3000"
-    depends_on:
-      - db
     environment:
       RAILS_ENV: development
-      DATABASE_URL: postgres://postgres:password@db:5432/myapp_development
+      DATABASE_URL: postgres://postgres:postgres@db:5432/rails-ec2_development
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ap-northeast-1
       S3_BUCKET_NAME: rails-ec
+      PGPASSWORD: postgres
     networks:
       - app-network
-    tty: true
-    stdin_open: true
+    depends_on:
+      db:
+        condition: service_healthy
+    entrypoint: ["/usr/bin/entrypoint.sh"]
 
   js:
     build: .
-    command: yarn build --watch=forever
+    command: ["yarn", "build", "--watch=forever"]
     volumes:
       - .:/myapp
       - bundle:/usr/local/bundle
       - node_modules:/myapp/node_modules
-    depends_on:
-      - web
+    environment:
+      PGPASSWORD: postgres
     networks:
       - app-network
+    depends_on:
+      db:
+        condition: service_healthy
 
   css:
     build: .
-    command: yarn build:css --watch
+    command: ["yarn", "build:css", "--watch"]
     volumes:
       - .:/myapp
       - bundle:/usr/local/bundle
       - node_modules:/myapp/node_modules
-    depends_on:
-      - web
+    environment:
+      PGPASSWORD: postgres
     networks:
       - app-network
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   postgres_data:
@@ -67,3 +85,5 @@ volumes:
 networks:
   app-network:
     driver: bridge
+    labels:
+      com.docker.compose.network: "app-network"

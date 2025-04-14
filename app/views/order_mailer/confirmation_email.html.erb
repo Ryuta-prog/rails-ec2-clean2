@@ -2,19 +2,21 @@
 <p><%= t('.order_number') %>: <%= @order.id %></p>
 <p><%= t('.name') %>: <%= @order.last_name %> <%= @order.first_name %></p>
 <h3><%= t('.purchased_items') %></h3>
-<% @order.order_items.each do |item| %>
-  <div class="item-detail">
-    <p><%= t('.product.name') %>: <%= item.product_name %></p>
-    <p><%= t('.quantity') %>: <%= item.quantity %></p>
-    <p><%= t('.price') %>: <%= number_to_currency(item.price, unit: "¥", precision: 0)%></p>
-  </div>
-<% end %>
+<ul class="item-list">
+  <% @order.order_items.each do |item| %>
+    <li class="item">
+      <span class="product-name"><%= item.product_name %></span>
+      <span class="quantity"><%= t('.quantity') %>: <%= item.quantity %></span>
+      <span class="price"><%= number_to_currency(item.price, unit: "¥", precision: 0) %></span>
+    </li>
+  <% end %>
+</ul>
 <% if @order.promotion_code %>
   <div class="promotion_info">
     <h3><%= t('.promotion_title') %></h3>
     <p>
       <%= t('.code') %>: <strong><%= @order.promotion_code.code %></strong><br>
-      <%= t('.discount_amount') %>: <strong><%= number_to_currency(@order.discount, unit: t('currency'), precision: 0) %></strong>
+      <%= t('.discount_amount') %>: <strong><%= number_to_currency(@order.promotion_code.discount, unit: t('currency'), precision: 0) %></strong>
     </p>
   </div>
 <% end %>

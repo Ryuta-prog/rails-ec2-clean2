@@ -5,7 +5,7 @@ class OrderMailer < ApplicationMailer
     @order = order
     mail(
       to: @order.email,
-      subject: t('mailers.order.confirmation')
+      subject: t('mailers.order_mailer.confirmation_email.subject')
     )
   end
 end
