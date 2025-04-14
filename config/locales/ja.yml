@@ -32,6 +32,12 @@ ja:
       order: 注文
       cart: カート
       cart_item: カートアイテム
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "このメールアドレスは既に登録されています"
     attributes:
       product:
         name: 商品名
@@ -89,6 +95,12 @@ ja:
         restrict_dependent_destroy:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"
+          not_saved: "以下のエラーにより保存できませんでした"
+          taken: "は既に使用されています"
+      devise:
+        registrations:
+          signed_up: "登録が完了しました"
+
 
   products:
     no_products: "商品がありません。"

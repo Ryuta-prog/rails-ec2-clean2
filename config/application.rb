@@ -13,8 +13,11 @@ module Myapp
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
+    # 国際化設定
     config.i18n.default_locale = :ja
     config.i18n.available_locales = %i[ja en]
+    config.i18n.load_path += Rails.root.glob('config/locales/**/*.{rb,yml}')
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
