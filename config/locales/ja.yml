@@ -26,7 +26,6 @@ ja:
   processing: "処理中..."
   confirmation: "本当に削除しますか？"
 
-  # ActiveRecord関連の翻訳
   activerecord:
     models:
       product: 商品
@@ -103,64 +102,6 @@ ja:
             quantity:
               invalid: '有効な数量を入力してください'
 
-  # Devise関連の翻訳
-  devise:
-    confirmations:
-      confirmed: "アカウントが確認されました。ログインしています。"
-      send_instructions: "アカウントの確認方法を数分以内にメールでご連絡します。"
-      send_paranoid_instructions: "ご登録のメールアドレスが保存されている場合、アカウントの確認方法をメールでご連絡します。"
-    failure:
-      already_authenticated: "既にログインしています。"
-      inactive: "アカウントがアクティベートされていません。"
-      invalid: "メールアドレスまたはパスワードが正しくありません。"
-      locked: "アカウントはロックされています。"
-      last_attempt: "あと一回誤るとアカウントがロックされます。"
-      not_found_in_database: "メールアドレスまたはパスワードが正しくありません。"
-      timeout: "一定時間が経過したため、再度ログインが必要です。"
-      unauthenticated: "続行するにはログインしてください。"
-      unconfirmed: "続行するには、アカウントを確認してください。"
-      user:
-        invalid: "メールアドレスまたはパスワードが正しくありません。"
-        not_found_in_database: "メールアドレスまたはパスワードが正しくありません。"
-    mailer:
-      confirmation_instructions:
-        subject: "アカウントの確認方法"
-      reset_password_instructions:
-        subject: "パスワードの再設定"
-      unlock_instructions:
-        subject: "アカウントのロック解除方法"
-      email_changed:
-        subject: "メールアドレスの変更について"
-      password_change:
-        subject: "パスワードの変更について"
-    omniauth_callbacks:
-      failure: "%{kind} アカウントによる認証に失敗しました。理由：%{reason}"
-      success: "%{kind} アカウントによる認証に成功しました。"
-    passwords:
-      no_token: "このページにはアクセスできません。パスワード再設定メールのリンクからアクセスされた場合には、URL をご確認ください。"
-      send_instructions: "パスワードの再設定方法を数分以内にメールでご連絡します。"
-      send_paranoid_instructions: "ご登録のメールアドレスが保存されている場合、パスワード復旧用のリンク先をメールでご連絡します。"
-      updated: "パスワードが正しく変更されました。"
-      updated_not_active: "パスワードが正しく変更されました。"
-    registrations:
-      destroyed: "アカウントを削除しました。またのご利用をお待ちしております。"
-      signed_up: "アカウント登録が完了しました。"
-      signed_up_but_inactive: "アカウント登録が完了しました。しかし、アカウントがアクティベートされていないため利用できません。"
-      signed_up_but_locked: "アカウント登録が完了しました。しかし、アカウントがロックされているため利用できません。"
-      signed_up_but_unconfirmed: "確認メールを登録したメールアドレス宛に送信しました。リンクを開いてアカウントを有効にして下さい。"
-      update_needs_confirmation: "アカウント情報が更新されました。しかし、メールアドレスの確認が必要です。更新されたメールアドレス宛に確認メールを送信しましたので、リンクを開いて新しいメールアドレスを確認してください。"
-      updated: "アカウント情報が更新されました。"
-      updated_but_not_signed_in: "あなたのアカウントは正常に更新されましたが、パスワードが変更されたため、再度ログインしてください。"
-    sessions:
-      signed_in: "ログインしました。"
-      signed_out: "ログアウトしました。"
-      already_signed_out: "既にログアウト済みです。"
-    unlocks:
-      send_instructions: "アカウントのロック解除方法を数分以内にメールでご連絡します。"
-      send_paranoid_instructions: "アカウントが存在する場合、ロック解除方法を数分以内にメールでご連絡します。"
-      unlocked: "アカウントをロック解除しました。続けるにはログインしてください。"
-
-  # エラーメッセージ
   errors:
     messages:
       already_confirmed: "は既に登録済みです。ログインしてください"
