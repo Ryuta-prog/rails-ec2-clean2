@@ -22,8 +22,13 @@ class CreateCoreTables < ActiveRecord::Migration[7.0]
     create_table :users do |t|
       t.string :email, null: false
       t.string :encrypted_password, null: false
+
+      t.string   :reset_password_token
+      t.datetime :reset_password_sent_at
+
       t.timestamps
       t.index :email, unique: true
+      t.index :reset_password_token, unique: true
     end
   end
 
