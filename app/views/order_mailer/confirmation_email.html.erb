@@ -1,23 +1,5 @@
-<h2><%= t('.order_details') %></h2>
-<p><%= t('.order_number') %>: <%= @order.id %></p>
-<p><%= t('.name') %>: <%= @order.last_name %> <%= @order.first_name %></p>
-<h3><%= t('.purchased_items') %></h3>
-<ul class="item-list">
-  <% @order.order_items.each do |item| %>
-    <li class="item">
-      <span class="product-name"><%= item.product_name %></span>
-      <span class="quantity"><%= t('.quantity') %>: <%= item.quantity %></span>
-      <span class="price"><%= number_to_currency(item.price, unit: "¥", precision: 0) %></span>
-    </li>
-  <% end %>
-</ul>
-<% if @order.promotion_code %>
-  <div class="promotion_info">
-    <h3><%= t('.promotion_title') %></h3>
-    <p>
-      <%= t('.code') %>: <strong><%= @order.promotion_code.code %></strong><br>
-      <%= t('.discount_amount') %>: <strong><%= number_to_currency(@order.promotion_code.discount, unit: t('currency'), precision: 0) %></strong>
-    </p>
-  </div>
-<% end %>
-<p><%= t('.total_amount') %>: <%= number_to_currency(@order.total_price, unit: t('currency'), precision: 0)%></p>
+<h1>ご注文ありがとうございます</h1>
+<p><%= @user.last_name %> <%= @user.first_name %> 様</p>
+<p>ご注文番号: <%= @order.id %></p>
+<p>合計金額: <%= number_to_currency(@order.total_price, unit: "¥", precision: 0) %></p>
+<p>ご利用ありがとうございました。</p>
