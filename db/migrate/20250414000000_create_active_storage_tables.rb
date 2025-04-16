@@ -18,7 +18,7 @@ class CreateActiveStorageTables < ActiveRecord::Migration[7.0]
       end
     end
 
-    unless table_exists?(:active_storage_blobs)
+    unless table_exists?(:active_storage_attachments)
       create_table :active_storage_attachments do |t|
         t.string     :name, null: false
         t.references :record,       null: false, polymorphic: true, index: false
@@ -29,7 +29,7 @@ class CreateActiveStorageTables < ActiveRecord::Migration[7.0]
       end
     end
 
-    return if table_exists?(:active_storage_blobs)
+    return if table_exists?(:active_storage_variant_records)
 
     create_table :active_storage_variant_records do |t|
       t.belongs_to :blob, null: false, index: false, foreign_key: { to_table: :active_storage_blobs }
