@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_cart
+  before_action :configure_permitted_parameters, if: :devise_controller?
   helper_method :current_cart
 
   private
@@ -19,5 +20,19 @@ class ApplicationController < ActionController::Base
 
   def set_cart
     @cart = current_cart
+  end
+
+  # Deviseのストロングパラメータ設定
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(
+      :sign_up,
+      keys: %i[
+        last_name
+        first_name
+        email
+        password
+        password_confirmation
+      ]
+    )
   end
 end
