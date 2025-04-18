@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   devise_for :users, controllers: {
-    registrations: 'registrations'
+    registrations: 'users/registrations'
   }
 
   resources :products, only: %i[index show]

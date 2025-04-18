@@ -18,6 +18,7 @@ module Myapp
     config.i18n.available_locales = %i[ja en]
     config.i18n.load_path += Rails.root.glob('config/locales/**/*.{rb,yml}')
 
+    config.active_storage.variant_processor = :vips
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

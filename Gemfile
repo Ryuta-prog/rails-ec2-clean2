@@ -51,25 +51,24 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'bootsnap', require: false
 
 # Use Sass to process CSS
-# gem "sassc-rails"
+gem 'sassc-rails'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem 'image_processing', '~> 1.2'
 
 gem 'activerecord-session_store', '~> 2.1'
 gem 'aws-sdk-rails'
-gem 'aws-sdk-s3', '~> 1.167', require: false
-# Bootstrapを最新バージョンに更新
+gem 'aws-sdk-s3', '~> 1.183', require: false
 gem 'bootstrap', '~> 5.3.0'
 gem 'concurrent-ruby', '1.3.4'
 
 # Deviseにバージョン指定を追加してRails 7との互換性を確保
 gem 'devise', '~> 4.9.0'
+gem 'devise-i18n', '~> 1.13'
 
 gem 'faraday'
 gem 'foreman'
 gem 'jp_prefecture'
-gem 'logger', '~> 1.6.6'
 # open-uriはRubyに標準で含まれているため削除
 # gem 'open-uri'
 gem 'rubocop-capybara', require: false
@@ -90,7 +89,7 @@ group :development do
   gem 'htmlbeautifier'
   gem 'rails_best_practices'
   gem 'rubocop', require: false
-  gem 'rubocop-hc', require: false, github: 'ihatov08/rubocop-hc'
+  gem 'rubocop-hc', require: false, git: 'https://github.com/ihatov08/rubocop-hc.git'
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'squasher'
@@ -106,11 +105,4 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'webdrivers'
-end
-
-group :production do
-  gem 'mini_magick', '~> 4.12'
-  gem 'rails_12factor'
-  gem 'rails_serve_static_assets'
-  gem 'rails_stdout_logging'
 end
