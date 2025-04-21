@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PromotionCodeController < ApplicationController
+class PromotionCodesController < ApplicationController
   before_action :authenticate_user!
 
   # プロモーションコード適用処理
