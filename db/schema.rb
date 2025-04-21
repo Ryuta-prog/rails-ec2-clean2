@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_14_000001) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_19_102600) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -110,8 +110,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_14_000001) do
     t.datetime "valid_until"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["code"], name: "index_promotion_codes_on_code", unique: true
     t.index ["used"], name: "index_promotion_codes_on_used"
+    t.index ["user_id"], name: "index_promotion_codes_on_user_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -143,4 +145,5 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_14_000001) do
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "promotion_codes"
   add_foreign_key "orders", "users"
+  add_foreign_key "promotion_codes", "users"
 end

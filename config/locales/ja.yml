@@ -156,7 +156,7 @@ ja:
       date: "注文日"
 
   # プロモーションコード関連の翻訳
-  promotion_code:
+  promotion_codes:
     tasks:
       generate:
         desc: "プロモーションコードを10個生成"
@@ -166,6 +166,12 @@ ja:
       code: "プロモーションコード"
       discount_amount: "割引金額"
       valid_until: "有効期限"
+    apply:
+      success: 'プロモーションコードを適用しました'
+      not_found: '適用中のプロモーションコードはありません'
+    destroy:
+      success: 'プロモーションコードを解除しました'
+      not_found: '適用中のプロモーションコードはありません'
 
   # 時間表示フォーマット
   time:

@@ -13,7 +13,9 @@ Rails.application.routes.draw do
   end
 
   resources :cart_items, only: %i[create destroy]
-  patch '/apply_promotion_code', to: 'carts#apply_promotion_code', as: :apply_promotion_code
+
+  post '/apply_promotion', to: 'promotion_codes#apply', as: :apply_promotion
+  delete '/remove_promotion', to: 'promotion_codes#destroy', as: :remove_promotion
 
   resources :orders, only: %i[create index show]
 

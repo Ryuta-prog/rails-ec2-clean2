@@ -73,8 +73,7 @@ class CreateCoreTables < ActiveRecord::Migration[7.0]
       t.string   :code, null: false, limit: 7
       t.integer  :discount_amount, null: false
       t.boolean  :used, default: false, null: false
-      t.datetime :valid_from
-      t.datetime :valid_until
+      t.references :user, foreign_key: true
       t.timestamps
       t.index :code, unique: true
       t.index :used

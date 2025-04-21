@@ -16,10 +16,16 @@ class OrdersController < ApplicationController
     apply_promotion_code if params[:promotion_code].present?
 
     if @order.save
+      generate_next_promotion_code
+
       process_successful_order
+      redirect_to root_path, notice: t('.purchase_success')
     else
       handle_failed_order
+      raise ActiveRecord::Rollback
     end
+  rescue ActiveRecord::RecordInvalid => e
+    handle_transaction_error(e)
   end
 
   private
@@ -31,12 +37,29 @@ class OrdersController < ApplicationController
   end
 
   def apply_promotion_code
-    service = PromotionService.new(@order, params[:promotion_code])
-    result = service.apply
+    code = PromotionCode.find_by(code: params[:promotion_code], used: false)
+    return unless code
 
-    return unless result[:success]
+    @order.promotion_code
+    @order.total_price -= code.discount_amount
+    code.update!(used: ture)
+    session[:promotion_code_id] = code.id
 
-    flash.now[:notice] = t('.promotion_applied', discount: number_to_currency(result[:discount]))
+    flash.now[:notice] = t('.promotion_applied', discount: number_to_currency(code.discount_amount))
+  end
+
+  def generate_next_promotion_code
+    current_user.promotion_codes.create!(
+      code: SecureRandom.alphanumeric(7).upcase,
+      discount_amount: rand(100..1000),
+      used: false
+    )
+  end
+
+  def handle_transaction_error(exception)
+    Rails.logger.error "Order transaction failed: #{exception.message}"
+    flash.now[:alert] = t('orders.create.transaction_error')
+    render 'carts/show', status: :unprocessable_entity
   end
 
   def process_successful_order

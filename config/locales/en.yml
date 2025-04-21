@@ -35,12 +35,18 @@ en:
       created: "Task was successfully created."
       updated: "Task was successfully updated."
       destroyed: "Task was successfully destroyed."
-  promotion_code:
+  promotion_codes:
     tasks:
       generate:
         desc: "Generate 10 promotion codes"
         header: "Generated Promotion Codes"
         row_format: "%{code}: ¥%{discount}"
+      apply:
+      success: 'Promotion code applied'
+      invalid: 'Invalid promotion code'
+    remove:
+      success: 'Promotion code removed'
+      not_found: 'No active promotion code'
   promotion_service:
     errors:
     invalid_code: "Invalid promotion code"
