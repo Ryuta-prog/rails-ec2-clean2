@@ -13,16 +13,18 @@ class OrdersController < ApplicationController
   end
 
   def create
-    apply_promotion_code if params[:promotion_code].present?
+    ActiveRecord::Base.transaction do
+      apply_promotion_code if params[:promotion_code].present?
 
-    if @order.save
-      generate_next_promotion_code
+      if @order.save
+        generate_next_promotion_code
 
-      process_successful_order
-      redirect_to root_path, notice: t('.purchase_success')
-    else
-      handle_failed_order
-      raise ActiveRecord::Rollback
+        process_successful_order
+        redirect_to root_path, notice: t('.purchase_success')
+      else
+        handle_failed_order
+        raise ActiveRecord::Rollback
+      end
     end
   rescue ActiveRecord::RecordInvalid => e
     handle_transaction_error(e)
@@ -40,11 +42,12 @@ class OrdersController < ApplicationController
     code = PromotionCode.find_by(code: params[:promotion_code], used: false)
     return unless code
 
-    @order.promotion_code
-    @order.total_price -= code.discount_amount
-    code.update!(used: ture)
-    session[:promotion_code_id] = code.id
-
+    ActiveRecord::Base.transaction do
+      @order.promotion_code = code
+      @order.total_price -= code.discount_amount
+      code.update!(used: true)
+      session[:promotion_code_id] = code.id
+    end
     flash.now[:notice] = t('.promotion_applied', discount: number_to_currency(code.discount_amount))
   end
 
@@ -66,7 +69,6 @@ class OrdersController < ApplicationController
     create_order_items
     send_confirmation_email
     clear_cart
-    redirect_to root_path, notice: t('.purchase_success')
   end
 
   def create_order_items
@@ -90,7 +92,6 @@ class OrdersController < ApplicationController
 
   def handle_failed_order
     log_order_error
-    render 'carts/show', status: :unprocessable_entity
   end
 
   def log_order_error
