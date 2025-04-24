@@ -28,6 +28,7 @@ gem 'rubocop-capybara', require: false
 gem 'rubocop-factory_bot', require: false
 gem 'ruby-vips', '~> 2.1.0'
 gem 'sassc-rails'
+gem 'sidekiq'
 gem 'sprockets-rails'
 gem 'stimulus-rails'
 gem 'turbo-rails'

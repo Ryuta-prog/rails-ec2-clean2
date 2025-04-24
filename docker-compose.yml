@@ -26,7 +26,6 @@ services:
     command: bash -c "rm -f /myapp/tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - .:/myapp
-      - bundle:/usr/local/bundle
       - node_modules:/myapp/node_modules
       - storage:/myapp/storage
     ports:
@@ -49,7 +48,6 @@ services:
     command: ["yarn", "build", "--watch=forever"]
     volumes:
       - .:/myapp
-      - bundle:/usr/local/bundle
       - node_modules:/myapp/node_modules
     networks:
       - app-network
@@ -59,7 +57,6 @@ services:
     command: ["yarn", "build:css", "--watch"]
     volumes:
       - .:/myapp
-      - bundle:/usr/local/bundle
       - node_modules:/myapp/node_modules
     networks:
       - app-network
