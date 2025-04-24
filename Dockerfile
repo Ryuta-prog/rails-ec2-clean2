@@ -27,6 +27,9 @@ RUN yarn install
 # アプリケーションコードのコピー
 COPY . /myapp
 
+# RuboCop設定のシンボリックリンク作成
+RUN ln -sf /myapp/.rubocop.yml ~/.rubocop.yml
+
 # エントリポイント設定
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh

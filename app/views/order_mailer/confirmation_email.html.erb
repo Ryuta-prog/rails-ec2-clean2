@@ -2,7 +2,6 @@
 <p><%= @order.last_name %> <%= @order.first_name %> 様</p>
 <p>ご注文番号: <%= @order.id %></p>
 <p>合計金額: <%= number_to_currency(@order.total_price, unit: "¥", precision: 0) %></p>
-
 <% if @order.promotion_code %>
   <h2>適用されたプロモーションコード</h2>
   <p>
@@ -10,7 +9,6 @@
     割引額: <%= number_to_currency(@order.promotion_code.discount_amount, unit: "¥", precision: 0) %>
   </p>
 <% end %>
-
 <% latest_code = @order.user.promotion_codes.unused.order(created_at: :desc).first %>
 <% if latest_code %>
   <h2>次回使えるプロモーションコード</h2>
@@ -19,5 +17,4 @@
     割引額: <%= number_to_currency(latest_code.discount_amount, unit: "¥", precision: 0) %>
   </p>
 <% end %>
-
 <p>ご利用ありがとうございました。</p>
