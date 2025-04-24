@@ -5,7 +5,7 @@
 <% if @order.promotion_code %>
   <h2>適用されたプロモーションコード</h2>
   <p>
-    コード： <strong><%= @order.promotion_code.%></strong>
+    コード： <strong><%= @order.promotion_code.code %></strong>
     割引額: <%= number_to_currency(@order.promotion_code.discount_amount, unit: "¥", precision: 0) %>
   </p>
 <% end %>
