@@ -5,7 +5,7 @@ class PromotionCodesController < ApplicationController
 
   # プロモーションコード適用処理
   def apply
-    code = current_user.promotino_codes.unused.find.unused.find_by(code: params[:promotion_code])
+    code = current_user.promotion_codes.unused.find.unused.find_by(code: params[:promotion_code])
 
     if code
       session[:promotion_code_id] = code.id
