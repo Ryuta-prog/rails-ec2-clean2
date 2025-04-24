@@ -1,6 +1,4 @@
 web: bundle exec puma -C config/puma.rb
-release: bundle exec rake db:migrate
+worker: bundle exec sidekiq -C config/sidekiq.yml
 
-web: bundle exec puma -C config/puma.rb
-release: RAILS_MASTER_KEY=$(cat /Users/uemuraryuuta/rails-ec2/config/master.key) bundle exec rake db:migrate
-
+release: bundle exec rails db:migrate
