@@ -64,6 +64,8 @@ ja:
               too_short: "パスワードは%{count}文字以上で入力してください"
             password_confirmation:
               confirmation: "パスワードとパスワード確認が一致しません"
+            card_expiration:
+              invalid_card_expiration_format: はMM/YY形式で入力してください
         product:
           attributes:
             name:
