@@ -18,13 +18,12 @@ class OrdersController < ApplicationController
 
       if @order.save
         create_order_items
-        generate_next_promotion_code
-        send_confirmation_email
+        @new_promotion_code = generate_next_promotion_code # 生成したコードを変数に格納
         clear_cart
-        redirect_to root_path, notice: t('.purchase_success')
+        flash[:notice] =
+          "ご購入ありがとうございます。次回使えるプロモーションコード: #{@new_promotion_code.code}（割引額: #{@new_promotion_code.discount_amount}円）"
+        redirect_to root_path
       else
-        Rails.logger.error "Order errors: #{@order.errors.full_messages}"
-
         load_cart_data
         render 'carts/show', status: :unprocessable_entity
         raise ActiveRecord::Rollback

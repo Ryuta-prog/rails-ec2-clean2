@@ -498,6 +498,7 @@ DEPENDENCIES
   rubocop-rails (~> 2.20)
   rubocop-rspec (~> 3.5.0)
   ruby-vips (~> 2.1.0)
+  rubyzip
   sassc-rails
   selenium-webdriver
   sidekiq

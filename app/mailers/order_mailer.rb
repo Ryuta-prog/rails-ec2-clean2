@@ -18,7 +18,7 @@ class OrderMailer < ApplicationMailer
       processed_code = convert_promotion_code(new_promotion_code)
       log_promotion_code_info(processed_code)
       processed_code
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error("プロモーションコード処理エラー: #{e.message}")
       nil
     end
@@ -29,7 +29,11 @@ class OrderMailer < ApplicationMailer
       # OpenStructの代わりにStructを使用
       Struct.new(*code.keys).new(*code.values)
     elsif code.is_a?(String)
-      GlobalID::Locator.locate(code) rescue nil
+      begin
+        GlobalID::Locator.locate(code)
+      rescue StandardError
+        nil
+      end
     else
       code
     end
