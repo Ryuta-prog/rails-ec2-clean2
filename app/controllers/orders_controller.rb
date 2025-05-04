@@ -18,9 +18,9 @@ class OrdersController < ApplicationController
 
       if @order.save
         create_order_items
+        generate_next_promotion_code
         send_confirmation_email
         clear_cart
-        generate_next_promotion_code
         redirect_to root_path, notice: t('.purchase_success')
       else
         Rails.logger.error "Order errors: #{@order.errors.full_messages}"
