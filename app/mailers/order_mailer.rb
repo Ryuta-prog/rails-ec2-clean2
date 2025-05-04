@@ -6,14 +6,14 @@ class OrderMailer < ApplicationMailer
   def confirmation_email(order, new_promotion_code = nil)
     @order = order
     @new_promotion_code = new_promotion_code
-    mail(
-      to: @order.email,
-      subject: I18n.t('mailers.order_mailer.confirmation_email.subject')
-    )
+
+    # デバッグログを追加
+    Rails.logger.info("送信準備: 注文ID #{order.id}, プロモーションコード: #{new_promotion_code&.code}")
+
     begin
       mail(
         to: @order.email,
-        subject: t('mailers.order_mailer.confirmation_email.subject')
+        subject: I18n.t('mailers.order_mailer.confirmation_email.subject')
       )
     rescue StandardError => e
       Rails.logger.error("メール送信エラー: #{e.message}")
