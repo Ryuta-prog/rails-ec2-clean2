@@ -18,10 +18,10 @@ class Cart < ApplicationRecord
   end
 
   # 割引適用後の合計金額
-  def total_price(promotion_code = nil)
-    subtotal = cart_items.sum { |item| item.product.price * item.quantity }
-    promotion_code ? subtotal - promotion_code.discount_amount : subtotal
+  def total_price(discount_amount = 0)
+    subtotal = cart_items.sum do |item|
+      item.product.price.to_d * item.quantity
+    end
+    subtotal - discount_amount.to_d
   end
-
-  alias discounted_total total_price
 end

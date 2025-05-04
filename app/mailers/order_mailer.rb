@@ -3,10 +3,13 @@
 class OrderMailer < ApplicationMailer
   default from: 'onigiriya@xs279744.xsrv.jp'
 
-  def confirmation_email(order)
+  def confirmation_email(order, new_promotion_code = nil)
     @order = order
-    @user = order.user
-
+    @new_promotion_code = new_promotion_code
+    mail(
+      to: @order.email,
+      subject: I18n.t('mailers.order_mailer.confirmation_email.subject')
+    )
     begin
       mail(
         to: @order.email,

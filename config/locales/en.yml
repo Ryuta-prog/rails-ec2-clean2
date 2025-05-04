@@ -42,7 +42,7 @@ en:
         header: "Generated Promotion Codes"
         row_format: "%{code}: ¥%{discount}"
       apply:
-      success: 'Promotion code applied'
+      success: 'Promotion code applied successfully'
       invalid: 'Invalid promotion code'
     remove:
       success: 'Promotion code removed'

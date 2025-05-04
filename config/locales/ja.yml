@@ -150,6 +150,7 @@ ja:
       promotion_default_error: "プロモーションコードの適用に失敗しました"
       purchase_success: "購入が完了しました"
       input_error: "入力内容に誤りがあります"
+      transaction_error: "注文処理中にエラーが発生しました。入力内容や通信状況をご確認ください。"
     show:
       order_details: "注文詳細"
       order_number: "注文番号"
@@ -168,7 +169,7 @@ ja:
       valid_until: "有効期限"
     apply:
       success: 'プロモーションコードを適用しました'
-      not_found: '適用中のプロモーションコードはありません'
+      not_found: '無効なプロモーションコードです'
     destroy:
       success: 'プロモーションコードを解除しました'
       not_found: '適用中のプロモーションコードはありません'

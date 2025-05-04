@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class CartsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_cart
 
   def show
-    @cart = current_cart
     @order = Order.new
-    @promotion_code = PromotionCode.find_by(id: session[:promotion_code_id])
-    @total = @cart.total_price(@promotion_code)
+    discount_amount = current_promotion_code&.discount_amount.to_i
+    @total_price = @cart.total_price(discount_amount)
   end
 
   def update
@@ -26,8 +26,8 @@ class CartsController < ApplicationController
     @cart = current_cart
   end
 
-  def promotion_code
-    PromotionCode.find_by(id: session[:promotion_code_id])
+  def current_promotion_code
+    PromotionCode.find_by(id: session[:applied_promotion_code_id])
   end
 
   def current_cart
@@ -47,12 +47,14 @@ class CartsController < ApplicationController
   end
 
   def process_promotion_code
+    code = promotion_params[:promotion_code].upcase.strip
+
     promotion_code = PromotionCode.find_by(
-      code: promotion_params[:promotion_code],
+      code: code,
       used: false
     )
 
-    if valid_promotion_code?(promotion_code)
+    if promotion_code&.valid?
       apply_promotion_code(promotion_code)
     else
       clear_promotion_code
@@ -64,13 +66,13 @@ class CartsController < ApplicationController
   end
 
   def apply_promotion_code(promotion_code)
-    session[:promotion_code_id] = promotion_code.id
-    flash_type = redirect_to_option ? flash : flash.now
-    flash_type[:notice] = t('.promotion_applied', discount: number_to_currency(promotion_code.discount_amount))
+    session[:applied_promotion_code_id] = promotion_code.id
+
+    flash.now[:notice] = t('.promotion_applied', discount: number_to_currency(promotion_code.discount_amount))
   end
 
   def clear_promotion_code
-    session.delete(:promotion_code_id)
+    session.delete(:applied_promotion_code_id)
     flash.now[:alert] = t('.invalid_promotion')
   end
 end

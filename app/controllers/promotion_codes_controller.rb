@@ -3,25 +3,17 @@
 class PromotionCodesController < ApplicationController
   before_action :authenticate_user!
 
-  # プロモーションコード適用処理
   def apply
-    code = current_user.promotion_codes.unused.find.unused.find_by(code: params[:promotion_code])
+    code = params[:promotion_code].to_s.upcase.strip
+    promotion_code = PromotionCode.find_by(code: code, used: false)
 
-    if code
-      session[:promotion_code_id] = code.id
-      redirect_to cart_path, notice: t('.apply.success')
+    if promotion_code
+      session[:applied_promotion_code_id] = promotion_code.id
+      redirect_to cart_path, notice: t('.success')
     else
-      redirect_to cart_path, alert: t('.apply.invalid')
-    end
-  end
-
-  # プロモーションコード解除処理
-  def destroy
-    if session[:promotion_code_id]
-      session.delete(:promotion_code_id)
-      redirect_to cart_path, notice: t('.destroy.success')
-    else
-      redirect_to cart_path, alert: t('.destroy.not_found')
+      session.delete(:applied_promotion_code_id)
+      flash.now[:alert] = t('.invalid')
+      render 'carts/show', status: :unprocessable_entity
     end
   end
 end
