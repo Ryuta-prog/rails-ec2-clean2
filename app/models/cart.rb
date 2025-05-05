@@ -12,16 +12,20 @@ class Cart < ApplicationRecord
     end
   end
 
-  # 合計金額計算（基本）
+  # 合計金額（割引前）
   def subtotal
     cart_items.includes(:product).sum { |item| item.product.price * item.quantity }
   end
 
   # 割引適用後の合計金額
-  def total_price(discount_amount = 0)
-    subtotal = cart_items.sum do |item|
-      item.product.price.to_d * item.quantity
+  def total_price(promotion_code = nil)
+    total = subtotal
+
+    if promotion_code.present? && !promotion_code.used
+      discount = promotion_code.discount_amount.to_f
+      total -= discount
     end
-    subtotal - discount_amount.to_d
+
+    total
   end
 end
