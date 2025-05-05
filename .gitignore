@@ -57,3 +57,25 @@ yarn-error.log
 /.reviewdog.yml
 /.rubocop.yml
 /.rspec
+
+# 自動追加: Rails/Ruby/Node 標準 + 秘密ファイルパターン
+/log/
+/tmp/
+/vendor/bundle/
+/.bundle/
+/db/*.sqlite3
+/db/*.sqlite3-journal
+/public/system/
+/public/uploads/
+.env.*
+*.swp
+*.swo
+.DS_Store
+node_modules/
+coverage/
+byebug_history
+*.sql
+*.bak
+*.old
+config/master.key
+config/credentials.yml.enc

@@ -28,7 +28,7 @@ RSpec.describe PromotionService do
         test_cases.each do |tc|
           service = described_class.new(order, tc[:input])
           service.apply
-          expect(reesult[:error]).to eq(I18n.t("promotion_service.errors.#{tc[:expected]}"))
+          expect(result[:error]).to eq(I18n.t("promotion_service.errors.#{tc[:expected]}"))
         end
       end
     end
