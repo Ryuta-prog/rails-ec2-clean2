@@ -2,111 +2,79 @@
 
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :initialize_order, only: [:create]
+  before_action :set_cart, only: :create
 
+  # 過去の注文一覧表示
   def index
     @orders = current_user.orders.order(created_at: :desc)
   end
 
+  # 注文詳細表示
   def show
     @order = current_user.orders.find(params[:id])
   end
 
+  # カートからの注文確定
   def create
-    ActiveRecord::Base.transaction do
-      apply_promotion_code if params[:promotion_code].present?
+    @order = current_user.orders.new(order_params)
+    load_promotion
+    set_total_price
 
-      if @order.save
-        create_order_items
-        @new_promotion_code = generate_next_promotion_code # 生成したコードを変数に格納
-        clear_cart
-        flash[:notice] =
-          "ご購入ありがとうございます。次回使えるプロモーションコード: #{@new_promotion_code.code}（割引額: #{@new_promotion_code.discount_amount}円）"
-        redirect_to root_path
-      else
-        load_cart_data
-        render 'carts/show', status: :unprocessable_entity
-        raise ActiveRecord::Rollback
-      end
+    if @order.save
+      create_order_items
+      finalize_order
+      redirect_to @order, notice: t('.success')
+    else
+      flash.now[:alert] = t('.failure')
+      render 'carts/show', status: :unprocessable_entity
     end
-  rescue ActiveRecord::RecordInvalid => e
-    handle_transaction_error(e)
-  end
-
-  def handle_transaction_error(exception)
-    Rails.logger.error "Order Error: #{exception.message}"
-    Rails.logger.error "Order Validation Errors: #{@order.errors.full_messages}" if @order&.errors&.any?
-    Rails.logger.error exception.backtrace.join("\n") # スタックトレース詳細を記録
-    load_cart_data
-    flash.now[:alert] = t('.transaction_error')
-    render 'carts/show', status: :unprocessable_entity
   end
 
   private
 
-  def initialize_order
-    @order = current_user.orders.new(order_params)
-    @order.total_price = current_cart.total_price(0)
-  end
-
-  def apply_promotion_code
-    code = params[:order][:promotion_code].upcase.strip
-    promotion_code = PromotionCode.find_by(code: code, used: false)
-
-    unless promotion_code
-      flash.now[:alert] = t('.invalid_promotion')
-      return
-    end
-
-    @order.promotion_code = promotion_code
-    @order.total_price -= promotion_code.discount_amount
-    promotion_code.update!(used: true)
-    session[:applied_promotion_code_id] = promotion_code.id
-  end
-
-  def generate_next_promotion_code
-    @new_promotion_code = current_user.promotion_codes.create!(
-      code: SecureRandom.alphanumeric(7).upcase,
-      discount_amount: rand(100..1000),
-      used: false
-    )
-  end
-
-  def load_cart_data
+  # before_action で呼び出す：セッション or 新規作成からカートを取得
+  def set_cart
     @cart = current_cart
-    discount_amount = PromotionCode.find_by(id: session[:applied_promotion_code_id])&.discount_amount.to_i
-    @total_price = @cart.total_price(discount_amount)
   end
 
+  # セッションから適用中のプロモーションコードを読み込み、Order に紐付け
+  def load_promotion
+    @promo = PromotionCode.find_by(id: session[:applied_promotion_code_id])
+    @order.promotion_code = @promo if @promo&.usable?
+  end
+
+  # サーバ側で必ず割引後の合計を再計算
+  def set_total_price
+    @order.total_price = @cart.total_price(@promo)
+  end
+
+  # 注文明細(OrderItem)の作成
   def create_order_items
-    current_cart.cart_items.each do |cart_item|
+    @cart.cart_items.each do |ci|
       @order.order_items.create!(
-        product_id: cart_item.product.id,
-        product_name: cart_item.product.name,
-        price: cart_item.product.price,
-        quantity: cart_item.quantity
+        product_id: ci.product_id,
+        product_name: ci.product.name,
+        price: ci.product.price,
+        quantity: ci.quantity
       )
     end
-  rescue StandardError => e
-    Rails.logger.error "OrderItem creation failed: #{e.message}"
-    raise e
   end
 
-  def send_confirmation_email
-    OrderMailer.confirmation_email(@order, @new_promotion_code).deliver_later
-  end
-
-  def clear_cart
-    current_cart.destroy!
-    session[:cart_id] = nil
+  # カートのクリア、セッション削除、確認メール送信
+  def finalize_order
+    @cart.destroy!
+    session.delete(:cart_id)
     session.delete(:applied_promotion_code_id)
+    OrderMailer.with(order: @order).confirmation_email.deliver_later
   end
 
+  # strong parameters で受け取るパラメータを制限
   def order_params
     params.require(:order).permit(
-      :last_name, :first_name, :email, :billing_address, :address2,
-      :state, :zip, :card_name, :credit_card_number, :card_expiration,
-      :card_cvv
+      :last_name, :first_name, :email,
+      :billing_address, :address2, :state, :zip,
+      :card_name, :credit_card_number,
+      :card_expiration, :card_cvv
     )
   end
 end

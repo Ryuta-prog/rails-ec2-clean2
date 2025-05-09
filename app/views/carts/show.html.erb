@@ -81,7 +81,6 @@
         <% end %>
         <h4 class="mb-3">請求先住所</h4>
         <%= form_with(model: @order, scope: :order, url: orders_path, local: true, data: { turbo: false }) do |form| %>
-          <%= form.hidden_field :total_price, value: @total_price %>
           <% if @order && @order.errors.any? %>
             <div class="alert alert-danger">
               <ul>
