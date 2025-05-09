@@ -8,14 +8,12 @@ Rails.application.routes.draw do
   resources :products, only: %i[index show]
 
   resource :cart, only: %i[show update] do
-    patch 'apply_promotion_code', on: :member
+    patch 'apply_promotion_code'
+    delete :remove_promotion_code
     resources :cart_items, only: %i[create destroy]
   end
 
   resources :cart_items, only: %i[create destroy]
-
-  post '/apply_promotion', to: 'promotion_codes#apply', as: :apply_promotion
-  delete '/remove_promotion', to: 'promotion_codes#destroy', as: :remove_promotion
 
   resources :orders, only: %i[create index show]
 

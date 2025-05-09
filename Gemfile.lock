@@ -502,7 +502,6 @@ DEPENDENCIES
   sassc-rails
   selenium-webdriver
   sidekiq
-  sprockets-rails
   squasher
   stimulus-rails
   turbo-rails

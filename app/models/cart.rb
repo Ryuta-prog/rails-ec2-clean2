@@ -21,6 +21,8 @@ class Cart < ApplicationRecord
   def total_price(promotion_code = nil)
     total = subtotal
 
+    promotion_code = PromotionCode.find_by(id: promotion_code) if promotion_code.is_a?(Integer)
+
     if promotion_code.present? && !promotion_code.used
       discount = promotion_code.discount_amount.to_f
       total -= discount

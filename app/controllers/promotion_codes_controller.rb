@@ -16,4 +16,9 @@ class PromotionCodesController < ApplicationController
       render 'carts/show', status: :unprocessable_entity
     end
   end
+
+  def remove
+    session.delete(:applied_promotion_code_id)
+    redirect_to cart_path, notice: t('.success')
+  end
 end

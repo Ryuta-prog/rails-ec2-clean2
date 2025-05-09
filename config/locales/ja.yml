@@ -172,9 +172,8 @@ ja:
     apply:
       success: 'プロモーションコードを適用しました'
       not_found: '無効なプロモーションコードです'
-    destroy:
-      success: 'プロモーションコードを解除しました'
-      not_found: '適用中のプロモーションコードはありません'
+    remove:
+      success: 'プロモーションコードを削除しました'
 
   # 時間表示フォーマット
   time:

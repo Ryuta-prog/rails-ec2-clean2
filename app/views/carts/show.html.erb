@@ -44,7 +44,7 @@
             <strong><%= number_to_currency(@cart.cart_items.sum { |item| item.product.price * item.quantity }, unit: "¥", precision: 0) %></strong>
           </li>
           <li class="list-group-item">
-            <%= form_with url: apply_promotion_path, method: :post, class: "d-flex", local: true do |form| %>
+            <%= form_with url: apply_promotion_code_cart_path, method: :patch, class: "d-flex", local: true do |form| %>
               <div class="flex-grow-1 me-2">
                 <%= form.text_field :promotion_code,
                   placeholder: "プロモーションコード（7文字の英数字）",
@@ -64,7 +64,7 @@
                 <span>適用中のプロモーションコード</span>
                 <div>
                   <span class="me-2"><%= promotion_code.code %></span>
-                  <%= link_to '解除', remove_promotion_path, method: :delete, class: 'btn btn-sm btn-danger' %>
+                  <%= button_to '解除', remove_promotion_code_cart_path, method: :delete, form: { data: { turbo: false }, class: 'd-inline' }, class: 'btn btn-sm btn-danger' %>
                 </div>
               </div>
             </li>
