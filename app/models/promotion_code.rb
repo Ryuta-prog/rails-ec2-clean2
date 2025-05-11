@@ -2,7 +2,7 @@
 
 class PromotionCode < ApplicationRecord
   has_one :order, dependent: :nullify
-  belongs_to :user
+  belongs_to :user, optional: true
 
   validates :code, presence: true, uniqueness: true
   validates :discount_amount, numericality: { greater_than_or_equal_to: 100, less_than_or_equal_to: 1000 }
@@ -12,8 +12,6 @@ class PromotionCode < ApplicationRecord
 
   # プロモーションコードが使用可能かどうかを判定する業務的ロジック
   def usable?
-    !used &&
-      (valid_from.nil? || valid_from <= Time.current) &&
-      (valid_until.nil? || valid_until >= Time.current)
+    !used
   end
 end

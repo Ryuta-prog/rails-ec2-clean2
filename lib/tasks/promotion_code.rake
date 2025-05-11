@@ -1,30 +1,35 @@
 # frozen_string_literal: true
 
 namespace :promotion_code do
-  desc I18n.t('promotion_code.task.generate.desc')
+  # rake promotion_code:generate の説明文を I18n から引っ張ってくる
+  desc I18n.t('promotion_code.tasks.generate.desc')
   task generate: :environment do
-    generated_codes = generate_unique_codes
-    output_results(generated_codes)
-  end
+    generated = []
 
-  private
-
-  def generate_unique_codes
+    # 生成と保存をトランザクションでラップ
     ActiveRecord::Base.transaction do
-      10.times.map do
-        code = SecureRandom.alphanumeric(6).upcase + rand(0..9).to_s
+      10.times do
+        code     = SecureRandom.alphanumeric(7).upcase
         discount = rand(100..1000)
-        PromotionCode.create!(code: code, discount_amount: discount)
-        { code: code, discount: discount }
+
+        begin
+          PromotionCode.create!(code: code, discount_amount: discount, used: false)
+          generated << { code: code, discount: discount }
+        rescue ActiveRecord::RecordInvalid => e
+          # どのバリデーションに引っかかったか出力
+          puts "バリデーションエラー: #{e.record.errors.full_messages.join(', ')}"
+          raise
+        end
       end
     end
-  end
 
-  def output_results(codes)
-    header = I18n.t('promotion_code.tasks.generate.header')
-    formatted = codes.map do |c|
-      I18n.t('promotion_code.tasks.generate.row_format', **c)
+    # 見出しを出力
+    puts I18n.t('promotion_code.tasks.generate.header')
+    # 各コード行を出力
+    generated.each do |c|
+      puts I18n.t('promotion_code.tasks.generate.row_format',
+                  code: c[:code],
+                  discount: c[:discount])
     end
-    puts "#{header}:\n#{formatted.join("\n")}"
   end
 end
