@@ -34,7 +34,7 @@ class OrdersController < ApplicationController
     create_order_items
     generate_coupon_and_notice
     clear_cart_and_session
-    OrderMailer.with(order: @order).confirmation_email.deliver_later
+    OrderMailer.with(order: @order).confirmation_email.deliver_now
   end
 
   def generate_coupon_and_notice
