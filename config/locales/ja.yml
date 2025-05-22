@@ -207,6 +207,11 @@ ja:
         precision: 0
         delimiter: ","
 
+  # 購入確認メール
+  order_mailer:
+    confirmation_email:
+      subject: ご注文ありがとうございます
+
   # ───────────────────────────────────
   # 管理画面（BasicAuth）
   admin:
