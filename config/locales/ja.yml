@@ -28,6 +28,7 @@ ja:
   processing:                "処理中..."
   confirmation:              "本当に削除しますか？"
 
+
   # ───────────────────────────────────
   # ActiveRecord モデル＆属性名
   activerecord:
@@ -99,6 +100,7 @@ ja:
               blank: "カード番号を入力してください"
             card_expiration:
               blank: "有効期限を入力してください"
+              invalid_card_expiration_format: "有効期限はMM/YY形式で入力してください"
             card_cvv:
               blank: "セキュリティコードを入力してください"
         cart:
@@ -160,6 +162,7 @@ ja:
     input_error:      "入力内容に誤りがあります。再度確認してください。"
     create:
       success:               "ご購入ありがとうございました！次回使えるクーポンコード：%{coupon}"
+      failure: "購入に失敗しました。入力内容をご確認ください。"
       promotion_applied:     "%{discount}の割引が適用されました"
       promotion_default_error: "プロモーションコードの適用に失敗しました"
       purchase_success:      "購入が完了しました"

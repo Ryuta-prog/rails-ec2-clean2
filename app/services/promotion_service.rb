@@ -17,8 +17,8 @@ class PromotionService
 
   private
 
-  def inavalid_code?
-    @code.balank? || @code.length != 7
+  def invalid_code?
+    @code.blank? || @code.length != 7
   end
 
   def apply_promotion

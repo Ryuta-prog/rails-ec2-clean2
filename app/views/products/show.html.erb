@@ -27,7 +27,7 @@
         </div>
         <p><%= @product.description %></p>
         <!-- 数量指定フォーム -->
-        <%= form_with url: cart_items_path, method: :post do |f| %>
+        <%= form_with url: cart_cart_items_path, method: :post do |f| %>
           <%= f.hidden_field 'cart_item[product_id]', value: @product.id %>
           <div class="form-group mb-3">
             <%= f.label 'cart_item[quantity]', t('.quantity', default: "数量"), class: "form-label" %>
@@ -64,7 +64,7 @@
               </div>
               <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                 <div class="text-center">
-                  <%= button_to cart_items_path, params: { cart_item: { product_id: related_product.id, quantity: 1 } }, method: :post, class: "btn btn-outline-dark mt-auto" do %>
+                  <%= button_to cart_cart_items_path, params: { cart_item: { product_id: related_product.id, quantity: 1 } }, method: :post, class: "btn btn-outline-dark mt-auto" do %>
                     カートに追加
                   <% end %>
                 </div>

@@ -16,7 +16,7 @@ bundle exec rails db:migrate
 # （開発環境なら）esbuild & sass ビルド
 if [ "$RAILS_ENV" = "development" ]; then
   echo " アセットをビルドしています…"
-  ./bin/build
+  # ./bin/build
 fi
 
 # 最後にメインコマンドを実行

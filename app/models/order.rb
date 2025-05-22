@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 class Order < ApplicationRecord
-  after_create_commit :send_confirmation_email
-
-  belongs_to :user
+  belongs_to :user, optional: true
   belongs_to :promotion_code, optional: true
   has_many :order_items, dependent: :destroy
 
@@ -38,9 +36,5 @@ class Order < ApplicationRecord
       discount_amount: rand(100..1000),
       used: false
     )
-  end
-
-  def send_confirmation_email
-    OrderMailer.confirmation_email(self).deliver_now
   end
 end

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class OrdersController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_cart, only: :create
 
   # 過去の注文一覧表示
@@ -51,7 +50,10 @@ class OrdersController < ApplicationController
   # -----------------------
 
   def build_order_from_cart
-    @order = current_user.orders.new(order_params)
+    @order = Order.new(order_params)
+
+    @order.user = current_user if current_user
+
     promo = PromotionCode.find_by(id: session[:applied_promotion_code_id])
     @order.total_price = @cart.total_price(promo)
     @order.promotion_code = promo if promo&.usable?
@@ -73,7 +75,7 @@ class OrdersController < ApplicationController
   end
 
   def generate_next_coupon
-    @next_coupon = current_user.promotion_codes.create!(
+    @next_coupon = PromotionCode.create!(
       code: SecureRandom.alphanumeric(7).upcase,
       discount_amount: rand(100..1000),
       used: false
