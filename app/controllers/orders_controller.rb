@@ -16,13 +16,17 @@ class OrdersController < ApplicationController
   # チェックアウト実行
   def create
     build_order_from_cart
+
     if @order.save
       mark_promo_used
       create_order_items
-      generate_next_coupon
+      generate_next_coupon if @order.user.present?
       clear_cart_and_session
       OrderMailer.with(order: @order).confirmation_email.deliver_later
-      redirect_to products_path, notice: t('.success', coupon: @next_coupon.code)
+
+      message = t('.success')
+      message += " (次回クーポン: #{@next_coupon.code})" if @next_coupon
+      redirect_to products_path, notice: message
     else
       flash.now[:alert] = t('.failure')
       render 'carts/show', status: :unprocessable_entity
@@ -51,7 +55,6 @@ class OrdersController < ApplicationController
 
   def build_order_from_cart
     @order = Order.new(order_params)
-
     @order.user = current_user if current_user
 
     promo = PromotionCode.find_by(id: session[:applied_promotion_code_id])
@@ -75,7 +78,7 @@ class OrdersController < ApplicationController
   end
 
   def generate_next_coupon
-    @next_coupon = PromotionCode.create!(
+    @next_coupon = @order.user.promotion_codes.create!(
       code: SecureRandom.alphanumeric(7).upcase,
       discount_amount: rand(100..1000),
       used: false
