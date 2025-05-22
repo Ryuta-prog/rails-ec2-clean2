@@ -56,7 +56,7 @@ class CreateCoreTables < ActiveRecord::Migration[7.0]
 
     # Orders テーブル（user_id, promotion_code_id を NULL 許可）
     create_table :orders, if_not_exists: true do |t|
-      t.references :user,           foreign_key: true, null: true
+      t.references :user, foreign_key: true, null: true
       t.references :promotion_code, foreign_key: true, null: true
       t.decimal    :total_price,    precision: 10, scale: 2, null: false
       t.string     :billing_address
