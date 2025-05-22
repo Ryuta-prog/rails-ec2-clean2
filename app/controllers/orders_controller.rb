@@ -18,15 +18,8 @@ class OrdersController < ApplicationController
     build_order_from_cart
 
     if @order.save
-      mark_promo_used
-      create_order_items
-      generate_next_coupon if @order.user.present?
-      clear_cart_and_session
-      OrderMailer.with(order: @order).confirmation_email.deliver_later
-
-      message = t('.success')
-      message += " (次回クーポン: #{@next_coupon.code})" if @next_coupon
-      redirect_to products_path, notice: message
+      process_success_flow
+      redirect_to products_path, notice: @notice_msg
     else
       flash.now[:alert] = t('.failure')
       render 'carts/show', status: :unprocessable_entity
@@ -35,11 +28,32 @@ class OrdersController < ApplicationController
 
   private
 
+  # 以下、create内の処理をまとめて切り出し
+  def process_success_flow
+    mark_promo_used
+    create_order_items
+    generate_coupon_and_notice
+    clear_cart_and_session
+    OrderMailer.with(order: @order).confirmation_email.deliver_now
+  end
+
+  def generate_coupon_and_notice
+    if current_user
+      @next_coupon = current_user.promotion_codes.create!(
+        code: SecureRandom.alphanumeric(7).upcase,
+        discount_amount: rand(100..1000),
+        used: false
+      )
+      @notice_msg = t('.success_with_coupon', coupon: @next_coupon.code)
+    else
+      @notice_msg = t('.success_guest')
+    end
+  end
+
   def set_cart
     @cart = current_cart
   end
 
-  # strong_params で受け取るのはお客様情報のみ
   def order_params
     params.require(:order).permit(
       :last_name, :first_name, :email,
@@ -49,16 +63,12 @@ class OrdersController < ApplicationController
     )
   end
 
-  # -----------------------
-  # 以下、 create アクションのサブ処理
-  # -----------------------
-
   def build_order_from_cart
     @order = Order.new(order_params)
     @order.user = current_user if current_user
 
     promo = PromotionCode.find_by(id: session[:applied_promotion_code_id])
-    @order.total_price = @cart.total_price(promo)
+    @order.total_price    = @cart.total_price(promo)
     @order.promotion_code = promo if promo&.usable?
   end
 
@@ -75,14 +85,6 @@ class OrdersController < ApplicationController
         quantity: ci.quantity
       )
     end
-  end
-
-  def generate_next_coupon
-    @next_coupon = @order.user.promotion_codes.create!(
-      code: SecureRandom.alphanumeric(7).upcase,
-      discount_amount: rand(100..1000),
-      used: false
-    )
   end
 
   def clear_cart_and_session
