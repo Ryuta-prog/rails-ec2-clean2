@@ -38,16 +38,13 @@ class OrdersController < ApplicationController
   end
 
   def generate_coupon_and_notice
-    if current_user
-      @next_coupon = current_user.promotion_codes.create!(
-        code: SecureRandom.alphanumeric(7).upcase,
-        discount_amount: rand(100..1000),
-        used: false
-      )
-      @notice_msg = t('.success_with_coupon', coupon: @next_coupon.code)
-    else
-      @notice_msg = t('.success_guest')
-    end
+    @next_coupon = PromotionCode.create!(
+      user: current_user,
+      code: SecureRandom.alphanumeric(7).upcase,
+      discount_amount: rand(100..1000),
+      used: false
+    )
+    @notice_msg = t('.success_with_coupon', coupon: @next_coupon.code)
   end
 
   def set_cart

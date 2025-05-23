@@ -161,7 +161,6 @@ ja:
     purchase_complete: "購入が完了しました"
     input_error:      "入力内容に誤りがあります。再度確認してください。"
     create:
-      success_guest: "ご購入ありがとうございました。"
       success_with_coupon: "ご購入ありがとうございました。次回使える割引コード：%{coupon}"
       failure: "ご注文に失敗しました。もう一度お試しください。"
       promotion_applied:     "%{discount}の割引が適用されました"
