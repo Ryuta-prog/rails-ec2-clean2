@@ -71,7 +71,7 @@
           <% end %>
           <li class="list-group-item d-flex justify-content-between">
             <span>合計</span>
-            <strong><%= number_to_currency(@cart.total_price(promotion_code), unit: "¥", precision: 0) %></strong>
+            <strong><%= number_to_currency(@discounted_price, unit: "¥", precision: 0) %></strong>
           </li>
         </ul>
       </div>

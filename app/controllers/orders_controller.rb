@@ -65,7 +65,7 @@ class OrdersController < ApplicationController
     @order.user = current_user if current_user
 
     promo = PromotionCode.find_by(id: session[:applied_promotion_code_id])
-    @order.total_price    = @cart.total_price(promo)
+    @order.discounted_price = @cart.discounted_price(promo)
     @order.promotion_code = promo if promo&.usable?
   end
 

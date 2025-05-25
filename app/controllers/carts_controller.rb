@@ -3,7 +3,6 @@
 class CartsController < ApplicationController
   before_action :set_cart
 
-  # カート画面の表示
   def show
     @order = Order.new
     @promotion_code = PromotionCode.find_by(id: session[:applied_promotion_code_id])
@@ -11,7 +10,6 @@ class CartsController < ApplicationController
     @discounted_price = @cart.discounted_price(@promotion_code&.id)
   end
 
-  # カートの数量更新
   def update
     @cart.update_items(params[:cart_items])
     if @cart.update(cart_params)
@@ -22,7 +20,6 @@ class CartsController < ApplicationController
     end
   end
 
-  # プロモーションコードの適用
   def apply_promotion_code
     code = params[:promotion_code].to_s.upcase.strip
     promo = PromotionCode.find_by(code: code, used: false)
@@ -37,7 +34,6 @@ class CartsController < ApplicationController
     end
   end
 
-  # プロモーションコードの解除
   def remove_promotion_code
     session.delete(:applied_promotion_code_id)
     redirect_to cart_path, notice: t('.removed')

@@ -1,5 +1,5 @@
 <h1>ご注文ありがとうございます</h1>
 <p><%= @order.last_name %> <%= @order.first_name %> 様</p>
 <p>ご注文番号: <%= @order.id %></p>
-<p>合計金額: <%= number_to_currency(@order.total_price, unit: "¥", precision: 0) %></p>
+<p>合計金額: <%= number_to_currency(@order.discounted_price, unit: "¥", precision: 0) %></p>
 <p>ご利用ありがとうございました。</p>

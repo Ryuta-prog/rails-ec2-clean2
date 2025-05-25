@@ -8,7 +8,7 @@
       <p>小計: <%= number_to_currency(@order.order_items.sum { |i| i.price * i.quantity }, unit: "¥") %></p>
       <p>割引（<%= @order.promotion_code.code %>）: -<%= number_to_currency(@order.promotion_code.discount_amount, unit: "¥") %></p>
     <% end %>
-    <p><strong>合計: <%= number_to_currency(@order.total_price, unit: "¥") %></strong></p>
+    <p><strong>合計: <%= number_to_currency(@order.discounted_price, unit: "¥") %></strong></p>
   </div>
 </div>
 <div class="card">
