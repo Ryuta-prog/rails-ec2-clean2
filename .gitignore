@@ -79,3 +79,18 @@ byebug_history
 *.old
 config/master.key
 config/credentials.yml.enc
+
+# 不要ファイル・Git対象外設定
+log/
+tmp/
+node_modules/
+.bundle/
+
+# 不要ディレクトリ
+log/
+tmp/
+node_modules/
+.bundle/
+
+# public/assets はビルド生成物なのでGit対象外に
+/public/assets

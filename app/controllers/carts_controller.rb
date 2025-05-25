@@ -7,7 +7,8 @@ class CartsController < ApplicationController
   def show
     @order = Order.new
     @promotion_code = PromotionCode.find_by(id: session[:applied_promotion_code_id])
-    @total_price = @cart.total_price(@promotion_code)
+    @original_price = @cart.original_price
+    @discounted_price = @cart.discounted_price(@promotion_code&.id)
   end
 
   # カートの数量更新

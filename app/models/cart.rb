@@ -4,29 +4,18 @@ class Cart < ApplicationRecord
   has_many :cart_items, dependent: :destroy
   has_many :products, through: :cart_items
 
-  # 商品追加メソッド
-  def add_product(product, quantity = 1)
-    cart_items.find_or_initialize_by(product: product).tap do |item|
-      item.quantity += quantity
-      item.save
-    end
-  end
-
   # 合計金額（割引前）
-  def subtotal
+  def original_price
     cart_items.includes(:product).sum { |item| item.product.price * item.quantity }
   end
 
-  # 割引適用後の合計金額
-  def total_price(promotion_code = nil)
-    total = subtotal
+  # 割引後の合計金額
+  def discounted_price(promotion_code_id = nil)
+    total = original_price
 
-    promotion_code = PromotionCode.find_by(id: promotion_code) if promotion_code.is_a?(Integer)
+    promotion_code = PromotionCode.find_by(id: promotion_code_id) if promotion_code_id.present?
 
-    if promotion_code.present? && !promotion_code.used
-      discount = promotion_code.discount_amount.to_f
-      total -= discount
-    end
+    total -= promotion_code.discount_amount.to_f if promotion_code&.used == false
 
     total
   end
