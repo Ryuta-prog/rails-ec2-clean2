@@ -94,3 +94,9 @@ node_modules/
 
 # public/assets はビルド生成物なのでGit対象外に
 /public/assets
+
+# 機密ファイル除外
+.env
+config/master.key
+config/credentials.yml.enc
+

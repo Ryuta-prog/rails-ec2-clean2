@@ -4,18 +4,17 @@
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.12",
+    "bootstrap": "^5.3.6",
+    "bootstrap-icons": "^1.13.1",
     "esbuild": "^0.24.0",
     "sass": "^1.80.6"
   },
   "scripts": {
-
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets",
-    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
+    "build:css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
   },
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://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@github.com/Ryuta-prog/rails-ec2.git",
-  "author": "Ryuta-prog <longtaishangcun@gmail.com>",
+  "repository": "https://github.com/Ryuta-prog/rails-ec2.git",
   "license": "MIT"
-
 }
