@@ -5,7 +5,7 @@ class Order < ApplicationRecord
   has_many :order_items, dependent: :destroy
 
   validates :last_name, :first_name, :billing_address, :state, :zip, :card_name,
-            :credit_card_number, :card_expiration, :card_cvv, :total_price, presence: true
+            :credit_card_number, :card_expiration, :card_cvv, :discounted_price, presence: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :card_expiration, format: {
     with: %r{\A(0[1-9]|1[0-2])/\d{2}\z},

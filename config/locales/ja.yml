@@ -44,9 +44,9 @@ ja:
         price:       "価格"
         description: "商品説明"
       order:
-        user:            "ユーザー"
-        total_price:     "合計金額"
-        billing_address: "請求先住所"
+        user:              "ユーザー"
+        discounted_price:  "合計金額(割引適用後)"
+        billing_address:   "請求先住所"
       cart_item:
         quantity: "数量"
       user:
