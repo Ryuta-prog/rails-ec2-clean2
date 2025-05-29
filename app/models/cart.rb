@@ -14,8 +14,8 @@ class Cart < ApplicationRecord
   # 割引後の合計金額
   def discounted_price(promotion_code = nil)
     total = original_price
-    return total if promotion_code_id.nil? || promotion_code.used?
+    return total if promotion_code.nil? || promotion_code.used?
 
-    total - promotion_code.discount_amount.to_f
+    (total - promotion_code.discount_amount.to_i).max(0)
   end
 end

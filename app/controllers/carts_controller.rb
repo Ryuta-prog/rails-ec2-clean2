@@ -7,7 +7,7 @@ class CartsController < ApplicationController
     @order = Order.new
     @promotion_code = PromotionCode.find_by(id: session[:applied_promotion_code_id])
     @original_price = @cart.original_price
-    @discounted_price = @cart.discounted_price(@promotion_code&.id)
+    @discounted_price = @cart.discounted_price(@promotion_code)
   end
 
   def update
@@ -32,11 +32,6 @@ class CartsController < ApplicationController
       flash.now[:alert] = t('.not_found')
       render :show, status: :unprocessable_entity
     end
-  end
-
-  def remove_promotion_code
-    session.delete(:applied_promotion_code_id)
-    redirect_to cart_path, notice: t('.removed')
   end
 
   private

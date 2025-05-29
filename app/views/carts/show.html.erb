@@ -64,7 +64,6 @@
                 <span>適用中のプロモーションコード</span>
                 <div>
                   <span class="me-2"><%= promotion_code.code %></span>
-                  <%= button_to '解除', remove_promotion_code_cart_path, method: :delete, form: { data: { turbo: false }, class: 'd-inline' }, class: 'btn btn-sm btn-danger' %>
                 </div>
               </div>
             </li>

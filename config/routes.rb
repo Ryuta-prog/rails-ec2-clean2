@@ -7,7 +7,6 @@ Rails.application.routes.draw do
 
   resource :cart, only: %i[show update] do
     patch 'apply_promotion_code'
-    delete :remove_promotion_code
     resources :cart_items, only: %i[create destroy]
   end
 
