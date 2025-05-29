@@ -29,7 +29,6 @@ gem 'rubocop-factory_bot', require: false
 gem 'ruby-vips', '~> 2.1.0'
 gem 'rubyzip'
 gem 'sassc-rails'
-gem 'sidekiq'
 gem 'stimulus-rails'
 gem 'turbo-rails'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
