@@ -4,8 +4,7 @@ class CreateCoreTables < ActiveRecord::Migration[7.0]
   def change
     enable_extension 'plpgsql' unless extension_enabled?('plpgsql')
 
-    # ────────────────────────────────────────────────────
-    # Users テーブル（system_account を含む）
+    # Users テーブル
     create_table :users, if_not_exists: true do |t|
       t.string   :email,              null: false
       t.string   :encrypted_password, null: false
@@ -15,6 +14,7 @@ class CreateCoreTables < ActiveRecord::Migration[7.0]
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at
       t.timestamps
+
       t.index :email, unique: true
       t.index :reset_password_token, unique: true
     end
@@ -43,22 +43,22 @@ class CreateCoreTables < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    # PromotionCodes テーブル（user_id を NULL 許可）
+    # PromotionCodes テーブル
     create_table :promotion_codes, if_not_exists: true do |t|
       t.string     :code,            null: false, limit: 7
       t.integer    :discount_amount, null: false
       t.boolean    :used,            default: false, null: false
       t.references :user, foreign_key: true, null: true
       t.timestamps
+
       t.index :code, unique: true
       t.index :used
     end
 
-    # Orders テーブル（user_id, promotion_code_id を NULL 許可）
+    # Orders テーブル（discounted_priceを最初から使用）
     create_table :orders, if_not_exists: true do |t|
-      t.references :user,           foreign_key: true, null: true
       t.references :promotion_code, foreign_key: true, null: true
-      t.decimal    :total_price,    precision: 10, scale: 2, null: false
+      t.decimal    :discounted_price, precision: 10, scale: 2, null: false, default: 0
       t.string     :billing_address
       t.string     :address2
       t.string     :state
@@ -73,7 +73,7 @@ class CreateCoreTables < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    # OrderItems テーブル（product 参照をまとめて）
+    # OrderItems テーブル
     create_table :order_items, if_not_exists: true do |t|
       t.references :order,   null: false, foreign_key: true
       t.references :product, foreign_key: true, null: true
@@ -83,11 +83,12 @@ class CreateCoreTables < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    # Sessions テーブル（ActiveRecord::SessionStore 用）
+    # Sessions テーブル（ActiveRecord::SessionStore）
     create_table :sessions, if_not_exists: true do |t|
       t.string :session_id, null: false
       t.text   :data
       t.timestamps
+
       t.index :session_id, unique: true
     end
   end

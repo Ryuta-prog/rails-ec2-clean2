@@ -6,8 +6,10 @@ class Cart < ApplicationRecord
 
   # 合計金額（割引前）
   def original_price
+    return 0 if cart_items.empty?
+
     cart_items.includes(:product).sum do |item|
-      item.product.original_price.to_i * item.quantity
+      (item.product&.original_price.presence || item.product&.price).to_i * item.quantity
     end
   end
 
@@ -16,6 +18,6 @@ class Cart < ApplicationRecord
     total = original_price
     return total if promotion_code.nil? || promotion_code.used?
 
-    (total - promotion_code.discount_amount.to_i).max(0)
+    [total - promotion_code.discount_amount.to_i, 0].max
   end
 end

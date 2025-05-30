@@ -30,6 +30,9 @@ class OrdersController < ApplicationController
 
   # 以下、create内の処理をまとめて切り出し
   def process_success_flow
+    @order.discounted_price = @cart.discounted_price(@order.promotion_code)
+    @order.save!
+
     mark_promo_used
     create_order_items
     generate_coupon_and_notice
