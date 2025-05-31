@@ -17,6 +17,10 @@ class OrdersController < ApplicationController
         raise ActiveRecord::Rollback
       end
     end
+  rescue StandardError => e
+    Rails.logger.error(I18n.t('orders.create.error_log', message: e.message))
+    flash.now[:alert] = t('.critical_failure')
+    render 'carts/show, status: :internal_server_error'
   end
 
   private

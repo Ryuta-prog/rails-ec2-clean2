@@ -168,6 +168,8 @@ ja:
       purchase_success:      "購入が完了しました"
       input_error:           "入力内容に誤りがあります"
       transaction_error:     "注文処理中にエラーが発生しました。入力内容や通信状況をご確認ください。"
+      error_log:             "注文処理失敗: %{message}"
+      critical_failure:      "予期せぬエラーが発生しました。もう一度お試しください。"
     show:
       order_details: "注文詳細"
       order_number:  "注文番号"
