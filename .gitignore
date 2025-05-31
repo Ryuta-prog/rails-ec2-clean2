@@ -54,9 +54,6 @@ yarn-error.log
 /latest.dump*
 /backup_before_squash.sql
 /.github/
-/.reviewdog.yml
-/.rubocop.yml
-/.rspec
 
 # 自動追加: Rails/Ruby/Node 標準 + 秘密ファイルパターン
 /log/
