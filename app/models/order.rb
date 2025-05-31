@@ -30,7 +30,7 @@ class Order < ApplicationRecord
   private
 
   def generate_next_promotion_code
-    user.promotion_codes.create!(
+    PromotionCode.create!(
       code: SecureRandom.alphanumeric(7).upcase,
       discount_amount: rand(100..1000),
       used: false

@@ -3,26 +3,19 @@
 class OrdersController < ApplicationController
   before_action :set_cart, only: :create
 
-  # 過去の注文一覧表示
-  def index
-    @orders = current_user.orders.order(created_at: :desc)
-  end
-
-  # 注文詳細表示
-  def show
-    @order = current_user.orders.find(params[:id])
-  end
-
   # チェックアウト実行
   def create
-    build_order_from_cart
+    Order.transaction do
+      build_order_from_cart
 
-    if @order.save
-      process_success_flow
-      redirect_to products_path, notice: @notice_msg
-    else
-      flash.now[:alert] = t('.failure')
-      render 'carts/show', status: :unprocessable_entity
+      if @order.save
+        process_success_flow
+        redirect_to products_path, notice: @notice_msg
+      else
+        flash.now[:alert] = t('.failure')
+        render 'carts/show', status: :unprocessable_entity
+        raise ActiveRecord::Rollback
+      end
     end
   end
 
@@ -33,7 +26,7 @@ class OrdersController < ApplicationController
     @order.discounted_price = @cart.discounted_price(@order.promotion_code)
     @order.save!
 
-    mark_promo_used
+    @order.promotion_code&.update!(used: true)
     create_order_items
     generate_coupon_and_notice
     clear_cart_and_session
@@ -42,7 +35,6 @@ class OrdersController < ApplicationController
 
   def generate_coupon_and_notice
     @next_coupon = PromotionCode.create!(
-      user: current_user,
       code: SecureRandom.alphanumeric(7).upcase,
       discount_amount: rand(100..1000),
       used: false
@@ -65,15 +57,9 @@ class OrdersController < ApplicationController
 
   def build_order_from_cart
     @order = Order.new(order_params)
-    @order.user = current_user if current_user
-
     promo = PromotionCode.find_by(id: session[:applied_promotion_code_id])
     @order.discounted_price = @cart.discounted_price(promo)
     @order.promotion_code = promo if promo&.usable?
-  end
-
-  def mark_promo_used
-    @order.promotion_code&.update!(used: true)
   end
 
   def create_order_items

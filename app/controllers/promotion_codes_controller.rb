@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class PromotionCodesController < ApplicationController
-  before_action :authenticate_user!
 
   def apply
     code = params[:promotion_code].to_s.upcase.strip
