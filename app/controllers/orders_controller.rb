@@ -5,51 +5,38 @@ class OrdersController < ApplicationController
 
   # チェックアウト実行
   def create
-    Order.transaction do
-      build_order_from_cart
+    # モデル側のクラスメソッドで一括注文作成＋後処理を実行
+    @order = Order.create_with_cart!(
+      cart: @cart,
+      promo_id: session[:applied_promotion_code_id],
+      order_params: order_params
+    )
 
-      if @order.save
-        process_success_flow
-        redirect_to products_path, notice: @notice_msg
-      else
-        flash.now[:alert] = t('.failure')
-        render 'carts/show', status: :unprocessable_entity
-        raise ActiveRecord::Rollback
-      end
-    end
+    # 注文成功時は商品一覧へリダイレクトし、クーポンコードをフラッシュに表示
+    redirect_to products_path, notice: t('.success_with_coupon', coupon: @order.next_coupon_code)
+
+    # セッションからカートIDとプロモーションコードIDを削除
+    session.delete(:cart_id)
+    session.delete(:applied_promotion_code_id)
+  rescue ActiveRecord::RecordInvalid
+    # バリデーションエラーの場合はカート画面を再表示（422）
+    flash.now[:alert] = t('.failure')
+    render 'carts/show', status: :unprocessable_entity
   rescue StandardError => e
+    # 想定外エラー時はログ出力し、カート画面を再表示（500）
     Rails.logger.error(I18n.t('orders.create.error_log', message: e.message))
     flash.now[:alert] = t('.critical_failure')
-    render 'carts/show, status: :internal_server_error'
+    render 'carts/show', status: :internal_server_error
   end
 
   private
 
-  # 以下、create内の処理をまとめて切り出し
-  def process_success_flow
-    @order.discounted_price = @cart.discounted_price(@order.promotion_code)
-    @order.save!
-
-    @order.promotion_code&.update!(used: true)
-    create_order_items
-    generate_coupon_and_notice
-    clear_cart_and_session
-    OrderMailer.with(order: @order).confirmation_email.deliver_now
-  end
-
-  def generate_coupon_and_notice
-    @next_coupon = PromotionCode.create!(
-      code: SecureRandom.alphanumeric(7).upcase,
-      discount_amount: rand(100..1000),
-      used: false
-    )
-    @notice_msg = t('.success_with_coupon', coupon: @next_coupon.code)
-  end
-
+  # カート情報をセット（before_action で実行）
   def set_cart
     @cart = current_cart
   end
 
+  # フォームから送信された注文情報を許可する
   def order_params
     params.require(:order).permit(
       :last_name, :first_name, :email,
@@ -57,29 +44,5 @@ class OrdersController < ApplicationController
       :card_name, :credit_card_number,
       :card_expiration, :card_cvv
     )
-  end
-
-  def build_order_from_cart
-    @order = Order.new(order_params)
-    promo = PromotionCode.find_by(id: session[:applied_promotion_code_id])
-    @order.discounted_price = @cart.discounted_price(promo)
-    @order.promotion_code = promo if promo&.usable?
-  end
-
-  def create_order_items
-    @cart.cart_items.find_each do |ci|
-      @order.order_items.create!(
-        product_id: ci.product_id,
-        product_name: ci.product.name,
-        price: ci.product.price,
-        quantity: ci.quantity
-      )
-    end
-  end
-
-  def clear_cart_and_session
-    @cart.destroy!
-    session.delete(:cart_id)
-    session.delete(:applied_promotion_code_id)
   end
 end

@@ -250,6 +250,9 @@ ja:
   # ───────────────────────────────────
   # カート画面
   carts:
+    apply_promotion_code:
+      success: "プロモーションコードを適用しました"
+      failure: "プロモーションコードの適用に失敗しました"
     update:
       no_promotion_code: "プロモーションコードを入力してください"
       promotion_applied: "%{discount}割引が適用されました"
