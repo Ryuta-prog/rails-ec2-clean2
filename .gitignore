@@ -99,3 +99,4 @@ config/credentials.yml.enc
 
 # credentialsバックアップはGit管理から除外
 /backup/*
+config/credentials/production.key
