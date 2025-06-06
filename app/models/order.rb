@@ -85,8 +85,5 @@ class Order < ApplicationRecord
 
     # カートをクリア
     cart.destroy!
-
-    # 確認メールを非同期で送信
-    OrderMailer.with(order: self).confirmation_email.deliver_later
   end
 end
