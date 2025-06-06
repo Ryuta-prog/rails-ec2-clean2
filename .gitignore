@@ -97,6 +97,8 @@ node_modules/
 config/master.key
 config/credentials.yml.enc
 
+/config/credentials/production.key
+
 # credentialsバックアップはGit管理から除外
 /backup/*
 config/credentials/production.key
