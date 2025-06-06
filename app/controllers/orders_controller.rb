@@ -35,7 +35,7 @@ class OrdersController < ApplicationController
         promo_id: session[:applied_promotion_code_id],
         order_params: order_params
       )
-      OrderMailer.with(order: @order).confirmation_email.deliver_later
+      OrderMailer.with(order: @order).confirmation_email.deliver_later(wait_until: 5.seconds.from_now)
     end
   end
 
