@@ -1,64 +1,55 @@
 # frozen_string_literal: true
 
 class OrdersController < ApplicationController
-  def index
-    @orders = Order.all
-  end
+  before_action :set_cart, only: :create
 
-  def show
-    @order = Order.find(params[:id])
-  end
-
+  # チェックアウト実行
   def create
-    @order = build_order
-    if @order.save
-      process_successful_order
-    else
-      handle_failed_order
-    end
+    create_order_and_send_mail
+
+    redirect_to products_path,
+                notice: t('controllers.orders.create.success_with_coupon',
+                          coupon: @order.next_coupon_code)
+
+    clear_cart_session
+  rescue ActiveRecord::RecordInvalid
+    flash.now[:alert] = t('controllers.orders.create.failure')
+    render 'carts/show', status: :unprocessable_entity
+  rescue StandardError => e
+    Rails.logger.error(I18n.t('controllers.orders.create.error_log',
+                              message: e.message))
+    flash.now[:alert] = t('controllers.orders.create.critical_failure')
+    render 'carts/show', status: :internal_server_error
   end
 
   private
 
-  def build_order
-    Order.new(order_params).tap do |order|
-      order.total_price = current_cart.total_price
-    end
+  def set_cart
+    @cart = current_cart
   end
 
-  def process_successful_order
-    create_order_items
-    OrderMailer.confirmation_email(@order).deliver_later
-    clear_cart
-    redirect_to root_path, notice: t('orders.purchase_complete')
-  end
-
-  def create_order_items
-    current_cart.cart_items.each do |cart_item|
-      @order.order_items.create!(
-        product_name: cart_item.product.name,
-        price: cart_item.product.price,
-        quantity: cart_item.quantity
+  def create_order_and_send_mail
+    Order.transaction do
+      @order = Order.create_with_cart!(
+        cart: @cart,
+        promo_id: session[:applied_promotion_code_id],
+        order_params: order_params
       )
+      OrderMailer.with(order: @order).confirmation_email.deliver_later(wait_until: 5.seconds.from_now)
     end
   end
 
-  def clear_cart
-    current_cart.destroy
-    session[:cart_id] = nil
-  end
-
-  def handle_failed_order
-    Rails.logger.error("Order creation failed: #{@order.errors.full_messages.join(', ')}")
-    flash.now[:alert] = t('orders.input_error')
-    render 'carts/show', status: :unprocessable_entity
+  def clear_cart_session
+    session.delete(:cart_id)
+    session.delete(:applied_promotion_code_id)
   end
 
   def order_params
-    params.require(:order).permit(
-      :last_name, :first_name, :email, :billing_address, :address2,
-      :state, :zip, :card_name, :credit_card_number, :card_expiration,
-      :card_cvv, :total_price
-    )
+    permitted = %i[
+      last_name first_name email
+      billing_address address2 state zip
+      card_name credit_card_number card_expiration card_cvv
+    ]
+    params.require(:order).permit(*permitted)
   end
 end

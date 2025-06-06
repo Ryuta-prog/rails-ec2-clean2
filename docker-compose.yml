@@ -1,69 +1,47 @@
 services:
   db:
     image: postgres:14-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: myapp_development
-    networks:
-      - app-network
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: rails-ec2_development
+      LANG: en_US.UTF-8
+      LC_ALL: en_US.UTF-8
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/pg_hba.conf:/etc/postgresql/pg_hba.conf
+    command: postgres -c hba_file=/etc/postgresql/pg_hba.conf
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    ports:
+      - "5432:5432"
 
   web:
     build: .
-    command: bash -c "rm -f /myapp/tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
-    volumes:
-      - .:/myapp
-      - bundle:/usr/local/bundle
-      - node_modules:/myapp/node_modules
-      - storage:/myapp/storage
+    # entrypoint.sh が最後に exec で rails サーバを起動する想定
+    entrypoint: ["/usr/bin/entrypoint.sh"]
+    command: bash -c "yarn build && yarn build:css && bundle exec rails server -b 0.0.0.0"
     ports:
       - "3000:3000"
-    depends_on:
-      - db
     environment:
       RAILS_ENV: development
-      DATABASE_URL: postgres://postgres:password@db:5432/myapp_development
+      DB_HOST: db
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ap-northeast-1
       S3_BUCKET_NAME: rails-ec
-    networks:
-      - app-network
-    tty: true
-    stdin_open: true
-
-  js:
-    build: .
-    command: yarn build --watch=forever
     volumes:
       - .:/myapp
-      - bundle:/usr/local/bundle
       - node_modules:/myapp/node_modules
+      - storage:/myapp/storage
     depends_on:
-      - web
-    networks:
-      - app-network
-
-  css:
-    build: .
-    command: yarn build:css --watch
-    volumes:
-      - .:/myapp
-      - bundle:/usr/local/bundle
-      - node_modules:/myapp/node_modules
-    depends_on:
-      - web
-    networks:
-      - app-network
+      db:
+        condition: service_healthy
 
 volumes:
   postgres_data:
-  bundle:
   node_modules:
   storage:
-
-networks:
-  app-network:
-    driver: bridge

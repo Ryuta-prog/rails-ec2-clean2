@@ -1,8 +1,23 @@
 #!/bin/bash
 set -e
 
-# Remove a potentially pre-existing server.pid for Rails.
-rm -f /myapp/tmp/pids/server.pid
+# ターミナル接続の遅延対策
+sleep 0.1
 
-# Then exec the container's main process (what's set as CMD in the Dockerfile).
+# PostgreSQL が起動するまで待機
+until PGPASSWORD=$POSTGRES_PASSWORD psql -h db -U postgres -d postgres -c '\q'; do
+  echo "PostgreSQL が起動するまで待機中…"
+  sleep 1
+done
+
+# マイグレーション実行
+bundle exec rails db:migrate
+
+# （開発環境なら）esbuild & sass ビルド
+if [ "$RAILS_ENV" = "development" ]; then
+  echo " アセットをビルドしています…"
+  # ./bin/build
+fi
+
+# 最後にメインコマンドを実行
 exec "$@"

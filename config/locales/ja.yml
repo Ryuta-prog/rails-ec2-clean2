@@ -1,60 +1,251 @@
 ja:
+  # ───────────────────────────────────────────────────────────
+  # ◼︎ 共通ラベル
+  # ───────────────────────────────────────────────────────────
+  shopping_cart:              "ショッピングカート"
+  cart:                       "カート"
+  quantity:                   "数量"
+  remove_item:                "商品を削除"
+  subtotal:                   "小計"
+  promotion_code_placeholder: "プロモーションコード"
+  promotion_code:             "プロモーションコード"
+  apply:                      "適用"
+  total:                      "合計"
+  billing_address:            "請求先住所"
+  last_name:                  "姓"
+  first_name:                 "名"
+  email:                      "メールアドレス"
+  address:                    "住所"
+  address2:                   "建物名・部屋番号（任意）"
+  state:                      "都道府県"
+  select_state:               "選択してください"
+  zip:                        "郵便番号"
+  credit_card_info:           "クレジットカード情報"
+  card_name:                  "カード名義"
+  card_number:                "カード番号"
+  expiration:                 "有効期限"
+  cvv:                        "セキュリティコード"
+  purchase:                   "購入する"
+  processing:                 "処理中..."
+  confirmation:               "本当に削除しますか？"
 
+  # ───────────────────────────────────────────────────────────
+  # ◼︎ ActiveRecord モデル＆属性名
+  # ───────────────────────────────────────────────────────────
   activerecord:
     models:
-      product: 商品
-      order: 注文
+      product:   "商品"
+      order:     "注文"
+      cart:      "カート"
+      cart_item: "カートアイテム"
+      user:      "ユーザー"
     attributes:
       product:
-        name: 商品名
-        price: 価格
-        description: 商品説明
+        name:        "商品名"
+        price:       "価格"
+        description: "商品説明"
       order:
-        user: ユーザー
+        user:              "ユーザー"
+        discounted_price:  "合計金額(割引適用後)"
+        billing_address:   "請求先住所"
+      cart_item:
+        quantity: "数量"
+      user:
+        last_name:             "姓"
+        first_name:            "名"
+        email:                 "メールアドレス"
+        password:              "パスワード"
+        password_confirmation: "パスワード（確認）"
+        remember_me:           "ログイン状態を保持"
     errors:
       models:
+        user:
+          attributes:
+            email:
+              taken:   "このメールアドレスは既に登録されています"
+              blank:   "メールアドレスを入力してください"
+              invalid: "有効なメールアドレスを入力してください"
+            password:
+              blank:     "パスワードを入力してください"
+              too_short: "パスワードは%{count}文字以上で入力してください"
+            password_confirmation:
+              confirmation: "パスワードとパスワード確認が一致しません"
+            card_expiration:
+              invalid_card_expiration_format: "はMM/YY形式で入力してください"
         product:
           attributes:
             name:
-              blank: '商品名を入力してください'
+              blank:    "商品名を入力してください"
+              too_long: "商品名は%{count}文字以内で入力してください"
             price:
-              blank: '価格を入力してください'
-              invalid: '価格は0以上の数値を入力してください'
+              blank:   "価格を入力してください"
+              invalid: "価格は0以上の数値を入力してください"
             description:
-              blank: '商品説明を入力してください'
+              blank: "商品説明を入力してください"
         order:
           attributes:
-            user:
-              required: "が必要です"
+            last_name:
+              blank: "姓を入力してください"
+            first_name:
+              blank: "名を入力してください"
+            email:
+              blank:   "メールアドレスを入力してください"
+              invalid: "有効なメールアドレスを入力してください"
+            billing_address:
+              blank: "住所を入力してください"
+            zip:
+              blank: "郵便番号を入力してください"
+            card_name:
+              blank: "カード名義を入力してください"
+            credit_card_number:
+              blank: "カード番号を入力してください"
+            card_expiration:
+              blank: "有効期限を入力してください"
+              invalid_card_expiration_format: "有効期限はMM/YY形式で入力してください"
+            card_cvv:
+              blank: "セキュリティコードを入力してください"
+        cart:
+          attributes:
+            base:
+              invalid_promotion: "無効なプロモーションコードです"
+        cart_item:
+          attributes:
+            quantity:
+              invalid: "有効な数量を入力してください"
+      messages:
+        record_invalid: "レコードの保存に失敗しました: %{errors}"
+
+  # ───────────────────────────────────────────────────────────
+  # ◼︎ コントローラ用メッセージ
+  # ───────────────────────────────────────────────────────────
+  controllers:
+    cart_items:
+      create:
+        success: "%{product_name}をカートに追加しました"
+        failure: "商品の追加に失敗しました"
+      destroy:
+        item_removed:       "商品をカートから削除しました"
+        item_remove_failed: "商品の削除に失敗しました"
+
+    # OrdersController / 注文関連
+    orders:
+      thanks:            "購入ありがとうございます"
+      purchase_complete: "購入が完了しました"
+      input_error:       "入力内容に誤りがあります。再度確認してください。"
+      create:
+        success_with_coupon:       "ご購入ありがとうございました。次回使える割引コード：%{coupon}"
+        failure:                   "ご注文に失敗しました。もう一度お試しください。"
+        promotion_applied:         "%{discount}の割引が適用されました"
+        promotion_default_error:   "プロモーションコードの適用に失敗しました"
+        purchase_success:          "購入が完了しました"
+        input_error:               "入力内容に誤りがあります"
+        transaction_error:         "注文処理中にエラーが発生しました。入力内容や通信状況をご確認ください。"
+        error_log:                 "注文処理失敗: %{message}"
+        critical_failure:          "予期せぬエラーが発生しました。もう一度お試しください。"
+      show:
+        order_details: "注文詳細"
+        order_number:  "注文番号"
+        date:          "注文日"
+
+    # プロモーションコード機能（CartまたはOrdersController用）
+    promotion_codes:
+      apply:
+        success:   "プロモーションコードを適用しました"
+        not_found: "無効なプロモーションコードです"
+
+  # ───────────────────────────────────────────────────────────
+  # ◼︎ 製品ページ（一覧・詳細）
+  # ───────────────────────────────────────────────────────────
   products:
     no_products: "商品がありません。"
-    not_found: "商品が見つかりませんでした。"
-  cart_items:
-    create:
-      success: "カートに商品が追加されました"
-      failure: '商品の追加に失敗しました'
-    destroy:
-      item_removed: '商品をカートから削除しました'
+    not_found:   "商品が見つかりませんでした。"
+    index:
+      title: "商品一覧"
+    show:
+      add_to_cart:      "カートに追加"
+      related_products: "関連商品"
+
+  # ───────────────────────────────────────────────────────────
+  # ◼︎ プロモーションコード機能（Rakeタスク用・単数形）
+  # ───────────────────────────────────────────────────────────
+  promotion_code:
+    tasks:
+      generate:
+        desc:       "プロモーションコードを10個生成"
+        header:     "生成されたプロモーションコード"
+        row_format: "%{code}: %{discount}円"
+
+  # ───────────────────────────────────────────────────────────
+  # ◼︎ 時間・数値フォーマット
+  # ───────────────────────────────────────────────────────────
   time:
     formats:
       default: "%Y年%m月%d日 %H:%M:%S"
-      short: "%m/%d %H:%M"
-      long: "%Y年%m月%d日(%a) %H時%M分"
+      short:   "%m/%d %H:%M"
+      long:    "%Y年%m月%d日(%a) %H時%M分"
+      date:    "%Y年%m月%d日"
+
+  number:
+    currency:
+      format:
+        unit:      "¥"
+        precision: 0
+        delimiter: ","
+
+  # ───────────────────────────────────────────────────────────
+  # ◼︎ 購入確認メール（OrderMailer）
+  # ───────────────────────────────────────────────────────────
+  order_mailer:
+    confirmation_email:
+      subject: "ご注文ありがとうございます"
+
+  mailers:
+    order_mailer:
+      confirmation_email:
+        subject:          "【おにぎりや】ご注文ありがとうございます"
+        greeting:         "%{name} 様"
+        purchased_items:  "購入商品"
+        product_name:     "商品名"
+        quantity:         "数量"
+        price:            "価格"
+        promotion_title:  "適用プロモーションコード"
+        code:             "コード"
+        discount_amount:  "割引金額"
+        total_amount:     "合計金額"
+        footer:           "またのご利用をお待ちしております。"
+
+  # ───────────────────────────────────────────────────────────
+  # ◼︎ 管理画面（BasicAuth）
+  # ───────────────────────────────────────────────────────────
   admin:
     orders:
-      not_found: '注文が見つかりませんでした'
+      not_found: "注文が見つかりませんでした"
+      index:
+        title: "注文管理"
     products:
-      not_found: '商品が見つかりません'
-      created: '商品を登録しました'
-      updated: '商品を更新しました'
-      destroyed: "商品が正常に削除されました"
+      not_found:     "商品が見つかりません"
+      created:       "商品を登録しました"
+      updated:       "商品を更新しました"
+      destroyed:     "商品が正常に削除されました"
       destroy_failed: "商品の削除に失敗しました"
-  orders:
-    thanks: '購入ありがとうございます'
-    purchase_complete: '購入ありがとうございます' # 統一のため残します
-    input_error: '入力内容に誤りがあります。再度確認してください。'
-  mailers:
-    message:
-      new_message: 'New Message'
-    order:
-      confirmation: '【おにぎりや】ご注文ありがとうございます'
+      new:
+        title: "新規商品登録"
+      edit:
+        title: "商品情報編集"
+
+  # ───────────────────────────────────────────────────────────
+  # ◼︎ カート画面
+  # ───────────────────────────────────────────────────────────
+  carts:
+    apply_promotion_code:
+      success: "プロモーションコードを適用しました"
+      failure: "プロモーションコードの適用に失敗しました"
+    update:
+      no_promotion_code: "プロモーションコードを入力してください"
+      promotion_applied: "%{discount}割引が適用されました"
+      invalid_promotion: "無効なプロモーションコードです"
+    show:
+      billing_address:  "請求先住所"
+      credit_card_info: "クレジットカード情報"
+      purchase:         "購入する"
+      processing:       "処理中..."

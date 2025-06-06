@@ -1,9 +1,8 @@
-require:
-  - rubocop-rails
+plugins:
   - rubocop-rspec
-  - rubocop-hc
-  - rubocop-capybara
+  - rubocop-rails
   - rubocop-factory_bot
+  - rubocop-capybara
 Style/Documentation:
   Enabled: false
 Metrics/MethodLength:
@@ -22,10 +21,12 @@ Layout/LineLength:
   Exclude:
     - config/initializers/devise.rb
     - db/migrate/*.rb
-Hc/RailsSpecificActionName:
-  Exclude:
-    - app/controllers/users/omniauth_callbacks_controller.rb
 AllCops:
+  TargetRubyVersion: 3.1
   NewCops: enable
   SuggestExtensions: false
-  Metrics/ClassLength:
+Metrics/ClassLength:
+  Max: 100
+  Exclude:
+    - 'db/migrate/**/*'
+    - 'config/initializers/**/*'

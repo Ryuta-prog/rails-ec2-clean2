@@ -1,0 +1,5 @@
+// フラッシュメッセージを表示
+document.getElementById('flash-messages').innerHTML = '<div class="alert alert-success">商品がカートに追加されました</div>';
+
+// カート内アイテム数を更新
+document.querySelector('.badge.bg-primary').innerText = '<%= @cart.cart_items.sum(:quantity) %>';

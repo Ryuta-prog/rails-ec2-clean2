@@ -8,9 +8,9 @@ class ApplicationController < ActionController::Base
   private
 
   def current_cart
-    cart = Cart.find_or_create_by(id: session[:cart_id])
-    session[:cart_id] = cart.id
-    cart
+    @current_cart ||= Cart.find_by(id: session[:cart_id]) || Cart.create!.tap do |c|
+      session[:cart_id] = c.id
+    end
   end
 
   def set_cart

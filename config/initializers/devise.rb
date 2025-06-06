@@ -15,7 +15,7 @@ Devise.setup do |config|
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
   # config.secret_key = '3eb2e595b18429fbc0dae04c94318bd387e1c9b8f5e6f8726f9b2cd5579d4a6818e0aee07be797c3cb0bd7c2465f77766fa7367678e9fc9bfe523eb5a07d2eac'
-
+  config.authentication_keys = [:email]
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
   # config.parent_controller = 'DeviseController'
@@ -24,7 +24,8 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  config.mailer_sender = 'onigiriya@xs279744.xsrv.jp
+'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -306,6 +307,9 @@ Devise.setup do |config|
   config.responder.redirect_status = :see_other
 
   # ==> Configuration for :registerable
+
+  # Turbo対応の設定
+  config.navigational_formats = ['*/*', :html, :turbo_stream]
 
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.

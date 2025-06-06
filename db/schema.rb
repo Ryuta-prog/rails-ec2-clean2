@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_05_101107) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_31_054646) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,7 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_05_101107) do
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
@@ -62,17 +60,19 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_05_101107) do
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.bigint "order_id"
+    t.bigint "order_id", null: false
     t.string "product_name"
-    t.decimal "price"
+    t.decimal "price", precision: 10, scale: 2
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "product_id"
     t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
   end
 
   create_table "orders", force: :cascade do |t|
-    t.decimal "total_price", precision: 10, scale: 2
+    t.bigint "promotion_code_id"
     t.string "billing_address"
     t.string "state"
     t.string "zip"
@@ -86,16 +86,28 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_05_101107) do
     t.string "card_cvv"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "discounted_price", precision: 10, scale: 2, default: "0.0", null: false
+    t.index ["promotion_code_id"], name: "index_orders_on_promotion_code_id"
   end
 
   create_table "products", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.text "description"
     t.decimal "price", precision: 10, scale: 2
-    t.boolean "published", default: true, null: false
     t.decimal "original_price", precision: 10, scale: 2
+    t.boolean "published", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "promotion_codes", force: :cascade do |t|
+    t.string "code", limit: 7, null: false
+    t.integer "discount_amount", null: false
+    t.boolean "used", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_promotion_codes_on_code", unique: true
+    t.index ["used"], name: "index_promotion_codes_on_used"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -104,15 +116,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_05_101107) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
-    t.index ["updated_at"], name: "index_sessions_on_updated_at"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -120,4 +123,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_05_101107) do
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
   add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "products"
+  add_foreign_key "orders", "promotion_codes"
 end

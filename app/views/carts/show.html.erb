@@ -1,4 +1,16 @@
 <div class="container">
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const purchaseForm = document.querySelector('form[action="/orders"]');
+      if (purchaseForm) {
+        purchaseForm.addEventListener('submit', function(e) {
+          console.log('フォーム送信イベント発生しました');
+        });
+      } else {
+        console.error('注文フォームが見つかりません！');
+      }
+    });
+  </script>
   <main>
     <div class="row g-5">
       <div class="col-md-5 col-lg-4 order-md-last">
@@ -28,15 +40,55 @@
             </li>
           <% end %>
           <li class="list-group-item d-flex justify-content-between">
-            <span>合計</span>
+            <span>小計</span>
             <strong><%= number_to_currency(@cart.cart_items.sum { |item| item.product.price * item.quantity }, unit: "¥", precision: 0) %></strong>
+          </li>
+          <li class="list-group-item">
+            <%= form_with url: apply_promotion_code_cart_path, method: :patch, class: "d-flex", local: true do |form| %>
+              <div class="flex-grow-1 me-2">
+                <%= form.text_field :promotion_code,
+                  placeholder: "プロモーションコード（7文字の英数字）",
+                  class: "form-control",
+                  maxlength: 7,
+                  pattern: '[A-Z0-9]{7}',
+                  title: '7文字の大文字英数字を入力してください',
+                  aria: { label: "プロモーションコード" } %>
+              </div>
+              <%= form.submit "適用", class: "btn btn-secondary" %>
+            <% end %>
+          </li>
+          <% promotion_code = PromotionCode.find_by(id: session[:applied_promotion_code_id]) %>
+          <% if promotion_code %>
+            <li class="list-group-item bg-light">
+              <div class="alert alert-success">
+                <span>適用中のプロモーションコード</span>
+                <div>
+                  <span class="me-2"><%= promotion_code.code %></span>
+                </div>
+              </div>
+            </li>
+          <% end %>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>合計</span>
+            <strong><%= number_to_currency(@discounted_price, unit: "¥", precision: 0) %></strong>
           </li>
         </ul>
       </div>
       <div class="col-md-7 col-lg-8">
+        <% if flash[:alert] %>
+          <div class="alert alert-danger"><%= flash[:alert] %></div>
+        <% end %>
         <h4 class="mb-3">請求先住所</h4>
         <%= form_with(model: @order, scope: :order, url: orders_path, local: true, data: { turbo: false }) do |form| %>
-          <%= form.hidden_field :total_price, value: current_cart.total_price %>
+          <% if @order && @order.errors.any? %>
+            <div class="alert alert-danger">
+              <ul>
+                <% @order.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
           <div class="row g-3">
             <div class="col-sm-6 form-group">
               <%= form.label :last_name, "姓", class: "form-label" %>
@@ -61,8 +113,8 @@
             <div class="col-md-4 form-group">
               <%= form.label :state, "都道府県", class: "form-label" %>
               <%= form.collection_select :state, JpPrefecture::Prefecture.all, :code, :name,
-                  { prompt: '選択してください' },
-                  { class: "form-select", required: true } %>
+                { prompt: '選択してください' },
+                { class: "form-select", required: true } %>
             </div>
             <div class="col-md-3 form-group">
               <%= form.label :zip, "郵便番号", class: "form-label" %>
@@ -90,17 +142,15 @@
           </div>
           <hr class="my-4">
           <%= form.submit "購入する", 
-          class: "w-100 btn btn-primary btn-lg", 
-          id: "purchase-button",
-          data: { 
-            disable_with: "処理中...",
-            turbo: false 
-  } 
-%>
+            class: "w-100 btn btn-primary btn-lg", 
+            id: "purchase-button",
+            data: { 
+              disable_with: "処理中...",
+              turbo: false 
+            } 
+          %>
         <% end %>
       </div>
     </div>
   </main>
 </div>
-</body>
-</html>
